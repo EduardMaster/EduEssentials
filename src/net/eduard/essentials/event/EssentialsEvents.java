@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import net.eduard.api.lib.Mine;
 import net.eduard.api.lib.manager.EventsManager;
-import net.eduard.essentials.EssentialsPlugin;
+import net.eduard.essentials.Main;
 
 public class EssentialsEvents extends EventsManager {
 
@@ -42,7 +42,7 @@ public class EssentialsEvents extends EventsManager {
 				long agora = System.currentTimeMillis();
 				boolean test = agora > (teste + 1000 * 3);
 				if (!test) {
-					p.sendMessage(EssentialsPlugin.getInstance().message("command-cooldown"));
+					p.sendMessage(Main.getInstance().message("command-cooldown"));
 					e.setCancelled(true);
 
 				} else {
@@ -56,7 +56,7 @@ public class EssentialsEvents extends EventsManager {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChatTabCompleteEvent(PlayerChatTabCompleteEvent e) {
-		for (String msg : EssentialsPlugin.getInstance().getMessages("blocked-tab-commads")) {
+		for (String msg : Main.getInstance().getMessages("blocked-tab-commads")) {
 			if (e.getChatMessage().toLowerCase().startsWith(msg.toLowerCase())) {
 				e.getTabCompletions().clear();
 
@@ -69,7 +69,7 @@ public class EssentialsEvents extends EventsManager {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e) {
 		Player p = e.getPlayer();
-		for (String msg : EssentialsPlugin.getInstance().getMessages("blocked-commads")) {
+		for (String msg : Main.getInstance().getMessages("blocked-commads")) {
 			if (e.getMessage().toLowerCase().startsWith(msg.toLowerCase())) {
 				e.setCancelled(true);
 				p.sendMessage(Mine.MSG_NO_PERMISSION);

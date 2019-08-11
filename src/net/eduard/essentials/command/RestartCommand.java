@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.eduard.essentials.EssentialsPlugin;
+import net.eduard.essentials.Main;
 
 public class RestartCommand implements CommandExecutor {
 private static boolean reiniciando = false;
@@ -95,7 +95,7 @@ private static boolean reiniciando = false;
 			Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "stop");
 		}
 
-		Bukkit.getServer().getScheduler().runTaskLater(EssentialsPlugin.getInstance(), new Runnable() {
+		Bukkit.getServer().getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
 			public void run() {
 				if (quantidade == 0) {
 					evento.put("Restart", Boolean.valueOf(false));

@@ -14,14 +14,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.eduard.api.lib.Mine;
 import net.eduard.api.lib.manager.EventsManager;
-import net.eduard.essentials.EssentialsPlugin;
+import net.eduard.essentials.Main;
 
 public class AutoPickup extends EventsManager {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void aoQuebrar(BlockBreakEvent e) {
 		Player p = e.getPlayer();
-		if (!EssentialsPlugin.getInstance().getBoolean("auto-pickup-enabled")) {
+		if (!Main.getInstance().getBoolean("auto-pickup-enabled")) {
 			return;
 		}
 		if (p.getItemInHand() == null)
@@ -31,7 +31,7 @@ public class AutoPickup extends EventsManager {
 
 		if (Mine.isFull(p.getInventory())) {
 
-			p.sendMessage(EssentialsPlugin.getInstance().message("inventory-full"));
+			p.sendMessage(Main.getInstance().message("inventory-full"));
 
 			Collection<ItemStack> lista = e.getBlock().getDrops(p.getItemInHand());
 
@@ -62,7 +62,7 @@ public class AutoPickup extends EventsManager {
 					}
 
 				}
-			}.runTaskLaterAsynchronously(EssentialsPlugin.getInstance(), 1);
+			}.runTaskLaterAsynchronously(Main.getInstance(), 1);
 		}
 	}
 }

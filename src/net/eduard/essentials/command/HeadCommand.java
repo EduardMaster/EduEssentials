@@ -25,7 +25,7 @@ public class HeadCommand extends CommandManager {
 			} else {
 
 				String nickname = args[0];
-				p.getInventory().addItem(Mine.newSkull("§aCabeça do " + nickname, nickname));
+				p.getInventory().addItem(Mine.newHead("§aCabeça do " + nickname, nickname));
 				p.sendMessage(message.replace("$player", nickname));
 
 			}

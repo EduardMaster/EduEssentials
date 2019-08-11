@@ -10,19 +10,19 @@ import org.bukkit.event.entity.SlimeSplitEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import net.eduard.api.lib.manager.EventsManager;
-import net.eduard.essentials.EssentialsPlugin;
+import net.eduard.essentials.Main;
 
 public class SlimeChunkDetector extends EventsManager {
 	@EventHandler
 	public void split(SlimeSplitEvent e) {
-		e.setCancelled(EssentialsPlugin.getInstance().getConfigs().getBoolean("no-slime-split"));
+		e.setCancelled(Main.getInstance().getConfigs().getBoolean("no-slime-split"));
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onSlimeChunk(PlayerMoveEvent e) {
 
 		Player p = e.getPlayer();
-		if (EssentialsPlugin.getInstance().getSlimeChunkActive().contains(p)) {
+		if (Main.getInstance().getSlimeChunkActive().contains(p)) {
 
 			long worldSeed = p.getWorld().getSeed();
 			Chunk jogadorChunk = p.getWorld().getChunkAt(p.getLocation());

@@ -10,11 +10,11 @@ import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.api.lib.storage.StorageAPI;
 import net.eduard.api.server.EduardPlugin;
 
-public class EssentialsPlugin extends EduardPlugin {
-	private static EssentialsPlugin plugin;
+public class Main extends EduardPlugin {
+	private static Main plugin;
 	private Config commands;
 	private ArrayList<Player> slimeChunkActive = new ArrayList<>();
-	public static EssentialsPlugin getInstance() {
+	public static Main getInstance() {
 		return plugin;
 	}
 

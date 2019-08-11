@@ -1,4 +1,4 @@
-package net.eduard.essentials;
+package net.eduard.essentials.manager;
 
 import java.util.Map;
 

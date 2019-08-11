@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.manager.CommandManager;
-import net.eduard.essentials.EssentialsPlugin;
+import net.eduard.essentials.Main;
 
 public class SlimeChunkCommand extends CommandManager {
 	
@@ -22,7 +22,7 @@ public class SlimeChunkCommand extends CommandManager {
 		if (sender instanceof Player) {
 
 			Player p = (Player) sender;
-			ArrayList<Player> lista = EssentialsPlugin.getInstance().getSlimeChunkActive();
+			ArrayList<Player> lista = Main.getInstance().getSlimeChunkActive();
 			if (lista.contains(p)) {
 				lista.remove(p);
 
