@@ -9,12 +9,12 @@ import org.bukkit.entity.Player;
 import net.eduard.api.lib.Mine;
 import net.eduard.api.lib.config.Config;
 import net.eduard.api.lib.manager.CommandManager;
+import net.eduard.essentials.Main;
 
 public class SetHomeCommand extends CommandManager {
 	public SetHomeCommand() {
 		super("sethome");
 	}
-	public Config config = new Config("homes.yml");
 	public String message = "§bVoce setou um Home $home";
 	public int maxHomes = 100;
 	@Override
@@ -29,18 +29,18 @@ public class SetHomeCommand extends CommandManager {
 			}
 			// home.limit.5
 			String path = p.getUniqueId().toString() + "." + home;
-			Set<String> size = config.getKeys(p.getUniqueId().toString());
+			Set<String> size = Main.getInstance().getConfigs().getKeys(p.getUniqueId().toString());
 			int amount = size.size();
-			if (!config.contains(path)) {
+			if (!Main.getInstance().getConfigs().contains(path)) {
 				if (!Mine.hasPerm(p, getPermission(), 100, amount + 1)) {
 
 					p.sendMessage(
 							"§cVoce não tem permissão para setar mais Homes!");
-					config.remove(path);
+					Main.getInstance().getConfigs().remove(path);
 					return true;
 				}
 			}
-			config.set(path, p.getLocation());
+			Main.getInstance().getConfigs().set(path, p.getLocation());
 			sender.sendMessage(message.replace("$home", home));
 
 		}

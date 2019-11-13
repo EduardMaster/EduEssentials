@@ -19,7 +19,7 @@ public class SlimeCommand extends CommandManager {
 
 	}
 
-	public Config config = new Config("spawn.yml");
+	
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,

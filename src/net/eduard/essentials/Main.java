@@ -23,6 +23,9 @@ public class Main extends EduardPlugin {
 		plugin = this;
 		commands = new Config(this, "commands.yml");
 		reload();
+		
+		
+		
 	}
 
 	public void save() {
@@ -43,20 +46,20 @@ public class Main extends EduardPlugin {
 				if (CommandManager.class.isAssignableFrom(claz)) {
 					CommandManager cmd = (CommandManager) claz.newInstance();
 					String path = "command." + cmd.getClass().getSimpleName().toLowerCase();
-					if (commands.contains(path)) {
-						cmd = (CommandManager) commands.get(path);
-					} else {
+//					if (commands.contains(path)) {
+//						cmd = (CommandManager) commands.get(path);
+//					} else {
 						commands.set(path, cmd);
-					}
-					config.add(path, true);
-					if (config.getBoolean(path)) {
-						cmd.registerCommand(this);
-						cmd.register(this);
-					}
+//					}
+//					config.add(path, true);
+//					if (config.getBoolean(path)) {
+//						cmd.registerCommand(this);
+//						cmd.register(this);
+//					}
 				}
 
 			}
-			StorageAPI.updateReferences();
+//			StorageAPI.updateReferences();
 			commands.saveConfig();
 			config.saveConfig();
 		} catch (Exception ex) {

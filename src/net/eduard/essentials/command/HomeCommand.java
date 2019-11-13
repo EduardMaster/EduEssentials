@@ -3,21 +3,19 @@ package net.eduard.essentials.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.server.PluginDisableEvent;
 
 import net.eduard.api.lib.Mine;
-import net.eduard.api.lib.config.Config;
 import net.eduard.api.lib.game.SoundEffect;
 import net.eduard.api.lib.game.Title;
 import net.eduard.api.lib.manager.CommandManager;
+import net.eduard.essentials.Main;
 
 public class HomeCommand extends CommandManager {
 	public HomeCommand() {
 		super("home");
 	}
 
-	public Config config = new Config("homes.yml");
+	
 	public SoundEffect sound = SoundEffect.create("ENDERMAN_TELEPORT");
 	public String message = "§6Voce teleportado para sua Home!";
 	public String messageError = "§cSua home não foi setada!";
@@ -32,11 +30,11 @@ public class HomeCommand extends CommandManager {
 				home = args[0];
 			}
 			String path = p.getUniqueId().toString() + "." + home;
-			if (config.contains(path)) {
+			if (Main.getInstance().getConfigs().contains(path)) {
 				final String homex = home;
 				Mine.TIME.asyncDelay(new Runnable() {
 					public void run() {
-						p.teleport(config.getLocation(path));
+						p.teleport(Main.getInstance().getConfigs().getConfig().getLocation(path));
 						sound.create(p);
 						sender.sendMessage(message.replace("$home", homex));
 						Mine.sendTitle(p, title.getTitle().replace("$home", homex),
@@ -50,7 +48,7 @@ public class HomeCommand extends CommandManager {
 
 			} else {
 				sender.sendMessage(messageError.replace("$home", home));
-				config.remove(path);
+				Main.getInstance().getConfigs().remove(path);
 			}
 
 		}
@@ -58,11 +56,6 @@ public class HomeCommand extends CommandManager {
 		return true;
 	}
 
-	@EventHandler
-	public void event(PluginDisableEvent e) {
-		if (e.getPlugin().equals(getPluginInstance())) {
-			config.saveConfig();
-		}
-	}
+	
 
 }

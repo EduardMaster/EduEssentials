@@ -7,15 +7,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.Mine;
-import net.eduard.api.lib.config.Config;
 import net.eduard.api.lib.manager.CommandManager;
+import net.eduard.essentials.Main;
 
 public class HomesCommand extends CommandManager {
 	public HomesCommand() {
 		super("homes");
 
 	}
-	public Config config = new Config("homes.yml");
+	
 	public String message = "§6Suas homes: §e$homes";
 	public String messageError = "§cVocê não possui nenhuma home!";
 	@Override
@@ -24,7 +24,7 @@ public class HomesCommand extends CommandManager {
 		if (Mine.onlyPlayer(sender)) {
 			Player p = (Player) sender;
 
-			Set<String> list = config.getKeys(p.getUniqueId().toString());
+			Set<String> list = Main.getInstance().getConfigs().getKeys(p.getUniqueId().toString());
 			if (list.size() == 0) {
 				sender.sendMessage( messageError);
 			} else {

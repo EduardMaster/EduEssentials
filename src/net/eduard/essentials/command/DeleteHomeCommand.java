@@ -7,12 +7,13 @@ import org.bukkit.entity.Player;
 import net.eduard.api.lib.Mine;
 import net.eduard.api.lib.config.Config;
 import net.eduard.api.lib.manager.CommandManager;
+import net.eduard.essentials.Main;
 
 public class DeleteHomeCommand extends CommandManager {
 	public DeleteHomeCommand() {
 		super("deletehome");
 	}
-	public Config config = new Config("homes.yml");
+	
 	public String message = "§aVoce deletou sua home §2$home!";
 	public String messageError = "§cNão existe a home $home!";
 	@Override
@@ -24,8 +25,8 @@ public class DeleteHomeCommand extends CommandManager {
 				sendUsage(sender);
 			}else {
 				String path = p.getUniqueId().toString()+"."+args[0].toLowerCase();
-				if (config.contains(path)) {
-					config.remove(path);
+				if (Main.getInstance().getConfigs().contains(path)) {
+					Main.getInstance().getConfigs().remove(path);
 					sender.sendMessage(message.replace("$home", ""));
 					
 				} else {
