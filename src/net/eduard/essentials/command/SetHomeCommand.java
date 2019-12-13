@@ -15,7 +15,8 @@ public class SetHomeCommand extends CommandManager {
 	public SetHomeCommand() {
 		super("sethome");
 	}
-	public String message = "§bVoce setou um Home $home";
+	public String message = "Â§bVoce setou um Home $home";
+	public String messageNoPermissionMoreHomes = "Â§cVoce nÃ£o tem permissÃ£o para setar mais Homes!";
 	public int maxHomes = 100;
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,
@@ -28,14 +29,14 @@ public class SetHomeCommand extends CommandManager {
 				home = args[0];
 			}
 			// home.limit.5
-			String path = p.getUniqueId().toString() + "." + home;
+			String path = "homes."+p.getUniqueId().toString() + "." + home;
 			Set<String> size = Main.getInstance().getConfigs().getKeys(p.getUniqueId().toString());
 			int amount = size.size();
 			if (!Main.getInstance().getConfigs().contains(path)) {
 				if (!Mine.hasPerm(p, getPermission(), 100, amount + 1)) {
 
 					p.sendMessage(
-							"§cVoce não tem permissão para setar mais Homes!");
+							messageNoPermissionMoreHomes);
 					Main.getInstance().getConfigs().remove(path);
 					return true;
 				}

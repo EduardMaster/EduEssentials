@@ -16,15 +16,15 @@ public class HomesCommand extends CommandManager {
 
 	}
 	
-	public String message = "§6Suas homes: §e$homes";
-	public String messageError = "§cVocê não possui nenhuma home!";
+	public String message = "Â§6Suas homes: Â§e$homes";
+	public String messageError = "Â§cVocÃª nÃ£o possui nenhuma home!";
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
 			Player p = (Player) sender;
 
-			Set<String> list = Main.getInstance().getConfigs().getKeys(p.getUniqueId().toString());
+			Set<String> list = Main.getInstance().getStorage().getKeys("homes."+p.getUniqueId().toString());
 			if (list.size() == 0) {
 				sender.sendMessage( messageError);
 			} else {

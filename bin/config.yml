@@ -1,4 +1,6 @@
 
+
+
 no-slime-split: false
 chat-delayed: true
 chat-delay-seconds: 1
@@ -22,4 +24,3 @@ blocked-commands:
 blocked-tab-commands:
 - /plugins
 
-commands:

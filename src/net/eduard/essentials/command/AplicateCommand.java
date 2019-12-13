@@ -13,8 +13,8 @@ public class AplicateCommand extends CommandManager {
 
 	public List<String> messages = new ArrayList<>();
 	public AplicateCommand() {
-		super("aplicate" ); 
-		messages.add("§a - Requisitos para ser STAFF - ");
+		super("aplicate" ,"aplicar");
+		messages.add("§a - Requisitos para ser da STAFF - ");
 
 	}
 	@Override

@@ -13,7 +13,7 @@ public class SiteCommand extends CommandManager {
 	public SiteCommand() {
 		super("site");
 		messages.add("");
-		messages.add("§aAcesse o site www.meusite.com");
+		messages.add("Â§aAcesse o site www.meusite.com");
 		messages.add("");
 		// TODO Auto-generated constructor stub
 	}

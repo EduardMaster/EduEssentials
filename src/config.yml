@@ -8,7 +8,6 @@ hopper-blocked: true
 enchament-table-blocked: true
 restone-blocked: true
 anvil-blocked: true
-reduce-drop-lag: true
 anti-macro-enabled: true
 auto-pickup-enabled: true
 combatlog:
@@ -22,4 +21,3 @@ blocked-commands:
 blocked-tab-commands:
 - /plugins
 
-commands:

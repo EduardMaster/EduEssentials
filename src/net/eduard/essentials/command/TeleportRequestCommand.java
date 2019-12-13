@@ -2,6 +2,9 @@ package net.eduard.essentials.command;
 
 import java.util.HashMap;
 
+import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.manager.CommandManager;
+import net.eduard.essentials.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,171 +17,77 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class TeleportRequestCommand implements CommandExecutor {
+public class TeleportRequestCommand extends CommandManager {
 
-	public static HashMap<String, Long> tpaCooldown = new HashMap<>();
-	public static HashMap<String, String> currentRequest = new HashMap<>();
+    private int cooldown = 30;
 
-	@SuppressWarnings("static-access")
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		Player p = null;
-		if ((sender instanceof Player)) {
-			p = (Player) sender;
-		}
-		if (cmd.getName().equalsIgnoreCase("tpa")) {
-			if (p != null) {
-				if (!p.hasPermission("Tpa.SemDelay")) {
-					int cooldown = 30;
-					if (this.tpaCooldown.containsKey(p.getName())) {
-						long diff = (System.currentTimeMillis()
-								- ((Long) this.tpaCooldown.get(sender.getName())).longValue()) / 1000L;
-						if (diff < cooldown) {
-//							RexAPI.sendActionBar(p, "§cAguarde " + cooldown + " para usar o tpa novamente.");
-							return false;
-						}
-					}
-				}
-				if (args.length > 0) {
-					final Player target = Bukkit.getPlayer(args[0]);
-					long keepAlive = 30 * 20;
-					if (target == null) {
-						sender.sendMessage(JogadorOff());
-						return false;
-					}
-					if (target == p) {
-						sender.sendMessage(JogadorVoce());
-						return false;
-					}
-//					if (!API.tpa(target)) {
-//						sender.sendMessage("§cO jogador está com o teleporte desativo.");
-//						return true;
-//					}
-					sendRequest(p, target);
+    public TeleportRequestCommand() {
+        super("teleportrequest", "tpa");
+        setUsage("/tpa <jogador>");
+    }
 
-//					Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(Main.class), new Runnable() {
-//						public void run() {
-//							killRequest(target.getName());
-//						}
-//					}, keepAlive);
 
-					this.tpaCooldown.put(p.getName(), Long.valueOf(System.currentTimeMillis()));
-				} else {
-					p.sendMessage("§cPor favor, use /tpa {Jogador}");
-				}
-			} else {
-				sender.sendMessage("Comandos apenas in game");
-				return false;
-			}
-			return true;
-		}
-		if (cmd.getName().equalsIgnoreCase("tpaccept")) {
-			if (p != null) {
-				if (this.currentRequest.containsKey(p.getName())) {
-					Player heIsGoingOutOnADate = Bukkit.getPlayer((String) this.currentRequest.get(p.getName()));
-					this.currentRequest.remove(p.getName());
-					if (heIsGoingOutOnADate != null) {
-						heIsGoingOutOnADate.teleport(p);
-						p.sendMessage("§aPedido aceito.");
-						heIsGoingOutOnADate.sendMessage("§aTeleportando com sucesso");
-					} else {
-						sender.sendMessage("§cO player que você enviou tpa não esta mais online.");
-						return false;
-					}
-				} else {
-					sender.sendMessage("§cVocê não possui um pedido de teleporte.");
-					return false;
-				}
-			} else {
-				sender.sendMessage("Comandos apenas in game");
-				return false;
-			}
-			return true;
-		}
-		if (cmd.getName().equalsIgnoreCase("tpdeny")) {
-			if (p != null) {
-				if (this.currentRequest.containsKey(p.getName())) {
-					Player poorRejectedGuy = Bukkit.getPlayer((String) this.currentRequest.get(p.getName()));
-					this.currentRequest.remove(p.getName());
-					if (poorRejectedGuy != null) {
-						poorRejectedGuy.sendMessage(ChatColor.RED + p.getName() + " recusou seu pedido de teleporte.");
-						p.sendMessage("§cVocê recusou o pedido de teleport de " + poorRejectedGuy.getName() + ".");
-						return true;
-					}
-				} else {
-					sender.sendMessage("§cVocê não possui um pedido de teleporte.");
-					return false;
-				}
-			} else {
-				sender.sendMessage("Comandos apenas in game");
-				return false;
-			}
-			return true;
-		}
-		return false;
-	}
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-	@SuppressWarnings("static-access")
-	public boolean killRequest(String key) {
-		if (this.currentRequest.containsKey(key)) {
-			Player loser = Bukkit.getPlayer((String) this.currentRequest.get(key));
-			if (loser != null) {
-				loser.sendMessage(ChatColor.RED + "Seu pedido de teleporte expirou.");
-			}
-			this.currentRequest.remove(key);
+        if (Mine.onlyPlayer(sender)){
+            Player p = (Player) sender;
 
-			return true;
-		}
-		return false;
-	}
 
-	@SuppressWarnings("static-access")
-	public void sendRequest(Player sender, Player recipient) {
-		sender.sendMessage("§ePedido enviado para §6" + recipient.getName() + ".");
+            if (args.length == 0) {
 
-		recipient.sendMessage(" ");
-		recipient.sendMessage("§6" + sender.getName() + " §epediu para ir até você.");
+                sendUsage(p);
 
-		TextComponent TpaAceitar = new TextComponent("§ePara aceitar o pedido, use §6/tpaccept");
-		TpaAceitar.setBold(Boolean.valueOf(true));
-		TpaAceitar.setHoverEvent(
-				new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§6/tpaccept").create()));
-		TpaAceitar.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
-		recipient.spigot().sendMessage(TpaAceitar);
+            } else {
 
-		TextComponent TpaNegar = new TextComponent("§ePara aceitar o pedido, use §6/tpdeny.");
-		TpaNegar.setBold(Boolean.valueOf(true));
-		TpaNegar.setHoverEvent(
-				new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§6/tpdeny.").create()));
-		TpaNegar.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
-		recipient.spigot().sendMessage(TpaNegar);
+                if (!p.hasPermission("teleport.delay.bypass")) {
 
-		recipient.sendMessage("§eEste pedido será expirado em 1 minuto.");
-		recipient.sendMessage(" ");
+                    if (Main.getInstance().getRequestsDelay().containsKey(p)) {
+                        long dif = System.currentTimeMillis() - Main.getInstance().getRequestsDelay().get(p) + (cooldown * 1000);
+                        if (dif < 0) {
+                            //RexAPI.sendActionBar(p, "Â§cAguarde " + cooldown + " para usar o tpa novamente.");
+                            return false;
+                        }
+                    }
+                }
+                if (Mine.existsPlayer(sender, args[0])) {
+                    final Player target = Bukkit.getPlayer(args[0]);
+                    if (target == p) {
+                        sender.sendMessage("");
+                        return false;
+                    }
+                    Player recipient = p;
+                    sender.sendMessage("Â§ePedido enviado para Â§6" + recipient.getName() + ".");
 
-		this.currentRequest.put(recipient.getName(), sender.getName());
-	}
+                    recipient.sendMessage(" ");
+                    recipient.sendMessage("Â§6" + sender.getName() + " Â§epediu para ir ate voce.");
 
-	public static String Teleportando() {
-		return "§aTeleportando.";
-	}
+                    TextComponent TpaAceitar = new TextComponent("Â§ePara aceitar o pedido, use Â§6/tpaccept");
+                    TpaAceitar.setBold(Boolean.valueOf(true));
+                    TpaAceitar.setHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Â§6/tpaccept").create()));
+                    TpaAceitar.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                    recipient.spigot().sendMessage(TpaAceitar);
 
-	public static String TeleportandoAguarde() {
-		return "§aAguarde 3 segundos.";
-	}
+                    TextComponent TpaNegar = new TextComponent("Â§ePara aceitar o pedido, use Â§6/tpdeny.");
+                    TpaNegar.setBold(Boolean.valueOf(true));
+                    TpaNegar.setHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Â§6/tpdeny.").create()));
+                    TpaNegar.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                    recipient.spigot().sendMessage(TpaNegar);
 
-	public static String NaoVip() {
-		return "§cVocê precisa do grupo Gerente ou superior para executar este comando.";
-	}
+                    recipient.sendMessage("Â§eEste pedido serÂ§ expirado em 1 minuto.");
+                    recipient.sendMessage(" ");
 
-	public static String SemPermissao() {
-		return "§cVocê precisa do grupo Gerente ou superior para executar este comando.";
-	}
+                    Main.getInstance().getRequests().put(recipient, target);
 
-	public static String JogadorOff() {
-		return "§cEste jogadador não existe em nosso banco de dados, ou esta offline.";
-	}
+                }
 
-	public static String JogadorVoce() {
-		return "§cEste jogadador não existe em nosso banco de dados, ou esta offline.";
-	}
+            }
+
+
+        }
+        return true;
+    }
+
+
 }

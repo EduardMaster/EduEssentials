@@ -1,5 +1,6 @@
 package net.eduard.essentials.command;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,9 +18,9 @@ public class HomeCommand extends CommandManager {
 
 	
 	public SoundEffect sound = SoundEffect.create("ENDERMAN_TELEPORT");
-	public String message = "§6Voce teleportado para sua Home!";
-	public String messageError = "§cSua home não foi setada!";
-	public Title title = new Title(20, 20 * 2, 20, "§6Casa §e$home", "§bTeleportado para sua casa §3$home!");
+	public String message = "Â§6Voce teleportado para sua Home!";
+	public String messageError = "Â§cSua home nÃ£o foi setada!";
+	public Title title = new Title(20, 20 * 2, 20, "Â§6Casa Â§e$home", "Â§bTeleportado para sua casa Â§3$home!");
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -29,12 +30,12 @@ public class HomeCommand extends CommandManager {
 			if (args.length >= 1) {
 				home = args[0];
 			}
-			String path = p.getUniqueId().toString() + "." + home;
-			if (Main.getInstance().getConfigs().contains(path)) {
+			String path = "homes."+p.getUniqueId().toString() + "." + home;
+			if (Main.getInstance().getStorage().contains(path)) {
 				final String homex = home;
 				Mine.TIME.asyncDelay(new Runnable() {
 					public void run() {
-						p.teleport(Main.getInstance().getConfigs().getConfig().getLocation(path));
+						p.teleport((Location) Main.getInstance().getStorage().get(path));
 						sound.create(p);
 						sender.sendMessage(message.replace("$home", homex));
 						Mine.sendTitle(p, title.getTitle().replace("$home", homex),

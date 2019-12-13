@@ -3,18 +3,21 @@ package net.eduard.essentials.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.eduard.api.lib.Mine;
+import net.eduard.essentials.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import net.eduard.api.lib.manager.CommandManager;
+import org.bukkit.entity.Player;
 
 public class ChangelogCommand extends CommandManager {
 
 	private List<String> messages = new ArrayList<>();
 
 	public ChangelogCommand() {
-		super("changelog", "mudancas", "mudanças");
-		messages.add("1.1 Servidor lançado");
+		super("changelog", "mudancas");
+		messages.add("1.1 Servidor lanÃ§ado");
 		messages.add("1.2 Servidor melhorado");
 	}
 
@@ -26,4 +29,6 @@ public class ChangelogCommand extends CommandManager {
 
 		return true;
 	}
+
+	
 }

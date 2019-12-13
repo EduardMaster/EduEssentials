@@ -14,8 +14,8 @@ public class DeleteHomeCommand extends CommandManager {
 		super("deletehome");
 	}
 	
-	public String message = "§aVoce deletou sua home §2$home!";
-	public String messageError = "§cNão existe a home $home!";
+	public String message = "Â§aVoce deletou sua home Â§2$home!";
+	public String messageError = "Â§cNÃ£o existe a home $home!";
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {

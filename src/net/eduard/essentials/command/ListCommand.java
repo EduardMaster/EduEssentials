@@ -9,7 +9,7 @@ import net.eduard.api.lib.manager.CommandManager;
 
 public class ListCommand extends CommandManager {
 
-	public String message = "§aTem $players jogadores online!";
+	public String message = "Â§aTem $players jogadores online!";
 	public ListCommand() {
 		super("list");
 	}

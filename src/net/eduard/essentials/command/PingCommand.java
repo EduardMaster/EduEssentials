@@ -10,8 +10,8 @@ import net.eduard.api.lib.manager.CommandManager;
 
 public class PingCommand extends CommandManager {
 
-	public String message = "§6Seu ping é: §e$ping";
-	public String messageTarget = "§6O ping do jogador §e$target §6é: §a$ping";
+	public String message = "Â§6Seu ping Ã©: Â§e$ping";
+	public String messageTarget = "Â§6O ping do jogador Â§e$target Â§6Ã©: Â§a$ping";
 	public PingCommand() {
 		super("ping");
 
