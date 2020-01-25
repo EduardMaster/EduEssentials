@@ -11,7 +11,7 @@ import net.eduard.api.lib.manager.CommandManager;
 public class InventorySeeCommand extends CommandManager {
 	public String messageTarget = "§6Voce abriu o Inventario do §e$target";
 	public InventorySeeCommand() {
-		super("inventorysee");
+		super("inventorysee","invsee");
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

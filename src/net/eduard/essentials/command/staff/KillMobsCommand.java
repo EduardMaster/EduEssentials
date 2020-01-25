@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import net.eduard.api.lib.manager.CommandManager;
 
 public class KillMobsCommand extends CommandManager{
+	private String message = "§aLimpando os Mobs";
 
 	public KillMobsCommand() {
 		super("killmobs","matarmobs");
@@ -25,7 +26,7 @@ public class KillMobsCommand extends CommandManager{
 				entity.remove();
 			}
 		}
-		sender.sendMessage("§aLimpando os Mobs");
+		sender.sendMessage(message);
 		return true;
 	}
 }

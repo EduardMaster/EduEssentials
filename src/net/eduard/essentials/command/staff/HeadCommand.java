@@ -13,7 +13,7 @@ public class HeadCommand extends CommandManager {
 	
 
 	public HeadCommand() {
-		super("head");
+		super("head","cabeça");
 	}
 
 	@Override

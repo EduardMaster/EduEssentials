@@ -28,51 +28,6 @@ public class PunishCommand extends CommandManager {
 
 	}
 
-//	p.sendMessage("");
-//	p.sendMessage(" §7 (!) Escolha uma opção para punir o jogador " + alvo.getName());
-//	p.sendMessage("");
-//	new FancyMessage(" §7• Uso de Hacker ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/ban " + alvo.getName() + " Uso de Hacker").send(p);
-//
-//	new FancyMessage(" §7• Comercialização de Contas ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/ipban " + alvo.getName() + " Comercialização de Contas").send(p);
-//
-//	new FancyMessage(" §7• Negou Tela ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/ban " + alvo.getName() + " Negou Tela").send(p);
-//
-//	new FancyMessage(" §7• Divulgação de Servidores ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/ban " + alvo.getName() + " Divulgação de Servidores").send(p);
-//
-//	new FancyMessage(" §7• Anti-Jogo ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/tempban " + alvo.getName() + " 10 h Anti-Jogo").send(p);
-//
-//	new FancyMessage(" §7• Abuso de Bugs ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/ipban " + alvo.getName() + " Abuso de Bugs").send(p);
-//
-//	new FancyMessage(" §7• Ofensa a Equipe ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/tempban " + alvo.getName() + " 7 d Ofensa a Equipe").send(p);
-//
-//	new FancyMessage(" §7• Ofensa a Jogador ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/tempban " + alvo.getName() + " 1 d Ofensa a Jogador").send(p);
-//	new FancyMessage(" §7• Flod ").tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/mutar " + alvo.getName() + " Flod 1 h ").send(p);
-//	new FancyMessage(" §7• Spam ").tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/mutar " + alvo.getName() + " Spam 1 h ").send(p);
-//	new FancyMessage(" §7• CapsLock ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/mutar " + alvo.getName() + " CapsLock 1 h ").send(p);
-//	new FancyMessage(" §7• Hashtags ")
-//			.tooltip("§7Clique para punir o jogador " + alvo.getName() + ".")
-//			.command("/mutar " + alvo.getName() + " Hashtags 1 h ").send(p);
-//	p.sendMessage("");
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

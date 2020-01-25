@@ -17,7 +17,7 @@ public class GodCommand extends CommandManager {
 	public static ArrayList<Player> gods = new ArrayList<>();
 
 	public GodCommand() {
-		super("god");
+		super("god","imortal");
 		setUsage("/god [on/off]");
 	}
 

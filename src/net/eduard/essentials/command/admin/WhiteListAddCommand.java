@@ -1,5 +1,5 @@
 
-package net.eduard.essentials.command.staff;
+package net.eduard.essentials.command.admin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

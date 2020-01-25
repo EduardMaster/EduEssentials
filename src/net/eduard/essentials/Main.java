@@ -30,21 +30,18 @@ import org.bukkit.util.Vector;
 
 public class Main extends EduardPlugin {
     private static Main plugin;
+
     public static Main getInstance() {
         return plugin;
     }
+
     private Config commands;
     private ItemStack soup;
     private ItemStack soupEmpty;
     private Map<Player, Long> requestsDelay = new HashMap<>();
-    private  Map<Player, Player> requests = new HashMap<>();
+    private Map<Player, Player> requests = new HashMap<>();
     private ArrayList<Player> slimeChunkActive = new ArrayList<>();
     private Jump doubleJump;
-
-
-
-
-
 
 
     @Override
@@ -63,11 +60,7 @@ public class Main extends EduardPlugin {
     }
 
 
-
-
-
     public void save() {
-
 
 
     }
@@ -81,7 +74,7 @@ public class Main extends EduardPlugin {
 
         config.add("Soup.enabled", true);
         config.add("Soup.sign-tag", "soup");
-        config.add("Soup.item-full", Mine.newItem(Material.MUSHROOM_SOUP, "§eSopa Deliciosa",1,0,"§aRecupera vida ao ser ingerida"));
+        config.add("Soup.item-full", Mine.newItem(Material.MUSHROOM_SOUP, "§eSopa Deliciosa", 1, 0, "§aRecupera vida ao ser ingerida"));
         config.add("Soup.item-empty", Mine.newItem(Material.BOWL, "§aSopa tomada"));
         config.add("Soup.create-sign", "&6Voce criou uma placa de sopas!");
         config.add("Soup.menu-title", "&c&lSopas gratis!");
@@ -90,24 +83,24 @@ public class Main extends EduardPlugin {
         config.add("Soup.recover-value", 6);
         soup = (ItemStack) config.get("Soup.item-full");
         soupEmpty = (ItemStack) config.get("Soup.item-empty");
-        config.add("Soup.sound",  SoundEffect.create("BURP"));
-         config.add("DoubleJump.enabled",true);
-        config.add("DoubleJump.effect",new Jump(true, 0.5, 2.5, SoundEffect.create("ENDERMAN_TELEPORT")));
+        config.add("Soup.sound", SoundEffect.create("BURP"));
+        config.add("DoubleJump.enabled", true);
+        config.add("DoubleJump.effect", new Jump(true, 0.5, 2.5, SoundEffect.create("ENDERMAN_TELEPORT")));
         doubleJump = (Jump) config.get("DoubleJump.effect");
-        config.add("Pads.sponge", new LaunchPadManager(-1,19,0,
-		new Jump(SoundEffect.create("EXPLODE"), new Vector(0, 2, 0))));
-		for (World world:Bukkit.getWorlds()){
-			String path = "LaunchPad."+world.getName();
-			config.add(path, true);
-			LaunchPadManager.WORLDS.put(world, config.getBoolean(path));
-		}
-		config.saveConfig();
+        config.add("Pads.sponge", new LaunchPadManager(-1, 19, 0,
+                new Jump(SoundEffect.create("EXPLODE"), new Vector(0, 2, 0))));
+        for (World world : Bukkit.getWorlds()) {
+            String path = "LaunchPad." + world.getName();
+            config.add(path, true);
+            LaunchPadManager.WORLDS.put(world, config.getBoolean(path));
+        }
+        config.saveConfig();
 
-		LaunchPadManager.NO_FALL.register(this);
-		doubleJump = (Jump) config.get("Double Jump.effect");
-		for (ConfigSection sec : config.getSection("Pads").getValues()) {
-			((LaunchPadManager) sec.getValue()).register(this);
-		}
+        LaunchPadManager.NO_FALL.register(this);
+        doubleJump = (Jump) config.get("Double Jump.effect");
+        for (ConfigSection sec : config.getSection("Pads").getValues()) {
+            ((LaunchPadManager) sec.getValue()).register(this);
+        }
 
 
 
@@ -131,7 +124,7 @@ public class Main extends EduardPlugin {
 //					} else {
                     config.add(path, false);
                     commands.set(path, cmd);
-                    if (config.getBoolean(path)){
+                    if (config.getBoolean(path)) {
                         cmd.registerCommand(this);
                     }
 //					}
@@ -154,9 +147,9 @@ public class Main extends EduardPlugin {
         }
 
 
-
     }
-    public ItemStack getSoup(){
+
+    public ItemStack getSoup() {
         return soup;
     }
 

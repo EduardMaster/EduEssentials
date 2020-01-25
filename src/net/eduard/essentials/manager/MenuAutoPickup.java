@@ -1,5 +1,6 @@
 package net.eduard.essentials.manager;
 
+import net.eduard.essentials.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.eduard.api.lib.Mine;
 import net.eduard.api.lib.manager.EventsManager;
-import net.eduard.autopickup.Main;
+
 
 public class MenuAutoPickup extends EventsManager {
 	private static String titulo = "§0Auto Pickup";
@@ -18,6 +19,7 @@ public class MenuAutoPickup extends EventsManager {
 		Inventory menu = Mine.newInventory(titulo, 3 * 9);
 		menu.setItem(Mine.getPosition(2, 7), Mine.newItem(Material.DIAMOND_PICKAXE, "§aDrops de mineração"));
 		menu.setItem(Mine.getPosition(2, 3), Mine.newItem(Material.ROTTEN_FLESH, "§aDrops de monstros e animais"));
+
 		boolean dropsMonstros = Main.getInstance()
 				.getBoolean("autopickup." + player.getName().toLowerCase() + ".mob-drops");
 		boolean dropsBlocos = Main.getInstance()

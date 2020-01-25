@@ -12,13 +12,13 @@ import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.manager.CommandManager;
 
-public class WhiteListListCommand extends CommandManager {
+public class WhiteListStatusCommand extends CommandManager {
 
 	public String message = " §6Jogadores na WhiteList: ";
 	public String prefix = " §a";
 
-	public WhiteListListCommand() {
-		super("list", "jogadores", "lista");
+	public WhiteListStatusCommand() {
+		super("status", "estado");
 
 	}
 
@@ -31,6 +31,6 @@ public class WhiteListListCommand extends CommandManager {
 		return true;
 	}
 
-	public static Map<Player, Long> delay = new HashMap<Player, Long>();
+
 
 }

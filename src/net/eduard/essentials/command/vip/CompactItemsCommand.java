@@ -1,5 +1,6 @@
 package net.eduard.essentials.command.vip;
 
+import net.eduard.api.lib.manager.CommandManager;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -7,8 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CompactItemsCommand implements CommandExecutor {
+public class CompactItemsCommand extends CommandManager {
 
+    public CompactItemsCommand(){
+        super("compact","compactar");
+    }
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (sender instanceof Player) {
@@ -122,11 +126,6 @@ public class CompactItemsCommand implements CommandExecutor {
                 e.printStackTrace();
                 return false;
             }
-        } else {
-
-//					MessageAPI.semPermissao(p, "Paladino");
-
-
         }
         return false;
     }

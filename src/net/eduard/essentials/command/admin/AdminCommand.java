@@ -37,7 +37,7 @@ import net.eduard.api.lib.modules.VaultAPI;
 public class AdminCommand extends CommandManager {
 
 	public AdminCommand() {
-		super("admin");
+		super("admin","adm");
 	}
 	public void prison(Player player) {
 		players.add(player);

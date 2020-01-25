@@ -14,7 +14,7 @@ public class UnMuteCommand extends CommandManager {
 	public String messageTarget = "§6O jogador §e$player §6foi desmutado por §a$sender";
 	public String message = "§aVoce foi desmutado!";
 	public UnMuteCommand() {
-		super("unmute");
+		super("unmute","desmutar");
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,

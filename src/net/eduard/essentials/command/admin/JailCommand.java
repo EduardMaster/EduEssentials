@@ -20,7 +20,7 @@ public class JailCommand extends CommandManager {
 		super("jail", "prender");
 	}
 
-	private List<Player> players = new ArrayList<>();
+	private static List<Player> players = new ArrayList<>();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

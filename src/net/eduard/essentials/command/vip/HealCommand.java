@@ -1,5 +1,5 @@
 
-package net.eduard.essentials.command;
+package net.eduard.essentials.command.vip;
 
 import net.eduard.api.lib.Mine;
 import net.eduard.api.lib.manager.CommandManager;

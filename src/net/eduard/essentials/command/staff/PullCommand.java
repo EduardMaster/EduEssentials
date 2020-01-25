@@ -1,14 +1,21 @@
 package net.eduard.essentials.command.staff;
 
+import net.eduard.api.lib.manager.CommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-//import me.nightessentials.utilidades.MessageAPI;
 
-public class PullCommand implements CommandExecutor {
+
+public class PullCommand extends CommandManager{
+
+
+    public PullCommand()
+    {
+        super ("pull","puxar");
+    }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 

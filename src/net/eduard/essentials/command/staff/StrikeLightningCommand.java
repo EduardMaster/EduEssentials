@@ -11,7 +11,7 @@ import net.eduard.api.lib.manager.CommandManager;
 public class StrikeLightningCommand extends CommandManager {
 	public String message = "";
 	public StrikeLightningCommand() {
-		super("strike");
+		super("strike","raio","thor");
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,

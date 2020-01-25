@@ -12,7 +12,7 @@ public class ClearInventoryCommand extends CommandManager {
 	public String message = "§6Seu inventario foi limpo!";
 	public String messageTarget = "§6Voce limpou o inventario do §e$player";
 	public ClearInventoryCommand() {
-		super("clearinventory");
+		super("clearinventory","clearinv","cinv");
 		
 	}
 	@Override

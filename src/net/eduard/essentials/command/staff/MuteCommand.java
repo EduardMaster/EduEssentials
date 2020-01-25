@@ -16,7 +16,7 @@ public class MuteCommand extends CommandManager {
 	public String messageTarget = "§6O jogador §e$target §6foi mutado por §a$sender §6motido: §c$reason";
 	public String message = "§cVoce foi mutado";
 	public MuteCommand() {
-		super("mute");
+		super("mute","mutar","calar");
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,

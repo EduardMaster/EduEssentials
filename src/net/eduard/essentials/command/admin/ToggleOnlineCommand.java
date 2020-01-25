@@ -11,15 +11,27 @@ import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.Mine;
 import net.eduard.api.lib.manager.CommandManager;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ToggleOnlineCommand extends CommandManager {
+
+	@EventHandler
+	public void aoSair(PlayerQuitEvent e) {
+
+		Player p = e.getPlayer();
+
+		if (players.contains(p)) {
+			players.remove(p);
+		}
+	}
 	public String messageOn = "§6Voce esta visivel!";
 	public String messageOff = "§6Voce esta invisivel!";
 	public List<String> commandsOn = Arrays.asList("visible", "aparecer");
 	public List<String> commandsOff = Arrays.asList("invisible", "desaparecer");
 	public static List<Player> players = new ArrayList<>();
 	public ToggleOnlineCommand() {
-		super("toggleonline");
+		super("toggleonline","vanish","v");
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,
