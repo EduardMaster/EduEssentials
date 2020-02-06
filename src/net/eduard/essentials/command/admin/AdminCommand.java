@@ -21,9 +21,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.click.PlayerClick;
 import net.eduard.api.lib.click.PlayerClickEffect;
 import net.eduard.api.lib.click.PlayerClickEntity;
@@ -135,14 +136,15 @@ public class AdminCommand extends CommandManager {
 					Mine.show(player);
 					Mine.makeInvunerable(player, 1);
 					player.sendMessage("§6Troca rapida ativada!");
-					Mine.TIME.asyncDelay(new Runnable() {
+					new BukkitRunnable(){
 
 						@Override
 						public void run() {
 							Mine.hide(player);
 							player.sendMessage("§6Troca rapida desativada!");
 						}
-					}, 20);
+					}.runTaskLaterAsynchronously(getPlugin(),20);
+
 				}
 			}
 

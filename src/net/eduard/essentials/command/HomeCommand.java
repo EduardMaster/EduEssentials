@@ -1,15 +1,17 @@
 package net.eduard.essentials.command;
 
+import net.eduard.api.lib.modules.MineReflect;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.game.SoundEffect;
 import net.eduard.api.lib.game.Title;
 import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.essentials.Main;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class HomeCommand extends CommandManager {
 	public HomeCommand() {
@@ -33,19 +35,20 @@ public class HomeCommand extends CommandManager {
 			String path = "homes."+p.getUniqueId().toString() + "." + home;
 			if (Main.getInstance().getStorage().contains(path)) {
 				final String homex = home;
-				Mine.TIME.asyncDelay(new Runnable() {
+				new BukkitRunnable(){
+
+					@Override
 					public void run() {
 						p.teleport((Location) Main.getInstance().getStorage().get(path));
 						sound.create(p);
 						sender.sendMessage(message.replace("$home", homex));
-						Mine.sendTitle(p, title.getTitle().replace("$home", homex),
+						MineReflect.sendTitle(p, title.getTitle().replace("$home", homex),
 								title.getSubTitle().replace("$home", homex), title.getFadeIn(), title.getStay(),
 								title.getFadeOut());
-
 					}
-				}
+				}.runTaskLaterAsynchronously(getPlugin(),20);
 
-						, 20);
+
 
 			} else {
 				sender.sendMessage(messageError.replace("$home", home));

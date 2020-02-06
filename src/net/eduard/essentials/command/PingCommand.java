@@ -1,11 +1,12 @@
 
 package net.eduard.essentials.command;
 
+import net.eduard.api.lib.modules.MineReflect;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
 
 public class PingCommand extends CommandManager {
@@ -22,7 +23,7 @@ public class PingCommand extends CommandManager {
 		if (args.length == 0) {
 			if (sender instanceof Player) {
 				Player p = (Player) sender;
-				sender.sendMessage(message.replace("$ping", Mine.getPing(p)));
+				sender.sendMessage(message.replace("$ping", MineReflect.getPing(p)));
 			} else
 				return false;
 		} else {
@@ -31,7 +32,7 @@ public class PingCommand extends CommandManager {
 				Player target = Mine.getPlayer(name);
 				sender.sendMessage(messageTarget
 						.replace("$target", target.getDisplayName())
-						.replace("$ping", Mine.getPing(target)));
+						.replace("$ping", MineReflect.getPing(target)));
 			}
 		}
 		return true;

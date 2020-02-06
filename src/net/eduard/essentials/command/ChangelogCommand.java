@@ -3,13 +3,10 @@ package net.eduard.essentials.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.eduard.api.lib.Mine;
-import net.eduard.essentials.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import net.eduard.api.lib.manager.CommandManager;
-import org.bukkit.entity.Player;
 
 public class ChangelogCommand extends CommandManager {
 

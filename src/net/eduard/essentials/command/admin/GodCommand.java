@@ -3,7 +3,7 @@ package net.eduard.essentials.command.admin;
 
 import java.util.ArrayList;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

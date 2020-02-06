@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import net.eduard.api.lib.modules.MineReflect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.EventsManager;
 
 public class ComboCounter extends EventsManager {
@@ -58,7 +59,7 @@ public class ComboCounter extends EventsManager {
 				int combo = 1;
 			getCombos().put(p,
 						combo = (getCombos().get(p) + 1));
-				Mine.sendActionBar(p, "§aVoce acertou mais um combo! §cCombo atual: " + combo);
+				MineReflect.sendActionBar(p, "§aVoce acertou mais um combo! §cCombo atual: " + combo);
 				ultimoTapa.put(p, System.currentTimeMillis());
 			}
 

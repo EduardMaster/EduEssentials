@@ -1,6 +1,6 @@
 package net.eduard.essentials.command;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.essentials.events.ClickCounter;
 import org.bukkit.command.Command;

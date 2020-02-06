@@ -3,7 +3,7 @@ package net.eduard.essentials;
 
 import java.util.*;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.config.ConfigSection;
 import net.eduard.api.lib.game.Jump;
 import net.eduard.api.lib.game.SoundEffect;
@@ -14,10 +14,8 @@ import net.eduard.essentials.events.DoubleJump;
 import net.eduard.essentials.events.SoupSystem;
 import net.eduard.essentials.manager.LaunchPadManager;
 import org.bukkit.Bukkit;
-import org.bukkit.CropState;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.config.Config;
@@ -25,7 +23,6 @@ import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.api.lib.storage.StorageAPI;
 import net.eduard.api.server.EduardPlugin;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Crops;
 import org.bukkit.util.Vector;
 
 public class Main extends EduardPlugin {

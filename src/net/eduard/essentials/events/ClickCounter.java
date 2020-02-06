@@ -8,8 +8,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.EventsManager;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class ClickCounter extends EventsManager {
 	private static Map<Player, Integer> clicks = new HashMap<>();
@@ -20,13 +21,14 @@ public class ClickCounter extends EventsManager {
 
 
 	public ClickCounter() {
-		Mine.TIME.asyncTimer(new Runnable() {
+
+		new BukkitRunnable(){
 
 			@Override
 			public void run() {
 				show();
 			}
-		},20, 20);
+		}.runTaskTimerAsynchronously(getPlugin(),20,20);
 	}
 	public void show() {
 		for (Player p : Mine.getPlayers()) {

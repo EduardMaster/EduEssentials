@@ -1,10 +1,8 @@
 
 package net.eduard.essentials.events;
 
-import net.eduard.api.lib.game.Jump;
 import net.eduard.essentials.Main;
 import org.bukkit.GameMode;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,12 +11,10 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
-import net.eduard.api.lib.Mine;
+import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.EventsManager;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class DoubleJump extends EventsManager {
 
