@@ -4,7 +4,6 @@ package net.eduard.essentials.command.staff;
 import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.essentials.Main;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class DeleteWarpCommand extends CommandManager {

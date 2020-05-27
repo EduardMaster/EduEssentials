@@ -1,14 +1,10 @@
 
 package net.eduard.essentials.command.admin;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.manager.CommandManager;
 

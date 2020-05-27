@@ -64,38 +64,38 @@ public class Main extends EduardPlugin {
 
     public void reload() {
         commands.reloadConfig();
-        config.reloadConfig();
-        storage.reloadConfig();
+        getConfigs().reloadConfig();
+        getStorage().reloadConfig();
         StorageAPI.register(LaunchPadManager.class);
 
 
-        config.add("Soup.enabled", true);
-        config.add("Soup.sign-tag", "soup");
-        config.add("Soup.item-full", Mine.newItem(Material.MUSHROOM_SOUP, "§eSopa Deliciosa", 1, 0, "§aRecupera vida ao ser ingerida"));
-        config.add("Soup.item-empty", Mine.newItem(Material.BOWL, "§aSopa tomada"));
-        config.add("Soup.create-sign", "&6Voce criou uma placa de sopas!");
-        config.add("Soup.menu-title", "&c&lSopas gratis!");
-        config.add("Soup.sign-format", Arrays.asList("&f=======", "&aSopas!"), "&2Clique!", "&f======");
-        config.add("Soup.no-change-food-level", true);
-        config.add("Soup.recover-value", 6);
-        soup = (ItemStack) config.get("Soup.item-full");
-        soupEmpty = (ItemStack) config.get("Soup.item-empty");
-        config.add("Soup.sound", SoundEffect.create("BURP"));
-        config.add("DoubleJump.enabled", true);
-        config.add("DoubleJump.effect", new Jump(true, 0.5, 2.5, SoundEffect.create("ENDERMAN_TELEPORT")));
-        doubleJump = (Jump) config.get("DoubleJump.effect");
-        config.add("Pads.sponge", new LaunchPadManager(-1, 19, 0,
+        getConfigs().add("Soup.enabled", true);
+        getConfigs().add("Soup.sign-tag", "soup");
+        getConfigs().add("Soup.item-full", Mine.newItem(Material.MUSHROOM_SOUP, "§eSopa Deliciosa", 1, 0, "§aRecupera vida ao ser ingerida"));
+        getConfigs().add("Soup.item-empty", Mine.newItem(Material.BOWL, "§aSopa tomada"));
+        getConfigs().add("Soup.create-sign", "&6Voce criou uma placa de sopas!");
+        getConfigs().add("Soup.menu-title", "&c&lSopas gratis!");
+        getConfigs().add("Soup.sign-format", Arrays.asList("&f=======", "&aSopas!"), "&2Clique!", "&f======");
+        getConfigs().add("Soup.no-change-food-level", true);
+        getConfigs().add("Soup.recover-value", 6);
+        soup = (ItemStack) getConfigs().get("Soup.item-full");
+        soupEmpty = (ItemStack) getConfigs().get("Soup.item-empty");
+        getConfigs().add("Soup.sound", SoundEffect.create("BURP"));
+        getConfigs().add("DoubleJump.enabled", true);
+        getConfigs().add("DoubleJump.effect", new Jump(true, 0.5, 2.5, SoundEffect.create("ENDERMAN_TELEPORT")));
+        doubleJump = (Jump) getConfigs().get("DoubleJump.effect");
+        getConfigs().add("Pads.sponge", new LaunchPadManager(-1, 19, 0,
                 new Jump(SoundEffect.create("EXPLODE"), new Vector(0, 2, 0))));
         for (World world : Bukkit.getWorlds()) {
             String path = "LaunchPad." + world.getName();
-            config.add(path, true);
-            LaunchPadManager.WORLDS.put(world, config.getBoolean(path));
+            getConfigs().add(path, true);
+            LaunchPadManager.WORLDS.put(world, getConfigs().getBoolean(path));
         }
-        config.saveConfig();
+        getConfigs().saveConfig();
 
         LaunchPadManager.NO_FALL.register(this);
-        doubleJump = (Jump) config.get("Double Jump.effect");
-        for (ConfigSection sec : config.getSection("Pads").getValues()) {
+        doubleJump = (Jump) getConfigs().get("Double Jump.effect");
+        for (ConfigSection sec : getConfigs().getSection("Pads").getValues()) {
             ((LaunchPadManager) sec.getValue()).register(this);
         }
 
@@ -119,9 +119,9 @@ public class Main extends EduardPlugin {
 //					if (commands.contains(path)) {
 //						cmd = (CommandManager) commands.get(path);
 //					} else {
-                    config.add(path, false);
+                    getConfigs().add(path, false);
                     commands.set(path, cmd);
-                    if (config.getBoolean(path)) {
+                    if (getConfigs().getBoolean(path)) {
                         cmd.registerCommand(this);
                     }
 //					}
@@ -136,7 +136,7 @@ public class Main extends EduardPlugin {
 //			StorageAPI.updateReferences();
 
             commands.saveConfig();
-            config.saveConfig();
+            getConfigs().saveConfig();
         } catch (Exception ex) {
 
 
