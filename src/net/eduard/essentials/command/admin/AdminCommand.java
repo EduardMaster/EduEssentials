@@ -119,7 +119,7 @@ public class AdminCommand extends CommandManager {
 
 	@Override
 	public void register(Plugin plugin) {
-		new PlayerClickEntity(testNoFall.getItem(), new PlayerClickEntityEffect() {
+		new PlayerClickEntity(testNoFall.item, new PlayerClickEntityEffect() {
 
 			@Override
 			public void onClickAtEntity(Player player, Entity entity,
@@ -129,7 +129,7 @@ public class AdminCommand extends CommandManager {
 				}
 			}
 		}).register(plugin);
-		new PlayerClick(testFF.getItem(), new PlayerClickEffect() {
+		new PlayerClick(testFF.item, new PlayerClickEffect() {
 			@Override
 			public void onClick(Player player, Block block, ItemStack item) {
 				if (players.contains(player)) {
@@ -149,7 +149,7 @@ public class AdminCommand extends CommandManager {
 			}
 
 		}).register(plugin);
-		new PlayerClickEntity(testAutoSoup.getItem(), new PlayerClickEntityEffect() {
+		new PlayerClickEntity(testAutoSoup.item, new PlayerClickEntityEffect() {
 
 			@Override
 			public void onClickAtEntity(Player player, Entity entity,
@@ -164,7 +164,7 @@ public class AdminCommand extends CommandManager {
 				
 			}
 		}).register(plugin);
-		new PlayerClickEntity(testInfo.getItem(), new PlayerClickEntityEffect() {
+		new PlayerClickEntity(testInfo.item, new PlayerClickEntityEffect() {
 
 
 			@Override
@@ -190,7 +190,7 @@ public class AdminCommand extends CommandManager {
 				
 			}
 		}).register(plugin);
-		new PlayerClickEntity(testPrison.getItem(), new PlayerClickEntityEffect() {
+		new PlayerClickEntity(testPrison.item, new PlayerClickEntityEffect() {
 
 			@Override
 			public void onClickAtEntity(Player player, Entity entity,
