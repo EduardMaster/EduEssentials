@@ -42,9 +42,9 @@ public class HomeCommand extends CommandManager {
 						p.teleport((Location) Main.getInstance().getStorage().get(path));
 						sound.create(p);
 						sender.sendMessage(message.replace("$home", homex));
-						MineReflect.sendTitle(p, title.getTitle().replace("$home", homex),
-								title.getSubTitle().replace("$home", homex), title.getFadeIn(), title.getStay(),
-								title.getFadeOut());
+						MineReflect.sendTitle(p, title.title.replace("$home", homex),
+								title.subTitle.replace("$home", homex), title.fadeIn, title.stay,
+                                title.fadeOut);
 					}
 				}.runTaskLaterAsynchronously(getPlugin(),20);
 

@@ -48,8 +48,8 @@ public class SetGroupCommand extends CommandManager {
 				VaultAPI.getPermission().playerAddGroup(target, group);
 				VaultAPI.getPermission().playerRemoveGroup(target, getGroup(target));
 				Main.getInstance().getConfigs().set(target.getUniqueId().toString(), group);
-				t.setSubTitle(getValues(t.getSubTitle(), name, group));
-				t.setTitle(getValues(t.getTitle(), name, group));
+				t.subTitle = getValues(t.subTitle, name, group);
+				t.title = getValues(t.title, name, group);
 				for (Player player : Mine.getPlayers()) {
 					t.create(player);
 					for (String message : messages) {
