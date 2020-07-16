@@ -1,5 +1,5 @@
 
-package net.eduard.essentials.events;
+package net.eduard.essentials.listener;
 
 import java.util.HashMap;
 import java.util.Map;

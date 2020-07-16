@@ -1,4 +1,4 @@
-package net.eduard.essentials.events;
+package net.eduard.essentials.listener;
 
 import net.eduard.api.lib.manager.EventsManager;
 import org.bukkit.Material;

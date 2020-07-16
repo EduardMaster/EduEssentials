@@ -8,10 +8,10 @@ import net.eduard.api.lib.config.ConfigSection;
 import net.eduard.api.lib.game.Jump;
 import net.eduard.api.lib.game.SoundEffect;
 import net.eduard.api.lib.storage.Storable;
-import net.eduard.essentials.events.AntiDupe;
-import net.eduard.essentials.events.AntiMacro;
-import net.eduard.essentials.events.DoubleJump;
-import net.eduard.essentials.events.SoupSystem;
+import net.eduard.essentials.listener.AntiDupe;
+import net.eduard.essentials.listener.AntiMacro;
+import net.eduard.essentials.listener.DoubleJump;
+import net.eduard.essentials.listener.SoupSystem;
 import net.eduard.essentials.manager.LaunchPadManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -66,7 +66,6 @@ public class Main extends EduardPlugin {
         commands.reloadConfig();
         getConfigs().reloadConfig();
         getStorage().reloadConfig();
-        StorageAPI.register(LaunchPadManager.class);
 
 
         getConfigs().add("Soup.enabled", true);

@@ -1,5 +1,5 @@
 
-package net.eduard.essentials.events;
+package net.eduard.essentials.listener;
 
 import net.eduard.essentials.Main;
 import org.bukkit.GameMode;
