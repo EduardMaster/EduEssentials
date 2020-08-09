@@ -15,20 +15,20 @@ public class AntiDupe extends EventsManager {
 	
 	@EventHandler
 	public void bloquearRestones(BlockPlaceEvent e) {
-		if (!EduEssentials.getInstance().getBoolean("hopper-blocked"))return;
+		if (!EduEssentials.getInstance().getBoolean("disable.hopper"))return;
 		if (e.getPlayer().hasPermission("antidupe.admin"))
 			return;
 		if (e.getItemInHand() != null) {
 			if (e.getItemInHand().getType() == Material.REDSTONE) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(EduEssentials.getInstance().message("redstone-blocked"));
+				e.getPlayer().sendMessage(EduEssentials.getInstance().message("blocked.redstone"));
 			}
 		}
 	}
 
 	@EventHandler
 	public void bloquearRestoneTocha(BlockPlaceEvent e) {
-		if (!EduEssentials.getInstance().getBoolean("restone-blocked"))return;
+		if (!EduEssentials.getInstance().getBoolean("disable.restone"))return;
 		if (e.getPlayer().hasPermission("antidupe.admin"))
 			return;
 		if (e.getItemInHand() != null) {
@@ -36,47 +36,47 @@ public class AntiDupe extends EventsManager {
 					|| e.getItemInHand().getType() == Material.REDSTONE_TORCH_OFF
 					|| e.getItemInHand().getType().name().startsWith("PISTON")) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(EduEssentials.getInstance().message("redstone-blocked"));
+				e.getPlayer().sendMessage(EduEssentials.getInstance().message("blocked.redstone"));
 			}
 		}
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void pegarRestone(PlayerPickupItemEvent e) {
-		if (!EduEssentials.getInstance().getBoolean("restone-blocked"))return;
+		if (!EduEssentials.getInstance().getBoolean("disable.restone"))return;
 		if (e.getPlayer().hasPermission("antidupe.admin"))
 			return;
 		if (e.getItem().getItemStack().getType() == Material.REDSTONE) {
 			e.setCancelled(true);
 			e.getItem().remove();
 			
-			e.getPlayer().sendMessage(EduEssentials.getInstance().message("redstone-blocked"));
+			e.getPlayer().sendMessage(EduEssentials.getInstance().message("blocked.redstone"));
 		}
 	}
 
 	
 	@EventHandler
 	public void bloquearBigorna(PlayerInteractEvent e) {
-		if (!EduEssentials.getInstance().getBoolean("anvil-blocked"))return;
+		if (!EduEssentials.getInstance().getBoolean("disable.anvil"))return;
 		if (e.getPlayer().hasPermission("antidupe.admin"))
 			return;
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getClickedBlock().getType() == Material.ANVIL) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(EduEssentials.getInstance().message("anvil-disabled"));
+				e.getPlayer().sendMessage(EduEssentials.getInstance().message("blocked.anvil"));
 			}
 		}
 	}
 
 	@EventHandler
 	public void bloquearMesaDeEncantamento(PlayerInteractEvent e) {
-		if (!EduEssentials.getInstance().getBoolean("enchament-table-blocked"))return;
+		if (!EduEssentials.getInstance().getBoolean("disable.enchanment-table"))return;
 		if (e.getPlayer().hasPermission("antidupe.admin"))
 			return;
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(EduEssentials.getInstance().message("enchantment-table-disabled"));
+				e.getPlayer().sendMessage(EduEssentials.getInstance().message("blocked.enchantment-table"));
 			}
 		}
 	}
@@ -85,10 +85,11 @@ public class AntiDupe extends EventsManager {
 	public void bloquearFunil(PlayerInteractEvent e) {
 		if (e.getPlayer().hasPermission("antidupe.admin"))
 			return;
+		if (!EduEssentials.getInstance().getBoolean("disable.hopper"))return;
 		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (e.getClickedBlock().getType() == Material.HOPPER) {
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(EduEssentials.getInstance().message("hopper-disabled"));
+				e.getPlayer().sendMessage(EduEssentials.getInstance().message("blocked.hopper"));
 			}
 		}
 	}

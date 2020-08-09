@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.game.Jump;
 
+@SuppressWarnings("unused")
 public class LaunchPadManager extends EventsManager {
 
 	public static final Map<World, Boolean> WORLDS = new HashMap<>();
@@ -53,9 +54,7 @@ public class LaunchPadManager extends EventsManager {
 				return;
 			if (block.getTypeId() != blockId)
 				return;
-			if (WORLDS.get(p.getWorld())==null){
-				WORLDS.put(p.getWorld(), true);
-			}
+			WORLDS.putIfAbsent(p.getWorld(), true);
 			if (!WORLDS.get(p.getWorld()))return;
 			jump.create(p);
 			if (!NO_FALL.getPlayers().contains(p))

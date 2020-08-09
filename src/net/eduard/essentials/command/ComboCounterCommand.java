@@ -6,10 +6,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ComboCounterCommad extends CommandManager {
+public class ComboCounterCommand extends CommandManager {
 
-    public ComboCounterCommad() {
-        super("combocounter");
+    public ComboCounterCommand() {
+        super("combocounter","contadordecombo");
     }
 
     public String messageOn = "§aVoce ativou o contador de Combos!";

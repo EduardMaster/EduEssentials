@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class DoubleJump extends EventsManager {
 
-    private static ArrayList<Player> players = new ArrayList<>();
+    private static final ArrayList<Player> players = new ArrayList<>();
 
 
     @EventHandler

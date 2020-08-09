@@ -31,7 +31,6 @@ public class AntiMacro extends TimeManager {
 					}
 				}
 			}
-
 		}
 	}
 
@@ -52,7 +51,6 @@ public class AntiMacro extends TimeManager {
 	@EventHandler
 	public void event(EntityDamageByEntityEvent e) {
 		if (e.getDamager() instanceof Player) {
-
 			Player p = (Player) e.getDamager();
 			if (cliques.containsKey(p)) {
 				Integer clique = cliques.get(p);
@@ -65,7 +63,6 @@ public class AntiMacro extends TimeManager {
 
 	@Override
 	public void run() {
-
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			Integer clique = cliques.get(player);
 			// player.sendMessage("§aTestando seus cliques: "+clique);
@@ -90,7 +87,6 @@ public class AntiMacro extends TimeManager {
 			}
 
 		}
-
 	}
 
 }

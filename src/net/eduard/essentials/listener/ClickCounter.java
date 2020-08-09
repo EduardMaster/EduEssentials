@@ -67,7 +67,6 @@ public class ClickCounter extends EventsManager {
 				clicks.put(p, click + 1);
 			}
 		}
-
 	}
 
 }

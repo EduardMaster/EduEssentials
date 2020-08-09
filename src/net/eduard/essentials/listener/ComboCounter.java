@@ -25,13 +25,13 @@ public class ComboCounter extends EventsManager {
 	@EventHandler
 	public void event(PlayerJoinEvent e) {
 	}
-	private static Map<Player, Integer> combos = new HashMap<>();
+	private static final Map<Player, Integer> combos = new HashMap<>();
 
 	public static Map<Player, Integer> getCombos() {
 		return combos;
 	}
 
-	private static Map<Player, Long> ultimoTapa = new HashMap<>();
+	private static final Map<Player, Long> ultimoTapa = new HashMap<>();
 
 	@EventHandler
 	public void event(EntityDamageByEntityEvent e) {
@@ -52,7 +52,7 @@ public class ComboCounter extends EventsManager {
 				if (ultimoTapa.containsKey(p)) {
 					Long tempo = ultimoTapa.get(p);
 					long agora = Mine.getNow();
-					if (tempo + 50 * 1 > agora) {
+					if (tempo + 50 > agora) {
 						return;
 					}
 				}

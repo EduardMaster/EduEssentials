@@ -10,7 +10,7 @@ import net.eduard.essentials.EduEssentials;
 
 public class DeleteHomeCommand extends CommandManager {
 	public DeleteHomeCommand() {
-		super("deletehome");
+		super("deletehome","deletarcasa");
 	}
 	
 	public String message = "§aVoce deletou sua home §2$home!";

@@ -1,15 +1,21 @@
 
-no-slime-split: false
 chat-delayed: true
 chat-delay-seconds: 1
+
 command-delayed: true
 command-delay-seconds: 2
-hopper-blocked: true
-enchament-table-blocked: true
-restone-blocked: true
-anvil-blocked: true
+
 anti-macro-enabled: true
 auto-pickup-enabled: true
+
+disable:
+  hopper: true
+  enchanment-table: true
+  restone: true
+  anvil: true
+  slime-split: false
+
+
 combatlog:
   enabled: false
   combat-seconds: 30

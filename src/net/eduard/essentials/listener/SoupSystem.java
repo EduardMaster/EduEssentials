@@ -18,21 +18,24 @@ import org.bukkit.inventory.ItemStack;
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.config.Config;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public class SoupSystem extends EventsManager {
 
+    private final List<String> signFormat = Arrays.asList("&f=======", "&aSopas!", "&2Clique!", "&f======");
 
     @EventHandler
     public void event(SignChangeEvent e) {
-
         Player p = e.getPlayer();
-        if (e.getLine(0).toLowerCase().contains("Soup.sign-tag")) {
+        if (e.getLine(0).toLowerCase().contains("soup.sign-tag")) {
             int id = 0;
-            for (String text : EduEssentials.getInstance().getConfigs().getMessages("Soup.sign-format")) {
+            for (String text : signFormat) {
                 e.setLine(id, Mine.removeBrackets(text));
                 id++;
             }
-            p.sendMessage(EduEssentials.getInstance().message("Soup.create-sign"));
+            p.sendMessage(EduEssentials.getInstance().message("soup.create-sign"));
         }
     }
 
@@ -41,7 +44,7 @@ public class SoupSystem extends EventsManager {
 
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            if (EduEssentials.getInstance().getBoolean("Soup.no-change-food-level")) {
+            if (EduEssentials.getInstance().getBoolean("soup.no-change-food-level")) {
                 if (e.getFoodLevel() <= 20) {
                     e.setFoodLevel(20);
                     p.setExhaustion(0);
@@ -57,12 +60,12 @@ public class SoupSystem extends EventsManager {
     public void effect(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         Config config = EduEssentials.getInstance().getConfigs();
-        if (config.getBoolean("Soup.enabled")) {
+        if (config.getBoolean("soup.enabled")) {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if (e.getClickedBlock().getState() instanceof Sign) {
                     Sign sign = (Sign) e.getClickedBlock().getState();
-                    if (sign.getLine(0).equalsIgnoreCase(Mine.removeBrackets(EduEssentials.getInstance().getConfigs().getMessages("SoupSystem.sign-format").get(0)))) {
-                        Inventory inv = Mine.newInventory(EduEssentials.getInstance().message("Soup.menu-title"), 6 * 9);
+                    if (sign.getLine(0).equalsIgnoreCase(signFormat.get(0))) {
+                        Inventory inv = Mine.newInventory(EduEssentials.getInstance().message("soup.menu-title"), 6 * 9);
 
                         for (ItemStack item : inv) {
                             if (item == null) {
@@ -84,17 +87,17 @@ public class SoupSystem extends EventsManager {
                 if (e.getAction().name().contains("LEFT")) {
                     e.setCancelled(false);
                 }
-                int value = config.getInt("Soup.recover-value");
+                int value = config.getInt("soup.recover-value");
                 if (p.getHealth() < p.getMaxHealth()) {
 
                     double calc = p.getHealth() + value;
-                    p.setHealth(calc >= p.getMaxHealth() ? p.getMaxHealth() : calc);
+                    p.setHealth(Math.min(calc, p.getMaxHealth()));
                     remove = true;
                 }
-                if (!config.getBoolean("Soup.no-change-food-level")) {
+                if (!config.getBoolean("soup.no-change-food-level")) {
                     if (p.getFoodLevel() < 20) {
                         int calc = value + p.getFoodLevel();
-                        p.setFoodLevel(calc >= 20 ? 20 : calc);
+                        p.setFoodLevel(Math.min(calc, 20));
                         p.setSaturation(p.getSaturation() + 5);
                         remove = true;
                     }
@@ -103,12 +106,11 @@ public class SoupSystem extends EventsManager {
                     e.setUseItemInHand(Result.DENY);
 
                     p.setItemInHand(EduEssentials.getInstance().getSoupEmpty().clone());
-                    config.getSound("Soup.sound").create(p);
+                    config.getSound("soup.sound").create(p);
 
                 }
             }
         }
     }
-
 
 }

@@ -17,10 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FakeCommand extends CommandManager {
-
+	private static final Map<Player, Fake> fakes = new HashMap<>();
+	public FakeCommand() {
+		super("fake","nickfalso");
+	}
 	public static class Fake {
-
-
 
 		public Fake(Player player) {
 			setPlayer(player);
@@ -63,7 +64,7 @@ public class FakeCommand extends CommandManager {
 
 	}
 
-	private static Map<Player, Fake> fakes = new HashMap<>();
+
 	public static boolean canFake(String name) {
 		for (Fake fake : fakes.values()) {
 			if (fake.getFake().equalsIgnoreCase(name) || fake.getOriginal().equalsIgnoreCase(name)) {
@@ -139,9 +140,7 @@ public class FakeCommand extends CommandManager {
 		removeFake(name);
 		getFake(p);
 	}
-	public FakeCommand() {
-		super("fake");
-	}
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label,
 		String[] args) {

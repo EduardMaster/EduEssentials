@@ -7,10 +7,7 @@ import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.config.ConfigSection;
 import net.eduard.api.lib.game.Jump;
 import net.eduard.api.lib.game.SoundEffect;
-import net.eduard.essentials.listener.AntiDupe;
-import net.eduard.essentials.listener.AntiMacro;
-import net.eduard.essentials.listener.DoubleJump;
-import net.eduard.essentials.listener.SoupSystem;
+import net.eduard.essentials.listener.*;
 import net.eduard.essentials.core.LaunchPadManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,13 +22,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class EduEssentials extends EduardPlugin {
-    private static EduEssentials plugin;
-
+    private static EduEssentials instance;
     public static EduEssentials getInstance() {
-        return plugin;
+        return instance;
     }
-
-    private Config commands;
     private ItemStack soup;
     private ItemStack soupEmpty;
     private final Map<Player, Long> requestsDelay = new HashMap<>();
@@ -42,47 +36,42 @@ public class EduEssentials extends EduardPlugin {
 
     @Override
     public void onEnable() {
-        plugin = this;
+        instance = this;
         setFree(true);
-        commands = new Config(this, "commands.yml");
-
+        //StorageAPI com bug não salva lista de string
         new AntiDupe().register(this);
         new AntiMacro().register(this);
         new DoubleJump().register(this);
         new LaunchPadManager().register(this);
         new SoupSystem().register(this);
+        new ShowDamage().register(this);
+        new ComboCounter().register(this);
+        new ClickCounter().register(this);
+        new SlimeChunkDetector().register(this);
+        LaunchPadManager.NO_FALL.register(this);
         reload();
-
     }
 
 
     public void save() {
-
-
     }
 
-    public void reload() {
-        commands.reloadConfig();
-        getConfigs().reloadConfig();
-        getStorage().reloadConfig();
-
-
-        getConfigs().add("Soup.enabled", true);
-        getConfigs().add("Soup.sign-tag", "soup");
-        getConfigs().add("Soup.item-full", Mine.newItem(Material.MUSHROOM_SOUP, "§eSopa Deliciosa", 1, 0, "§aRecupera vida ao ser ingerida"));
-        getConfigs().add("Soup.item-empty", Mine.newItem(Material.BOWL, "§aSopa tomada"));
-        getConfigs().add("Soup.create-sign", "&6Voce criou uma placa de sopas!");
-        getConfigs().add("Soup.menu-title", "&c&lSopas gratis!");
-        //StorageAPI bug não salva lista de string
-        //getConfigs().add("Soup.sign-format", Arrays.asList("&f=======", "&aSopas!"), "&2Clique!", "&f======");
-        getConfigs().add("Soup.no-change-food-level", true);
-        getConfigs().add("Soup.recover-value", 6);
-        soup = (ItemStack) getConfigs().get("Soup.item-full");
-        soupEmpty = (ItemStack) getConfigs().get("Soup.item-empty");
-        getConfigs().add("Soup.sound", SoundEffect.create("BURP"));
+    @Override
+    public void configDefault() {
+        getConfigs().add("soup.enabled", true);
+        getConfigs().add("soup.sign-tag", "soup");
+        getConfigs().add("soup.item-full", Mine.newItem(Material.MUSHROOM_SOUP, "§eSopa Deliciosa", 1, 0, "§aRecupera vida ao ser ingerida"));
+        getConfigs().add("soup.item-empty", Mine.newItem(Material.BOWL, "§aSopa tomada"));
+        getConfigs().add("soup.create-sign", "&6Voce criou uma placa de sopas!");
+        getConfigs().add("soup.menu-title", "&c&lSopas gratis!");
+        getConfigs().add("soup.no-change-food-level", true);
+        getConfigs().add("soup.recover-value", 6);
+        soup =  getConfigs().get("Soup.item-full" , ItemStack.class);
+        soupEmpty =  getConfigs().get("Soup.item-empty", ItemStack.class);
+        getConfigs().add("soup.sound", SoundEffect.create("BURP"));
         getConfigs().add("DoubleJump.enabled", true);
         getConfigs().add("DoubleJump.effect", new Jump(true, 0.5, 2.5, SoundEffect.create("ENDERMAN_TELEPORT")));
-        doubleJump = (Jump) getConfigs().get("DoubleJump.effect");
+        doubleJump =  getConfigs().get("DoubleJump.effect", Jump.class);
         getConfigs().add("Pads.sponge", new LaunchPadManager(-1, 19, 0,
                 new Jump(SoundEffect.create("EXPLODE"), new Vector(0, 2, 0))));
         for (World world : Bukkit.getWorlds()) {
@@ -91,45 +80,43 @@ public class EduEssentials extends EduardPlugin {
             LaunchPadManager.WORLDS.put(world, getConfigs().getBoolean(path));
         }
         getConfigs().saveConfig();
-
-        LaunchPadManager.NO_FALL.register(this);
-        doubleJump = (Jump) getConfigs().get("Double Jump.effect");
+        doubleJump =  getConfigs().get("DoubleJump.effect" , Jump.class);
         for (ConfigSection sec : getConfigs().getSection("Pads").getValues()) {
             ((LaunchPadManager) sec.getValue()).register(this);
         }
+    }
 
+    public void reload() {
+        getConfigs().reloadConfig();
+        getStorage().reloadConfig();
+        configDefault();
 
         for (Class<?> claz : getClasses("net.eduard.essentials.command")) {
             try {
                 if (CommandManager.class.isAssignableFrom(claz)) {
-
+                    String name = claz.getSimpleName().toLowerCase().replace("command","");
                     CommandManager cmd = (CommandManager) claz.newInstance();
-                    String path = "commands." + cmd.getClass().getSimpleName().toLowerCase();
+                    String path = "commands." + name;
+                    Config commands = new Config(this, "commands/" + name + ".yml");
                     getConfigs().add(path, false);
-                    commands.add(path, cmd);
-
-                    cmd = (CommandManager) commands.get(path, claz);
+                    if (commands.getKeys().isEmpty())
+                        commands.set(cmd);
+                    cmd = (CommandManager) commands.get(claz);
                     if (getConfigs().getBoolean(path)) {
                         cmd.registerCommand(this);
-                        cmd.registerListener(this);
                     }
-
+                    commands.saveConfig();
                 }
             } catch (Exception ex) {
 
-                error("Error ao gerar comando "+claz.getSimpleName());
+                error("Error ao gerar comando " + claz.getSimpleName());
                 ex.printStackTrace();
             }
 
         }
         StorageAPI.updateReferences();
-
-        commands.saveConfig();
         getConfigs().saveConfig();
-
-
     }
-
     public ItemStack getSoup() {
         return soup;
     }
@@ -138,15 +125,9 @@ public class EduEssentials extends EduardPlugin {
         save();
     }
 
-    public Config getCommands() {
-        return commands;
-    }
-
-
     public ArrayList<Player> getSlimeChunkActive() {
         return slimeChunkActive;
     }
-
 
     public Jump getDoubleJump() {
         return doubleJump;

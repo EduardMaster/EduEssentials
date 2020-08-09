@@ -18,7 +18,7 @@ import net.eduard.api.lib.manager.EventsManager;
 import net.eduard.essentials.EduEssentials;
 
 public class EssentialsEvents extends EventsManager {
-
+	private static final HashMap<Player, Long> lastCommand = new HashMap<>();
 	@EventHandler
 	public void onSignChangeEvent(SignChangeEvent e) {
 
@@ -31,14 +31,14 @@ public class EssentialsEvents extends EventsManager {
 		}
 	}
 
-	public static HashMap<Player, Long> commandDelay = new HashMap<>();
+
 
 	@EventHandler
 	public void event(PlayerCommandPreprocessEvent e) {
 		Player p = e.getPlayer();
 		if (!p.hasPermission("command.delay.bypass")) {
-			if (commandDelay.containsKey(p)) {
-				Long teste = commandDelay.get(p);
+			if (lastCommand.containsKey(p)) {
+				Long teste = lastCommand.get(p);
 				long agora = System.currentTimeMillis();
 				boolean test = agora > (teste + 1000 * 3);
 				if (!test) {
@@ -46,10 +46,10 @@ public class EssentialsEvents extends EventsManager {
 					e.setCancelled(true);
 
 				} else {
-					commandDelay.put(p, System.currentTimeMillis());
+					lastCommand.put(p, System.currentTimeMillis());
 				}
 			} else {
-				commandDelay.put(p, System.currentTimeMillis());
+				lastCommand.put(p, System.currentTimeMillis());
 			}
 		}
 	}
@@ -59,7 +59,6 @@ public class EssentialsEvents extends EventsManager {
 		for (String msg : EduEssentials.getInstance().getMessages("blocked-tab-commads")) {
 			if (e.getChatMessage().toLowerCase().startsWith(msg.toLowerCase())) {
 				e.getTabCompletions().clear();
-
 			}
 
 		}

@@ -60,11 +60,11 @@ public class CombatLog implements Listener {
 	@EventHandler
 	public void aoMorrer(PlayerDeathEvent e) {
 
-		if (e.getEntity() instanceof Player) {
+		if (e.getEntity() != null) {
 
 			Player morreu = (Player) e.getEntity();
 
-			if (e.getEntity().getKiller() instanceof Player) {
+			if (e.getEntity().getKiller() != null) {
 				players.remove(morreu);
 			}
 		}
