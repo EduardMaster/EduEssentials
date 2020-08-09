@@ -1,4 +1,4 @@
-package net.eduard.essentials.manager;
+package net.eduard.essentials.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,16 +88,5 @@ public class LaunchPadManager extends EventsManager {
 		this.jump = jump;
 	}
 
-	@Override
-	public Object restore(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void store(Map<String, Object> map, Object object) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

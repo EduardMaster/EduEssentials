@@ -4,6 +4,7 @@ package net.eduard.essentials.command.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.eduard.api.lib.game.ItemBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,6 +22,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -91,7 +93,7 @@ public class AdminCommand extends CommandManager {
 			Mine.newItem(Material.BLAZE_ROD, "Ver Informações"), 5);
 
 	public Slot testAntKB = new Slot(
-			Mine.addEnchant(Mine.newItem(Material.STICK, "Testar Knockback"),
+			new ItemBuilder(Material.STICK).name( "Testar Knockback").addEnchant(
 					Enchantment.KNOCKBACK, 10),
 			6);
 
@@ -117,9 +119,9 @@ public class AdminCommand extends CommandManager {
 		players.remove(player);
 	}
 
-	@Override
-	public void register(Plugin plugin) {
-		new PlayerClickEntity(testNoFall.item, new PlayerClickEntityEffect() {
+
+	public void registerListener(JavaPlugin plugin) {
+		new PlayerClickEntity(testNoFall.getItem(), new PlayerClickEntityEffect() {
 
 			@Override
 			public void onClickAtEntity(Player player, Entity entity,
@@ -128,8 +130,8 @@ public class AdminCommand extends CommandManager {
 					jumpEffect.create(entity);
 				}
 			}
-		}).register(plugin);
-		new PlayerClick(testFF.item, new PlayerClickEffect() {
+		}).registerListener(plugin);
+		new PlayerClick(testFF.getItem(), new PlayerClickEffect() {
 			@Override
 			public void onClick(Player player, Block block, ItemStack item) {
 				if (players.contains(player)) {
@@ -148,8 +150,8 @@ public class AdminCommand extends CommandManager {
 				}
 			}
 
-		}).register(plugin);
-		new PlayerClickEntity(testAutoSoup.item, new PlayerClickEntityEffect() {
+		}).registerListener(plugin);
+		new PlayerClickEntity(testAutoSoup.getItem(), new PlayerClickEntityEffect() {
 
 			@Override
 			public void onClickAtEntity(Player player, Entity entity,
@@ -163,8 +165,8 @@ public class AdminCommand extends CommandManager {
 				}
 				
 			}
-		}).register(plugin);
-		new PlayerClickEntity(testInfo.item, new PlayerClickEntityEffect() {
+		}).registerListener(plugin);
+		new PlayerClickEntity(testInfo.getItem(), new PlayerClickEntityEffect() {
 
 
 			@Override
@@ -189,8 +191,8 @@ public class AdminCommand extends CommandManager {
 				}
 				
 			}
-		}).register(plugin);
-		new PlayerClickEntity(testPrison.item, new PlayerClickEntityEffect() {
+		}).registerListener(plugin);
+		new PlayerClickEntity(testPrison.getItem(), new PlayerClickEntityEffect() {
 
 			@Override
 			public void onClickAtEntity(Player player, Entity entity,
@@ -217,9 +219,9 @@ public class AdminCommand extends CommandManager {
 				}
 				
 			}
-		}).register(plugin);
+		}).registerListener(plugin);
 
-		super.register(plugin);
+		super.registerListener(plugin);
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,

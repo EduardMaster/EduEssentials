@@ -1,5 +1,6 @@
 package net.eduard.essentials.command.staff;
 
+import net.eduard.api.lib.modules.Extra;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,7 +18,7 @@ public class GamemodeCommand extends CommandManager {
 	public String messageTarget = "§6O gamemode do $player agora é: $gamemode";
 
 	public String getGamemode(Player player) {
-		return Mine.toTitle(player.getGameMode().name());
+		return Extra.toTitle(player.getGameMode().name());
 	}
 
 	@Override

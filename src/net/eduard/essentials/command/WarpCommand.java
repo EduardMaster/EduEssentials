@@ -19,7 +19,7 @@ public class WarpCommand extends CommandManager {
         super("warp");
     }
 
-    public Title title = new Title(20, 20 * 2, 20, "§6Warp e$warp", "§2Voce foi para a warp §a$warp!");
+    public Title title = new Title( "§6Warp e$warp", "§2Voce foi para a warp §a$warp!",20, 20 * 2, 20);
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label,

@@ -1,4 +1,4 @@
-package net.eduard.essentials.manager;
+package net.eduard.essentials.core;
 
 import java.util.Collection;
 

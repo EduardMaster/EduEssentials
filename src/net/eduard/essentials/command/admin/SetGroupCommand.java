@@ -18,7 +18,7 @@ import net.eduard.essentials.Main;
 
 public class SetGroupCommand extends CommandManager {
 	public List<String> messages = new ArrayList<>();
-	public Title title = new Title(20, 20, 20, "$player", "$group");
+	public Title title = new Title("$player", "$group",20, 20, 20);
 	public String defaultGroup = "membro";
 
 	public String getGroup(Player player) {
@@ -48,8 +48,8 @@ public class SetGroupCommand extends CommandManager {
 				VaultAPI.getPermission().playerAddGroup(target, group);
 				VaultAPI.getPermission().playerRemoveGroup(target, getGroup(target));
 				Main.getInstance().getConfigs().set(target.getUniqueId().toString(), group);
-				t.subTitle = getValues(t.subTitle, name, group);
-				t.title = getValues(t.title, name, group);
+				t.setSubTitle( getValues(t.getSubTitle(), name, group));
+				t.setTitle( getValues(t.getTitle(), name, group));
 				for (Player player : Mine.getPlayers()) {
 					t.create(player);
 					for (String message : messages) {

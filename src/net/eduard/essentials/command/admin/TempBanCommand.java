@@ -39,9 +39,9 @@ public class TempBanCommand extends CommandManager {
 			int result = time;
 			String type = " segundos";
 			try {
-				time = Integer.valueOf(args[1].replace("s", "").replace("h", "")
+				time = Integer.parseInt(args[1].replace("s", "").replace("h", "")
 						.replace("d", "").replace("m", ""));
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 			if (args[1].contains("d")) {
 				type = " dias";

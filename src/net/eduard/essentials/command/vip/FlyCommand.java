@@ -15,7 +15,7 @@ public class FlyCommand extends CommandManager {
 	public String messageTarget = "§6Voce troco o modo de voo do jogador $player";
 
 	public FlyCommand() {
-		super("fly");
+		super("fly","voar");
 	}
 
 	@Override

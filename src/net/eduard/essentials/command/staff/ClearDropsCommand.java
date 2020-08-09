@@ -32,7 +32,7 @@ public class ClearDropsCommand extends CommandManager {
 
 		} else {
 			if (Mine.existsWorld(sender, args[0])) {
-				World world = Mine.getWorld(args[0]);
+				World world = Bukkit.getWorld(args[0]);
 				for (Item entity : world.getEntitiesByClass(Item.class)) {
 					entity.remove();
 				}

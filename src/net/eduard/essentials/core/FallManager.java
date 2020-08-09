@@ -1,8 +1,7 @@
-package net.eduard.essentials.manager;
+package net.eduard.essentials.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import net.eduard.api.lib.manager.EventsManager;
 import org.bukkit.entity.Player;
@@ -61,16 +60,6 @@ public class FallManager extends EventsManager {
 
 	public void setPlayers(List<Player> players) {
 		this.players = players;
-	}
-	@Override
-	public Object restore(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void store(Map<String, Object> map, Object object) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

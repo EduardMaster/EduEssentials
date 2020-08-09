@@ -22,7 +22,7 @@ public class HomeCommand extends CommandManager {
 	public SoundEffect sound = SoundEffect.create("ENDERMAN_TELEPORT");
 	public String message = "§6Voce teleportado para sua Home!";
 	public String messageError = "§cSua home não foi setada!";
-	public Title title = new Title(20, 20 * 2, 20, "§6Casa §e$home", "§bTeleportado para sua casa §3$home!");
+	public Title title = new Title( "§6Casa §e$home", "§bTeleportado para sua casa §3$home!",20, 20 * 2, 20);
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -42,9 +42,9 @@ public class HomeCommand extends CommandManager {
 						p.teleport((Location) Main.getInstance().getStorage().get(path));
 						sound.create(p);
 						sender.sendMessage(message.replace("$home", homex));
-						MineReflect.sendTitle(p, title.title.replace("$home", homex),
-								title.subTitle.replace("$home", homex), title.fadeIn, title.stay,
-                                title.fadeOut);
+						MineReflect.sendTitle(p, title.getTitle().replace("$home", homex),
+								title.getSubTitle().replace("$home", homex), title.getFadeIn(), title.getStay(),
+                                title.getFadeOut());
 					}
 				}.runTaskLaterAsynchronously(getPlugin(),20);
 

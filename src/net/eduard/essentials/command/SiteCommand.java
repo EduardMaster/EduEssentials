@@ -15,7 +15,7 @@ public class SiteCommand extends CommandManager {
 		messages.add("");
 		messages.add("§aAcesse o site www.meusite.com");
 		messages.add("");
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

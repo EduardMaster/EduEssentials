@@ -1,7 +1,7 @@
 
 package net.eduard.essentials.command;
 
-import net.eduard.essentials.manager.MenuAutoPickup;
+import net.eduard.essentials.core.MenuAutoPickup;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
