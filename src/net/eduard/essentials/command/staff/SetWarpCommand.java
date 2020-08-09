@@ -3,7 +3,7 @@ package net.eduard.essentials.command.staff;
 
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class SetWarpCommand extends CommandManager {
 
                 String name = args[0];
                 String path = "warps." + name;
-                Main.getInstance().getStorage().set(path, p.getLocation());
+                EduEssentials.getInstance().getStorage().set(path, p.getLocation());
                 sender.sendMessage(message.replace("$warp", name));
             }
 

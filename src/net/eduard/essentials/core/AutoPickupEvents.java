@@ -3,7 +3,7 @@ package net.eduard.essentials.core;
 
 import java.util.Collection;
 
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class AutoPickupEvents extends EventsManager {
         if (p == null)
             return;
         if (p.hasPermission("autopickup.mob.drops")) {
-            boolean dropsMonstros = Main.getInstance()
+            boolean dropsMonstros = EduEssentials.getInstance()
                     .getBoolean("autopickup." + p.getName().toLowerCase() + ".mob-drops");
 
             if (!dropsMonstros)
@@ -50,7 +50,7 @@ public class AutoPickupEvents extends EventsManager {
     public void Quebrar(BlockBreakEvent e) {
         Player p = e.getPlayer();
         if (p.hasPermission("autopickup.block.drops")) {
-            boolean dropsBlocos = Main.getInstance()
+            boolean dropsBlocos = EduEssentials.getInstance()
                     .getBoolean("autopickup." + p.getName().toLowerCase() + ".block-drops");
             if (!dropsBlocos)
                 return;
@@ -70,7 +70,7 @@ public class AutoPickupEvents extends EventsManager {
                     }
 
                 }
-            }.runTaskAsynchronously(Main.getInstance());
+            }.runTaskAsynchronously(EduEssentials.getInstance());
         }
     }
 

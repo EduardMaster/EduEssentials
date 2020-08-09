@@ -24,10 +24,10 @@ import net.eduard.api.server.EduardPlugin;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class Main extends EduardPlugin {
-    private static Main plugin;
+public class EduEssentials extends EduardPlugin {
+    private static EduEssentials plugin;
 
-    public static Main getInstance() {
+    public static EduEssentials getInstance() {
         return plugin;
     }
 

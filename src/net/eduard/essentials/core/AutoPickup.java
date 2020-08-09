@@ -2,7 +2,7 @@ package net.eduard.essentials.core;
 
 import java.util.Collection;
 
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -21,7 +21,7 @@ public class AutoPickup extends EventsManager {
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void aoQuebrar(BlockBreakEvent e) {
 		Player p = e.getPlayer();
-		if (!Main.getInstance().getBoolean("auto-pickup-enabled")) {
+		if (!EduEssentials.getInstance().getBoolean("auto-pickup-enabled")) {
 			return;
 		}
 		if (p.getItemInHand() == null)
@@ -31,7 +31,7 @@ public class AutoPickup extends EventsManager {
 
 		if (Mine.isFull(p.getInventory())) {
 
-			p.sendMessage(Main.getInstance().message("inventory-full"));
+			p.sendMessage(EduEssentials.getInstance().message("inventory-full"));
 
 			Collection<ItemStack> lista = e.getBlock().getDrops(p.getItemInHand());
 
@@ -62,7 +62,7 @@ public class AutoPickup extends EventsManager {
 					}
 
 				}
-			}.runTaskLaterAsynchronously(Main.getInstance(), 1);
+			}.runTaskLaterAsynchronously(EduEssentials.getInstance(), 1);
 		}
 	}
 }

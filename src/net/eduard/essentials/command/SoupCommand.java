@@ -1,6 +1,6 @@
 package net.eduard.essentials.command;
 
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,8 +18,8 @@ public class SoupCommand extends CommandManager {
 			String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
 			Player p = (Player) sender;
-			Mine.fill(p.getInventory(), Main.getInstance().getSoup());
-			p.sendMessage(Main.getInstance().message("soup"));
+			Mine.fill(p.getInventory(), EduEssentials.getInstance().getSoup());
+			p.sendMessage(EduEssentials.getInstance().message("soup"));
 		}
 		return true;
 	}

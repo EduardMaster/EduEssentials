@@ -10,7 +10,7 @@ import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.game.SoundEffect;
 import net.eduard.api.lib.game.Title;
 import net.eduard.api.lib.manager.CommandManager;
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class HomeCommand extends CommandManager {
@@ -33,13 +33,13 @@ public class HomeCommand extends CommandManager {
 				home = args[0];
 			}
 			String path = "homes."+p.getUniqueId().toString() + "." + home;
-			if (Main.getInstance().getStorage().contains(path)) {
+			if (EduEssentials.getInstance().getStorage().contains(path)) {
 				final String homex = home;
 				new BukkitRunnable(){
 
 					@Override
 					public void run() {
-						p.teleport((Location) Main.getInstance().getStorage().get(path));
+						p.teleport((Location) EduEssentials.getInstance().getStorage().get(path));
 						sound.create(p);
 						sender.sendMessage(message.replace("$home", homex));
 						MineReflect.sendTitle(p, title.getTitle().replace("$home", homex),
@@ -52,7 +52,7 @@ public class HomeCommand extends CommandManager {
 
 			} else {
 				sender.sendMessage(messageError.replace("$home", home));
-				Main.getInstance().getConfigs().remove(path);
+				EduEssentials.getInstance().getConfigs().remove(path);
 			}
 
 		}

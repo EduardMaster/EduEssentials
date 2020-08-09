@@ -2,7 +2,7 @@
 package net.eduard.essentials.listener;
 
 import net.eduard.api.lib.manager.EventsManager;
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -28,11 +28,11 @@ public class SoupSystem extends EventsManager {
         Player p = e.getPlayer();
         if (e.getLine(0).toLowerCase().contains("Soup.sign-tag")) {
             int id = 0;
-            for (String text : Main.getInstance().getConfigs().getMessages("Soup.sign-format")) {
+            for (String text : EduEssentials.getInstance().getConfigs().getMessages("Soup.sign-format")) {
                 e.setLine(id, Mine.removeBrackets(text));
                 id++;
             }
-            p.sendMessage(Main.getInstance().message("Soup.create-sign"));
+            p.sendMessage(EduEssentials.getInstance().message("Soup.create-sign"));
         }
     }
 
@@ -41,7 +41,7 @@ public class SoupSystem extends EventsManager {
 
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            if (Main.getInstance().getBoolean("Soup.no-change-food-level")) {
+            if (EduEssentials.getInstance().getBoolean("Soup.no-change-food-level")) {
                 if (e.getFoodLevel() <= 20) {
                     e.setFoodLevel(20);
                     p.setExhaustion(0);
@@ -56,17 +56,17 @@ public class SoupSystem extends EventsManager {
     @EventHandler
     public void effect(PlayerInteractEvent e) {
         Player p = e.getPlayer();
-        Config config = Main.getInstance().getConfigs();
+        Config config = EduEssentials.getInstance().getConfigs();
         if (config.getBoolean("Soup.enabled")) {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if (e.getClickedBlock().getState() instanceof Sign) {
                     Sign sign = (Sign) e.getClickedBlock().getState();
-                    if (sign.getLine(0).equalsIgnoreCase(Mine.removeBrackets(Main.getInstance().getConfigs().getMessages("SoupSystem.sign-format").get(0)))) {
-                        Inventory inv = Mine.newInventory(Main.getInstance().message("Soup.menu-title"), 6 * 9);
+                    if (sign.getLine(0).equalsIgnoreCase(Mine.removeBrackets(EduEssentials.getInstance().getConfigs().getMessages("SoupSystem.sign-format").get(0)))) {
+                        Inventory inv = Mine.newInventory(EduEssentials.getInstance().message("Soup.menu-title"), 6 * 9);
 
                         for (ItemStack item : inv) {
                             if (item == null) {
-                                inv.addItem(Main.getInstance().getSoup());
+                                inv.addItem(EduEssentials.getInstance().getSoup());
                             }
                         }
                         p.openInventory(inv);
@@ -102,7 +102,7 @@ public class SoupSystem extends EventsManager {
                 if (remove) {
                     e.setUseItemInHand(Result.DENY);
 
-                    p.setItemInHand(Main.getInstance().getSoupEmpty().clone());
+                    p.setItemInHand(EduEssentials.getInstance().getSoupEmpty().clone());
                     config.getSound("Soup.sound").create(p);
 
                 }

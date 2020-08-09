@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 
 public class DeleteHomeCommand extends CommandManager {
 	public DeleteHomeCommand() {
@@ -24,8 +24,8 @@ public class DeleteHomeCommand extends CommandManager {
 				sendUsage(sender);
 			}else {
 				String path = p.getUniqueId().toString()+"."+args[0].toLowerCase();
-				if (Main.getInstance().getConfigs().contains(path)) {
-					Main.getInstance().getConfigs().remove(path);
+				if (EduEssentials.getInstance().getConfigs().contains(path)) {
+					EduEssentials.getInstance().getConfigs().remove(path);
 					sender.sendMessage(message.replace("$home", ""));
 					
 				} else {

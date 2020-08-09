@@ -1,6 +1,6 @@
 package net.eduard.essentials.core;
 
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,9 +20,9 @@ public class MenuAutoPickup extends EventsManager {
 		menu.setItem(Mine.getPosition(2, 7), Mine.newItem(Material.DIAMOND_PICKAXE, "§aDrops de mineração"));
 		menu.setItem(Mine.getPosition(2, 3), Mine.newItem(Material.ROTTEN_FLESH, "§aDrops de monstros e animais"));
 
-		boolean dropsMonstros = Main.getInstance()
+		boolean dropsMonstros = EduEssentials.getInstance()
 				.getBoolean("autopickup." + player.getName().toLowerCase() + ".mob-drops");
-		boolean dropsBlocos = Main.getInstance()
+		boolean dropsBlocos = EduEssentials.getInstance()
 				.getBoolean("autopickup." + player.getName().toLowerCase() + ".block-drops");
 
 		ItemStack verde = new ItemStack(Material.INK_SACK, 1, (short) 10);
@@ -48,18 +48,18 @@ public class MenuAutoPickup extends EventsManager {
 			Player p = (Player) e.getWhoClicked();
 			if (e.getInventory().getName().equals(titulo)) {
 				e.setCancelled(true);
-				boolean dropsMonstros = Main.getInstance()
+				boolean dropsMonstros = EduEssentials.getInstance()
 						.getBoolean("autopickup." + p.getName().toLowerCase() + ".mob-drops");
-				boolean dropsBlocos = Main.getInstance()
+				boolean dropsBlocos = EduEssentials.getInstance()
 						.getBoolean("autopickup." + p.getName().toLowerCase() + ".block-drops");
 				int slot = e.getRawSlot();
 				if (slot == Mine.getPosition(2, 6)) {
-					Main.getInstance().getConfigs()
+					EduEssentials.getInstance().getConfigs()
 							.set("autopickup." + p.getName().toLowerCase() + ".block-drops", !dropsBlocos);
 					abrir(p);
 				}
 				if (slot == Mine.getPosition(2,4)) {
-					Main.getInstance().getConfigs()
+					EduEssentials.getInstance().getConfigs()
 							.set("autopickup." + p.getName().toLowerCase() + ".mob-drops", !dropsMonstros);
 					abrir(p);
 				}

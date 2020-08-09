@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 
 public class CombatLog implements Listener {
 
@@ -25,7 +25,7 @@ public class CombatLog implements Listener {
 	public void aoSair(PlayerQuitEvent e) {
 
 		Player p = e.getPlayer();
-		if (!Main.getInstance().getBoolean("combatlog-enabled")) {
+		if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
 			return;
 		}
 		if (players.contains(p)) {
@@ -33,7 +33,7 @@ public class CombatLog implements Listener {
 			p.damage(1000);
 			players.remove(p);
 			Bukkit.broadcastMessage(
-					Main.getInstance().message("combat-quit").replace("$player", p.getName()));
+					EduEssentials.getInstance().message("combat-quit").replace("$player", p.getName()));
 
 		}
 	}
@@ -42,17 +42,17 @@ public class CombatLog implements Listener {
 	public void aoDigitarComandos(PlayerCommandPreprocessEvent e) {
 
 		Player p = e.getPlayer();
-		if (!Main.getInstance().getBoolean("combatlog-enabled")) {
+		if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
 			return;
 		}
 		if (players.contains(p)) {
-			for (String cmd : Main.getInstance().getConfigs().getMessages("combatlog.commands-permitted")) {
+			for (String cmd : EduEssentials.getInstance().getConfigs().getMessages("combatlog.commands-permitted")) {
 				if (e.getMessage().toLowerCase().startsWith(cmd.toLowerCase())) {
 					return;
 				}
 			}
 			e.setCancelled(true);
-			p.sendMessage(Main.getInstance().message("combat-try-command"));
+			p.sendMessage(EduEssentials.getInstance().message("combat-try-command"));
 
 		}
 	}
@@ -73,11 +73,11 @@ public class CombatLog implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void aoBater(EntityDamageByEntityEvent e) {
 
-		if (!Main.getInstance().getBoolean("combatlog-enabled")) {
+		if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
 			return;
 		}
 
-		Integer time = Main.getInstance().getConfigs().getInt("combatlog.combat-seconds");
+		Integer time = EduEssentials.getInstance().getConfigs().getInt("combatlog.combat-seconds");
 		if (e.getEntity() instanceof Player) {
 
 			if (e.getDamager() instanceof Player) {
@@ -88,35 +88,35 @@ public class CombatLog implements Listener {
 				if (!players.contains(entity)) {
 
 					players.add(entity);
-					entity.sendMessage(Main.getInstance().message("combat-started"));
+					entity.sendMessage(EduEssentials.getInstance().message("combat-started"));
 
 					new BukkitRunnable() {
 
 						public void run() {
 
 							players.remove(entity);
-							entity.sendMessage(Main.getInstance().message("combat-out"));
+							entity.sendMessage(EduEssentials.getInstance().message("combat-out"));
 							entity.playSound(entity.getLocation(), Sound.LEVEL_UP, 1, 1);
 
 						}
-					}.runTaskLaterAsynchronously(Main.getInstance(), 20 * time);
+					}.runTaskLaterAsynchronously(EduEssentials.getInstance(), 20 * time);
 				}
 
 				if (!players.contains(damager)) {
 
 					players.add(damager);
-					damager.sendMessage(Main.getInstance().message("combat-started"));
+					damager.sendMessage(EduEssentials.getInstance().message("combat-started"));
 
 					new BukkitRunnable() {
 
 						public void run() {
 
 							players.remove(damager);
-							damager.sendMessage(Main.getInstance().message("combat-out"));
+							damager.sendMessage(EduEssentials.getInstance().message("combat-out"));
 							damager.playSound(damager.getLocation(), Sound.LEVEL_UP, 1, 1);
 							cancel();
 						}
-					}.runTaskLaterAsynchronously(Main.getInstance(), 20 * time);
+					}.runTaskLaterAsynchronously(EduEssentials.getInstance(), 20 * time);
 
 				}
 			}

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 
 public class HomesCommand extends CommandManager {
 	public HomesCommand() {
@@ -24,7 +24,7 @@ public class HomesCommand extends CommandManager {
 		if (Mine.onlyPlayer(sender)) {
 			Player p = (Player) sender;
 
-			Set<String> list = Main.getInstance().getStorage().getKeys("homes."+p.getUniqueId().toString());
+			Set<String> list = EduEssentials.getInstance().getStorage().getKeys("homes."+p.getUniqueId().toString());
 			if (list.size() == 0) {
 				sender.sendMessage( messageError);
 			} else {

@@ -2,7 +2,7 @@ package net.eduard.essentials.command;
 
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,9 +28,9 @@ public class TeleportAcceptRequestCommand extends CommandManager {
                 if (Mine.existsPlayer(sender, args[0])) {
                     Player target = Mine.getPlayer(args[0]);
 
-                    if (Main.getInstance().getRequests().containsValue(p)) {
-                        Player convidado = Main.getInstance().getRequests().get(p);
-                        Main.getInstance().getRequests().remove(p);
+                    if (EduEssentials.getInstance().getRequests().containsValue(p)) {
+                        Player convidado = EduEssentials.getInstance().getRequests().get(p);
+                        EduEssentials.getInstance().getRequests().remove(p);
                         convidado.teleport(p);
                         p.sendMessage(messageAccepted);
                         convidado.sendMessage(messageTeleported);

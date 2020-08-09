@@ -1,7 +1,7 @@
 
 package net.eduard.essentials.listener;
 
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class DoubleJump extends EventsManager {
         if (p.getGameMode() != GameMode.CREATIVE) {
 
             if (!Mine.equals(e.getFrom(), e.getTo())) {
-                if (Main.getInstance().getBoolean("DoubleJump.enabled")) {
+                if (EduEssentials.getInstance().getBoolean("DoubleJump.enabled")) {
                     if (Mine.isOnGround(p)) {
                         if (p.isOnGround() && p.getVelocity().getY() > -0.1) {
                             players.remove(p);
@@ -67,8 +67,8 @@ public class DoubleJump extends EventsManager {
         if (p.getGameMode() != GameMode.CREATIVE) {
 
             if (!players.contains(p)) {
-                if (Main.getInstance().getBoolean("DoubleJump.enabled")) {
-                    Main.getInstance().getDoubleJump().create(p);
+                if (EduEssentials.getInstance().getBoolean("DoubleJump.enabled")) {
+                    EduEssentials.getInstance().getDoubleJump().create(p);
                     players.add(p);
                     e.setCancelled(true);
                     p.setAllowFlight(false);

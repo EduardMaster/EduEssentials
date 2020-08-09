@@ -2,7 +2,7 @@ package net.eduard.essentials.command;
 
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -37,8 +37,8 @@ public class TeleportRequestCommand extends CommandManager {
 
                 if (!p.hasPermission("teleport.delay.bypass")) {
 
-                    if (Main.getInstance().getRequestsDelay().containsKey(p)) {
-                        long dif = System.currentTimeMillis() - Main.getInstance().getRequestsDelay().get(p) + (cooldown * 1000);
+                    if (EduEssentials.getInstance().getRequestsDelay().containsKey(p)) {
+                        long dif = System.currentTimeMillis() - EduEssentials.getInstance().getRequestsDelay().get(p) + (cooldown * 1000);
                         if (dif < 0) {
                             //RexAPI.sendActionBar(p, "§cAguarde " + cooldown + " para usar o tpa novamente.");
                             return false;
@@ -74,7 +74,7 @@ public class TeleportRequestCommand extends CommandManager {
                     recipient.sendMessage("§eEste pedido ser§ expirado em 1 minuto.");
                     recipient.sendMessage(" ");
 
-                    Main.getInstance().getRequests().put(recipient, target);
+                    EduEssentials.getInstance().getRequests().put(recipient, target);
 
                 }
 

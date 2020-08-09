@@ -11,7 +11,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 
 public class AntiMacro extends TimeManager {
 	public static Map<Player, Integer> cliques = new HashMap<>();
@@ -25,7 +25,7 @@ public class AntiMacro extends TimeManager {
 				if (dis > 5) {
 					for (Player player : Bukkit.getOnlinePlayers()) {
 						if (player.hasPermission("antimacro.admin")) {
-							player.sendMessage(Main.getInstance().message("macro-warn").replace("$player",
+							player.sendMessage(EduEssentials.getInstance().message("macro-warn").replace("$player",
 									p.getName().replace("$distance", "" + dis)));
 						}
 					}
@@ -73,7 +73,7 @@ public class AntiMacro extends TimeManager {
 				if (clique > 30) {
 					for (Player p : Bukkit.getOnlinePlayers()) {
 						if (p.hasPermission("antimacro.admin")) {
-							p.sendMessage(Main.getInstance().message("macro-found")
+							p.sendMessage(EduEssentials.getInstance().message("macro-found")
 									.replace("<jogador>", player.getName()).replace("<cliques>", "" + clique));
 						}
 					}
@@ -81,7 +81,7 @@ public class AntiMacro extends TimeManager {
 				} else if (clique > 15) {
 					for (Player p : Bukkit.getOnlinePlayers()) {
 						if (p.hasPermission("antimacro.admin")) {
-							p.sendMessage(Main.getInstance().message("macro-suspect")
+							p.sendMessage(EduEssentials.getInstance().message("macro-suspect")
 									.replace("<jogador>", player.getName()).replace("<cliques>", "" + clique));
 						}
 					}

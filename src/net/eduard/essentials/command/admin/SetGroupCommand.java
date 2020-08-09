@@ -14,7 +14,7 @@ import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.game.Title;
 import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.api.lib.modules.VaultAPI;
-import net.eduard.essentials.Main;
+import net.eduard.essentials.EduEssentials;
 
 public class SetGroupCommand extends CommandManager {
 	public List<String> messages = new ArrayList<>();
@@ -23,8 +23,8 @@ public class SetGroupCommand extends CommandManager {
 
 	public String getGroup(Player player) {
 		UUID id = player.getUniqueId();
-		Main.getInstance().getConfigs().add(id.toString(), defaultGroup);
-		return Main.getInstance().getConfigs().getString(id.toString());
+		EduEssentials.getInstance().getConfigs().add(id.toString(), defaultGroup);
+		return EduEssentials.getInstance().getConfigs().getString(id.toString());
 	}
 
 	public SetGroupCommand() {
@@ -47,7 +47,7 @@ public class SetGroupCommand extends CommandManager {
 				Title t = (Title) title.copy();
 				VaultAPI.getPermission().playerAddGroup(target, group);
 				VaultAPI.getPermission().playerRemoveGroup(target, getGroup(target));
-				Main.getInstance().getConfigs().set(target.getUniqueId().toString(), group);
+				EduEssentials.getInstance().getConfigs().set(target.getUniqueId().toString(), group);
 				t.setSubTitle( getValues(t.getSubTitle(), name, group));
 				t.setTitle( getValues(t.getTitle(), name, group));
 				for (Player player : Mine.getPlayers()) {
