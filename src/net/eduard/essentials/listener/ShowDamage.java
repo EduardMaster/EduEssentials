@@ -3,7 +3,6 @@ package net.eduard.essentials.listener;
 
 import net.eduard.api.lib.modules.Extra;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -58,7 +57,6 @@ public class ShowDamage extends EventsManager {
 		armor.setVisible(false);
 		armor.setSmall(true);
 		armor.setVelocity(new Vector(0, 0.5, 0));
-
 		new BukkitRunnable() {
 
 			@Override
