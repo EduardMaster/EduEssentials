@@ -10,7 +10,7 @@ import net.eduard.api.lib.manager.CommandManager;
 
 public class ReportCommand extends CommandManager {
 
-    public String message = "ง6O jogador งe$target ง6foi reportado por งa$sender  ง6motido: งc$reason";
+    public String message = "ยง6O jogador ยงe$target ยง6foi reportado por ยงa$sender  ยง6motido: ยงc$reason";
 
     public ReportCommand() {
         super("report");

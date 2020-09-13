@@ -14,7 +14,7 @@ public class AplicateCommand extends CommandManager {
 	public List<String> messages = new ArrayList<>();
 	public AplicateCommand() {
 		super("aplicate" ,"aplicar");
-		messages.add("§a - Requisitos para ser da STAFF - ");
+		messages.add("Â§a - Requisitos para ser da STAFF - ");
 
 	}
 	@Override
