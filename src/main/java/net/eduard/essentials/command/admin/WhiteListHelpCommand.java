@@ -20,6 +20,7 @@ public class WhiteListHelpCommand extends CommandManager {
 		messages.add("§a/whitelist help|list");
 		messages.add("§a/whitelist on|off");
 		messages.add("§a/whitelist add|remove <player>");
+		messages.add("§a/whitelist status");
 
 	}
 	@Override

@@ -8,7 +8,7 @@ import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
 
 public class BroadcastCommand extends CommandManager {
-	public String message = "§f$> $message";
+	public String message = "§f$\n    $message \n";
 	public BroadcastCommand() {
 		super("broadcast","bc");
 	}

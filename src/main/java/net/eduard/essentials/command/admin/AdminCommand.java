@@ -72,7 +72,7 @@ public class AdminCommand extends CommandManager {
 	}
 	public static List<Player> players = new ArrayList<>();
 	public Jump jumpEffect = new Jump(SoundEffect.create("BAT_LOOP"),
-			new Vector(0, 2, 0));
+			new Vector(0, 3, 0));
 	public String messageOn = "Voce entrou no Modo Admin!";
 	public String messageOff = "Voce saiu do Modo Admin!";
 

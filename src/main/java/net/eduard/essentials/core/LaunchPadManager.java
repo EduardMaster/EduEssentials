@@ -48,17 +48,17 @@ public class LaunchPadManager extends EventsManager {
 	@EventHandler
 	public void event(PlayerMoveEvent e) {
 		if (!Mine.equals2(e.getFrom(), e.getTo())) {
-			Player p = e.getPlayer();
+			Player player = e.getPlayer();
 			Block block = e.getTo().getBlock().getRelative(0, blockHigh, 0);
 			if (blockData != -1 && blockData != block.getData())
 				return;
 			if (block.getTypeId() != blockId)
 				return;
-			WORLDS.putIfAbsent(p.getWorld(), true);
-			if (!WORLDS.get(p.getWorld()))return;
-			jump.create(p);
-			if (!NO_FALL.getPlayers().contains(p))
-				NO_FALL.getPlayers().add(p);
+			WORLDS.putIfAbsent(player.getWorld(), true);
+			if (!WORLDS.get(player.getWorld()))return;
+			jump.create(player);
+			if (!NO_FALL.getPlayers().contains(player))
+				NO_FALL.getPlayers().add(player);
 
 		}
 	}

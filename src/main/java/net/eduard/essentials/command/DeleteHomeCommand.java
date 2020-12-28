@@ -19,13 +19,13 @@ public class DeleteHomeCommand extends CommandManager {
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
-			Player p = (Player) sender;
+			Player player = (Player) sender;
 			if (args.length == 0) {
 				sendUsage(sender);
 			}else {
-				String path = p.getUniqueId().toString()+"."+args[0].toLowerCase();
-				if (EduEssentials.getInstance().getConfigs().contains(path)) {
-					EduEssentials.getInstance().getConfigs().remove(path);
+				String path = player.getUniqueId().toString()+"."+args[0].toLowerCase();
+				if (EduEssentials.getInstance().getStorage().contains(path)) {
+					EduEssentials.getInstance().getStorage().remove(path);
 					sender.sendMessage(message.replace("$home", ""));
 					
 				} else {

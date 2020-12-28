@@ -18,13 +18,13 @@ public class ToggleOnlineCommand extends CommandManager {
 
 	@EventHandler
 	public void aoSair(PlayerQuitEvent e) {
-
-		Player p = e.getPlayer();
-
-		if (players.contains(p)) {
-			players.remove(p);
+		Player player = e.getPlayer();
+		if (players.contains(player)) {
+			players.remove(player);
 		}
 	}
+
+
 	public String messageOn = "§6Voce esta visivel!";
 	public String messageOff = "§6Voce esta invisivel!";
 	public List<String> commandsOn = Arrays.asList("visible", "aparecer");

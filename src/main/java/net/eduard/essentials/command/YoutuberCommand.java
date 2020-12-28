@@ -12,6 +12,7 @@ import net.eduard.api.lib.manager.CommandManager;
 public class YoutuberCommand extends CommandManager {
 	public List<String> messages = new ArrayList<>();
 	public YoutuberCommand() {
+		super("youtuber","yt");
 		messages.add(" - Requisitos para ser Youtuber - ");
 
 	}

@@ -20,9 +20,9 @@ public class ClearInventoryCommand extends CommandManager {
 			String label, String[] args) {
 		if (args.length == 0) {
 			if (sender instanceof Player) {
-				Player p = (Player) sender;
-				Mine.clearInventory(p);
-				p.sendMessage(message);
+				Player player = (Player) sender;
+				Mine.clearInventory(player);
+				player.sendMessage(message);
 			}else 
 			return false;
 		} else {

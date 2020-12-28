@@ -11,7 +11,7 @@ public class ListCommand extends CommandManager {
 
 	public String message = "§aTem $players jogadores online!";
 	public ListCommand() {
-		super("list");
+		super("list","players","jogadores","onlines");
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,

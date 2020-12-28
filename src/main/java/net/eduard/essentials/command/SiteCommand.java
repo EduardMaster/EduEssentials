@@ -11,7 +11,7 @@ import net.eduard.api.lib.manager.CommandManager;
 public class SiteCommand extends CommandManager {
 	public List<String> messages = new ArrayList<>();
 	public SiteCommand() {
-		super("site");
+		super("site","sitedarede");
 		messages.add("");
 		messages.add("§aAcesse o site www.meusite.com");
 		messages.add("");

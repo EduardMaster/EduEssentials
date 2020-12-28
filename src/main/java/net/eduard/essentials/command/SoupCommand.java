@@ -12,14 +12,14 @@ public class SoupCommand extends CommandManager {
 
 
 	public SoupCommand() {
-		super("soup", "sopas");
+		super("soup", "sopas","sopa");
 	}
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
-			Player p = (Player) sender;
-			Mine.fill(p.getInventory(), EduEssentials.getInstance().getSoup());
-			p.sendMessage(EduEssentials.getInstance().message("soup"));
+			Player player = (Player) sender;
+			Mine.fill(player.getInventory(), EduEssentials.getInstance().getSoup());
+			player.sendMessage(EduEssentials.getInstance().message("soup"));
 		}
 		return true;
 	}

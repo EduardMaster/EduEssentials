@@ -12,7 +12,7 @@ import net.eduard.essentials.EduEssentials;
 
 public class HomesCommand extends CommandManager {
 	public HomesCommand() {
-		super("homes");
+		super("homes","homelist","casas");
 
 	}
 	
@@ -22,9 +22,9 @@ public class HomesCommand extends CommandManager {
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
-			Player p = (Player) sender;
+			Player player = (Player) sender;
 
-			Set<String> list = EduEssentials.getInstance().getStorage().getKeys("homes."+p.getUniqueId().toString());
+			Set<String> list = EduEssentials.getInstance().getStorage().getKeys("homes."+player.getUniqueId().toString());
 			if (list.size() == 0) {
 				sender.sendMessage( messageError);
 			} else {

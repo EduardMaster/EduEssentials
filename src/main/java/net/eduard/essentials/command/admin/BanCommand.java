@@ -16,8 +16,9 @@ public class BanCommand extends CommandManager {
 	public String message = "§6O jogador §e$target §6foi banido por §a$sender §6motido: §c$reason";
 	public String messageTarget = "§6Voce foi banido por §e$target §6motivo: §f$reason";
 	public BanCommand() {
-		super("ban");
+		super("ban","banir");
 	}
+
 	@Override
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command command,

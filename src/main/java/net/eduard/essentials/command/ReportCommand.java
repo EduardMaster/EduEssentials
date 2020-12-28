@@ -13,7 +13,7 @@ public class ReportCommand extends CommandManager {
     public String message = "§6O jogador §e$target §6foi reportado por §a$sender  §6motido: §c$reason";
 
     public ReportCommand() {
-        super("report");
+        super("report","reportar");
     }
 
     @Override

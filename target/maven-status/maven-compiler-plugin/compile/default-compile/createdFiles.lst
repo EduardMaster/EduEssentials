@@ -20,6 +20,7 @@ net\eduard\essentials\command\staff\PunishCommand.class
 net\eduard\essentials\command\staff\KillMobsCommand.class
 net\eduard\essentials\command\vip\HatCommand.class
 net\eduard\essentials\command\admin\AdminCommand$1.class
+net\eduard\essentials\command\WarpsCommand.class
 net\eduard\essentials\command\staff\ClearDropsCommand.class
 net\eduard\essentials\command\vip\BackCommand.class
 net\eduard\essentials\command\vip\FlyCommand.class

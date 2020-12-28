@@ -12,7 +12,7 @@ import net.eduard.essentials.EduEssentials;
 
 public class SetHomeCommand extends CommandManager {
 	public SetHomeCommand() {
-		super("sethome");
+		super("sethome","definircasa");
 	}
 	public String message = "§bVoce setou um Home $home";
 	public String messageNoPermissionMoreHomes = "§cVoce não tem permissão para setar mais Homes!";
@@ -22,25 +22,25 @@ public class SetHomeCommand extends CommandManager {
 			String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
 
-			Player p = (Player) sender;
+			Player player = (Player) sender;
 			String home = "home";
 			if (args.length >= 1) {
 				home = args[0];
 			}
 			// home.limit.5
-			String path = "homes."+p.getUniqueId().toString() + "." + home;
-			Set<String> size = EduEssentials.getInstance().getConfigs().getKeys(p.getUniqueId().toString());
+			String path = "homes."+player.getUniqueId().toString() + "." + home;
+			Set<String> size = EduEssentials.getInstance().getStorage().getKeys(player.getUniqueId().toString());
 			int amount = size.size();
-			if (!EduEssentials.getInstance().getConfigs().contains(path)) {
-				if (!Mine.hasPerm(p, getPermission(), 100, amount + 1)) {
+			if (!EduEssentials.getInstance().getStorage().contains(path)) {
+				if (!Mine.hasPerm(player, getPermission(), maxHomes, amount + 1)) {
 
-					p.sendMessage(
+					player.sendMessage(
 							messageNoPermissionMoreHomes);
-					EduEssentials.getInstance().getConfigs().remove(path);
+					EduEssentials.getInstance().getStorage().remove(path);
 					return true;
 				}
 			}
-			EduEssentials.getInstance().getConfigs().set(path, p.getLocation());
+			EduEssentials.getInstance().getStorage().set(path, player.getLocation());
 			sender.sendMessage(message.replace("$home", home));
 
 		}

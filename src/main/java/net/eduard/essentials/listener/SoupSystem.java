@@ -2,6 +2,7 @@
 package net.eduard.essentials.listener;
 
 import net.eduard.api.lib.manager.EventsManager;
+import net.eduard.api.lib.modules.Extra;
 import net.eduard.essentials.EduEssentials;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -28,14 +29,14 @@ public class SoupSystem extends EventsManager {
 
     @EventHandler
     public void event(SignChangeEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
         if (e.getLine(0).toLowerCase().contains("soup.sign-tag")) {
             int id = 0;
             for (String text : signFormat) {
-                e.setLine(id, Mine.removeBrackets(text));
+                e.setLine(id, Extra.removeBrackets(text));
                 id++;
             }
-            p.sendMessage(EduEssentials.getInstance().message("soup.create-sign"));
+            player.sendMessage(EduEssentials.getInstance().message("soup.create-sign"));
         }
     }
 
@@ -43,12 +44,12 @@ public class SoupSystem extends EventsManager {
     public void event(FoodLevelChangeEvent e) {
 
         if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
+            Player player = (Player) e.getEntity();
             if (EduEssentials.getInstance().getBoolean("soup.no-change-food-level")) {
                 if (e.getFoodLevel() <= 20) {
                     e.setFoodLevel(20);
-                    p.setExhaustion(0);
-                    p.setSaturation(20);
+                    player.setExhaustion(0);
+                    player.setSaturation(20);
                 }
             }
         }
@@ -58,7 +59,7 @@ public class SoupSystem extends EventsManager {
 
     @EventHandler
     public void effect(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
         Config config = EduEssentials.getInstance().getConfigs();
         if (config.getBoolean("soup.enabled")) {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -72,7 +73,7 @@ public class SoupSystem extends EventsManager {
                                 inv.addItem(EduEssentials.getInstance().getSoup());
                             }
                         }
-                        p.openInventory(inv);
+                        player.openInventory(inv);
                     }
                 }
             }
@@ -88,25 +89,25 @@ public class SoupSystem extends EventsManager {
                     e.setCancelled(false);
                 }
                 int value = config.getInt("soup.recover-value");
-                if (p.getHealth() < p.getMaxHealth()) {
+                if (player.getHealth() < player.getMaxHealth()) {
 
-                    double calc = p.getHealth() + value;
-                    p.setHealth(Math.min(calc, p.getMaxHealth()));
+                    double calc = player.getHealth() + value;
+                    player.setHealth(Math.min(calc, player.getMaxHealth()));
                     remove = true;
                 }
                 if (!config.getBoolean("soup.no-change-food-level")) {
-                    if (p.getFoodLevel() < 20) {
-                        int calc = value + p.getFoodLevel();
-                        p.setFoodLevel(Math.min(calc, 20));
-                        p.setSaturation(p.getSaturation() + 5);
+                    if (player.getFoodLevel() < 20) {
+                        int calc = value + player.getFoodLevel();
+                        player.setFoodLevel(Math.min(calc, 20));
+                        player.setSaturation(player.getSaturation() + 5);
                         remove = true;
                     }
                 }
                 if (remove) {
                     e.setUseItemInHand(Result.DENY);
 
-                    p.setItemInHand(EduEssentials.getInstance().getSoupEmpty().clone());
-                    config.getSound("soup.sound").create(p);
+                    player.setItemInHand(EduEssentials.getInstance().getSoupEmpty().clone());
+                    config.getSound("soup.sound").create(player);
 
                 }
             }

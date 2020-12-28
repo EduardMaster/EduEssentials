@@ -14,7 +14,7 @@ public class PingCommand extends CommandManager {
 	public String message = "§6Seu ping é: §e$ping";
 	public String messageTarget = "§6O ping do jogador §e$target §6é: §a$ping";
 	public PingCommand() {
-		super("ping");
+		super("ping","pingar","testlag");
 
 	}
 	@Override

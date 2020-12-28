@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class HomeCommand extends CommandManager {
 	public HomeCommand() {
-		super("home");
+		super("home","casa");
 	}
 
 	
@@ -27,22 +27,22 @@ public class HomeCommand extends CommandManager {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
-			Player p = (Player) sender;
+			Player player = (Player) sender;
 			String home = "home";
 			if (args.length >= 1) {
-				home = args[0];
+				home = args[0].toLowerCase();
 			}
-			String path = "homes."+p.getUniqueId().toString() + "." + home;
+			String path = "homes."+player.getUniqueId().toString() + "." + home;
 			if (EduEssentials.getInstance().getStorage().contains(path)) {
 				final String homex = home;
 				new BukkitRunnable(){
 
 					@Override
 					public void run() {
-						p.teleport((Location) EduEssentials.getInstance().getStorage().get(path));
-						sound.create(p);
+						player.teleport(EduEssentials.getInstance().getStorage().get(path,(Location.class) ));
+						sound.create(player);
 						sender.sendMessage(message.replace("$home", homex));
-						MineReflect.sendTitle(p, title.getTitle().replace("$home", homex),
+						MineReflect.sendTitle(player, title.getTitle().replace("$home", homex),
 								title.getSubTitle().replace("$home", homex), title.getFadeIn(), title.getStay(),
                                 title.getFadeOut());
 					}

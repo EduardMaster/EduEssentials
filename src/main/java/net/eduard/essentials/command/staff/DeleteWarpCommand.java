@@ -9,9 +9,9 @@ import org.bukkit.command.CommandSender;
 public class DeleteWarpCommand extends CommandManager {
 
 	public String message = "§aVoce deletou a warp $warp";
-
+	public String messageError = "§cEsta warp $warp não existe";
 	public DeleteWarpCommand(){
-		super("delwarp");
+		super("deletewarp","delwarp");
 	}
 
 	
@@ -25,10 +25,12 @@ public class DeleteWarpCommand extends CommandManager {
 
 
 			String name = args[0];
-			String path = "warps." + name;
+			String path = "warps." + name.toLowerCase();
 			if(EduEssentials.getInstance().getStorage().contains(path)){
 				EduEssentials.getInstance().getStorage().remove(path);
 				sender.sendMessage(message.replace("$warp", name));
+			}else{
+				sender.sendMessage(messageError.replace("$warp", name));
 			}
 
 

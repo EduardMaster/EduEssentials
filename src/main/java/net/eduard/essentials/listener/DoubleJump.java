@@ -23,22 +23,22 @@ public class DoubleJump extends EventsManager {
 
     @EventHandler
     public void controlar(PlayerMoveEvent e) {
-        Player p = e.getPlayer();
-        if (p.getGameMode() != GameMode.CREATIVE) {
+        Player gameMode = e.getPlayer();
+        if (gameMode.getGameMode() != GameMode.CREATIVE) {
 
             if (!Mine.equals(e.getFrom(), e.getTo())) {
-                if (EduEssentials.getInstance().getBoolean("DoubleJump.enabled")) {
-                    if (Mine.isOnGround(p)) {
-                        if (p.isOnGround() && p.getVelocity().getY() > -0.1) {
-                            players.remove(p);
-                            p.setAllowFlight(true);
+                if (EduEssentials.getInstance().getBoolean("doublejump.enabled")) {
+                    if (Mine.isOnGround(gameMode)) {
+                        if (gameMode.isOnGround() && gameMode.getVelocity().getY() > -0.1) {
+                            players.remove(gameMode);
+                            gameMode.setAllowFlight(true);
                         }
-                        if (!players.contains(p) && !Mine.isFalling(p)) {
-                            p.setAllowFlight(true);
+                        if (!players.contains(gameMode) && !Mine.isFalling(gameMode)) {
+                            gameMode.setAllowFlight(true);
                         }
                     } else if (Mine
-                            .isFlying(p) & Mine.isFalling(p)) {
-                        p.setAllowFlight(false);
+                            .isFlying(gameMode) & Mine.isFalling(gameMode)) {
+                        gameMode.setAllowFlight(false);
                     }
                 }
             }
@@ -67,7 +67,7 @@ public class DoubleJump extends EventsManager {
         if (p.getGameMode() != GameMode.CREATIVE) {
 
             if (!players.contains(p)) {
-                if (EduEssentials.getInstance().getBoolean("DoubleJump.enabled")) {
+                if (EduEssentials.getInstance().getBoolean("doublejump.enabled")) {
                     EduEssentials.getInstance().getDoubleJump().create(p);
                     players.add(p);
                     e.setCancelled(true);

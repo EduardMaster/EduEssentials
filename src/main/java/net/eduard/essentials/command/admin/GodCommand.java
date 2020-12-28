@@ -1,9 +1,9 @@
 
 package net.eduard.essentials.command.admin;
 
-import java.util.ArrayList;
-
+import java.util.Set;
 import net.eduard.api.lib.modules.Mine;
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,57 +14,58 @@ import net.eduard.api.lib.manager.CommandManager;
 
 public class GodCommand extends CommandManager {
 
-	public static ArrayList<Player> gods = new ArrayList<>();
 
-	public GodCommand() {
-		super("god","imortal");
-		setUsage("/god [on/off]");
-	}
+    public GodCommand() {
+        super("god", "imortal");
+        setUsage("/god [on/off]");
+    }
 
-	@Override
+    @Override
 
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (sender instanceof Player) {
-			Player p = (Player) sender;
-			if (args.length == 0) {
-				if (gods.contains(p)) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Set<Player> gods = EduEssentials.getGods();
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (args.length == 0) {
+                if (gods.contains(player)) {
 
-					gods.remove(p);
-				} else {
-					gods.add(p);
+                    gods.remove(player);
+                } else {
+                    gods.add(player);
 
-				}
-			} else {
-				String sub = args[0].toLowerCase();
+                }
+            } else {
+                String sub = args[0].toLowerCase();
 
-				if (Mine.OPT_COMMANDS_ON.contains(sub)){
-
-
-					if (!gods.contains(p)) {
-						gods.add(p);
-					}
-
-				} else if (Mine.OPT_COMMANDS_OFF.contains(sub)) {
-
-						gods.remove(p);
+                if (Mine.OPT_COMMANDS_ON.contains(sub)) {
 
 
-				} else {
-					sendUsage(sender);
-				}
-			}
-		}
-		return true;
-	}
+                    if (!gods.contains(player)) {
+                        gods.add(player);
+                    }
 
-	@EventHandler
-	public void onDamage(EntityDamageEvent e) {
-		if (e.getEntity() instanceof Player) {
-			Player p = (Player) e.getEntity();
-			if (gods.contains(p)) {
-				e.setCancelled(true);
-			}
-		}
-	}
+                } else if (Mine.OPT_COMMANDS_OFF.contains(sub)) {
+
+                    gods.remove(player);
+
+
+                } else {
+                    sendUsage(sender);
+                }
+            }
+        }
+        return true;
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        Set<Player> gods = EduEssentials.getGods();
+        if (e.getEntity() instanceof Player) {
+            Player player = (Player) e.getEntity();
+            if (gods.contains(player)) {
+                e.setCancelled(true);
+            }
+        }
+    }
 
 }

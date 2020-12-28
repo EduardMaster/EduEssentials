@@ -10,7 +10,7 @@ import net.eduard.api.lib.manager.CommandManager;
 
 public class TeleportAllCommand extends CommandManager {
 	public TeleportAllCommand() {
-		super("teleportall");
+		super("teleportall","tpall");
 	}
 	public String message = "§6Voce teleportou todos ate você!";
 	public String messageTarget = "§6Voce foi teleportado pelo jogador $player§6!";
