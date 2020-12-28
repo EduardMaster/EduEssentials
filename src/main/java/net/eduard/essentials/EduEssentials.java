@@ -47,9 +47,9 @@ public class EduEssentials extends EduardPlugin {
         instance = this;
         super.onEnable();
         setFree(true);
-        //StorageAPI com bug não salva lista de string
         new AntiDupe().register(this);
         new AntiMacro().register(this);
+        new EssentialsEvents().register(this);
         new DoubleJump().register(this);
         new LaunchPadManager().register(this);
         new SoupSystem().register(this);
@@ -68,6 +68,12 @@ public class EduEssentials extends EduardPlugin {
 
     @Override
     public void configDefault() {
+        getConfigs().add("tab-header", Arrays.asList("","" +
+                " §6Seja bem vindo a rede"
+                , "  §b A rede que contem varios minigames"
+                ,""));
+        getConfigs().add("tab-footer", Arrays.asList("","" +
+                        " §6Acesse §ewww.rededemine.com"));
         getConfigs().add("soup.enabled", true);
         getConfigs().add("soup.sign-tag", "soup");
         getConfigs().add("soup.item-full", Mine.newItem(Material.MUSHROOM_SOUP, "§eSopa Deliciosa", 1, 0, "§aRecupera vida ao ser ingerida"));

@@ -24,20 +24,20 @@ public class AutoPickup extends EventsManager {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void aoQuebrar(BlockBreakEvent e) {
-		Player p = e.getPlayer();
+		Player player = e.getPlayer();
 		if (!EduEssentials.getInstance().getBoolean("auto-pickup-enabled")) {
 			return;
 		}
-		if (p.getItemInHand() == null)
+		if (player.getItemInHand() == null)
 			return;
-		if (p.getItemInHand().getType() == Material.AIR)
+		if (player.getItemInHand().getType() == Material.AIR)
 			return;
 
-		if (Mine.isFull(p.getInventory())) {
+		if (Mine.isFull(player.getInventory())) {
 
-			p.sendMessage(EduEssentials.getInstance().message("inventory-full"));
+			player.sendMessage(EduEssentials.getInstance().message("inventory-full"));
 
-			Collection<ItemStack> lista = e.getBlock().getDrops(p.getItemInHand());
+			Collection<ItemStack> lista = e.getBlock().getDrops(player.getItemInHand());
 
 			for (ItemStack item : lista) {
 				e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), item);
@@ -45,9 +45,9 @@ public class AutoPickup extends EventsManager {
 
 		} else {
 
-			Collection<ItemStack> lista = e.getBlock().getDrops(p.getItemInHand());
+			Collection<ItemStack> lista = e.getBlock().getDrops(player.getItemInHand());
 			for (ItemStack item : lista) {
-				p.getInventory().addItem(item);
+				player.getInventory().addItem(item);
 			}
 
 			new BukkitRunnable() {

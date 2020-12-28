@@ -50,12 +50,12 @@ public class DoubleJump extends EventsManager {
     public void habilitar(EntityDamageEvent e) {
         Entity entity = e.getEntity();
         if (entity instanceof Player & e.getCause() == DamageCause.FALL) {
-            Player p = (Player) entity;
+            Player player = (Player) entity;
 
-            if (players.contains(p)) {
+            if (players.contains(player)) {
                 e.setCancelled(true);
-                p.setAllowFlight(true);
-                players.remove(p);
+                player.setAllowFlight(true);
+                players.remove(player);
             }
         }
 
@@ -63,15 +63,15 @@ public class DoubleJump extends EventsManager {
 
     @EventHandler
     public void ativar(PlayerToggleFlightEvent e) {
-        Player p = e.getPlayer();
-        if (p.getGameMode() != GameMode.CREATIVE) {
+        Player player = e.getPlayer();
+        if (player.getGameMode() != GameMode.CREATIVE) {
 
-            if (!players.contains(p)) {
+            if (!players.contains(player)) {
                 if (EduEssentials.getInstance().getBoolean("doublejump.enabled")) {
-                    EduEssentials.getInstance().getDoubleJump().create(p);
-                    players.add(p);
+                    EduEssentials.getInstance().getDoubleJump().create(player);
+                    players.add(player);
                     e.setCancelled(true);
-                    p.setAllowFlight(false);
+                    player.setAllowFlight(false);
                 }
             }
 

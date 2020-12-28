@@ -23,11 +23,11 @@ public class SlimeChunkDetector extends EventsManager {
 	@EventHandler
 	public void onSlimeChunk(PlayerMoveEvent e) {
 
-		Player p = e.getPlayer();
-		if (EduEssentials.getInstance().getSlimeChunkActive().contains(p)) {
+		Player player = e.getPlayer();
+		if (EduEssentials.getInstance().getSlimeChunkActive().contains(player)) {
 			if (!Mine.equals(e.getFrom(), e.getTo())) {
-				long worldSeed = p.getWorld().getSeed();
-				Chunk jogadorChunk = p.getWorld().getChunkAt(p.getLocation());
+				long worldSeed = player.getWorld().getSeed();
+				Chunk jogadorChunk = player.getWorld().getChunkAt(player.getLocation());
 				int x = jogadorChunk.getX();
 				int z = jogadorChunk.getZ();
 
@@ -35,7 +35,7 @@ public class SlimeChunkDetector extends EventsManager {
 						worldSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 0x3AD8025F);
 
 				if (random.nextInt(10) == 0)
-					p.playSound(p.getLocation(), Sound.SLIME_WALK, 2.0F, 2.0F);
+					player.playSound(player.getLocation(), Sound.SLIME_WALK, 2.0F, 2.0F);
 			}
 		}
 	}

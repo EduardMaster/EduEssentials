@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class FakeCommand extends CommandManager {
 	private static final Map<Player, Fake> fakes = new HashMap<>();
+
 	public FakeCommand() {
 		super("fake","nickfalso");
 	}

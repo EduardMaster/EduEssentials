@@ -28,7 +28,7 @@ public class ShowDamage extends EventsManager {
 			return;
 		createTempArmourStand(e.getEntity().getLocation(), dano);
 		if (e.getDamager() instanceof Player) {
-			Player p = (Player) e.getDamager();
+			Player player = (Player) e.getDamager();
 		}else {
 			if (e.getDamager() instanceof Projectile) {
 				Projectile projectile = (Projectile) e.getDamager();
