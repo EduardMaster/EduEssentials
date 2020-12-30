@@ -115,6 +115,9 @@ public class EduEssentials extends EduardPlugin {
                 if (CommandManager.class.isAssignableFrom(claz)) {
                     String name = claz.getSimpleName().toLowerCase().replace("command", "");
                     CommandManager cmd = (CommandManager) claz.newInstance();
+                    for (CommandManager sub : cmd.getSubCommands().values()){
+                        StorageAPI.autoRegisterClass(sub.getClass());
+                    }
                     String path = "commands." + name;
                     Config commands = new Config(this, "commands/" + name + ".yml");
                     getConfigs().add(path, false);
