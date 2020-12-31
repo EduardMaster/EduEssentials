@@ -7,8 +7,11 @@ import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.config.ConfigSection;
 import net.eduard.api.lib.game.Jump;
 import net.eduard.api.lib.game.SoundEffect;
+import net.eduard.essentials.core.AutoMessage;
+import net.eduard.essentials.core.EssentialsManager;
 import net.eduard.essentials.listener.*;
 import net.eduard.essentials.core.LaunchPadManager;
+import net.eduard.essentials.task.AutoMessager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,13 +26,18 @@ import org.bukkit.util.Vector;
 
 public class EduEssentials extends EduardPlugin {
 
-    private static Set<Player> gods = new HashSet();
+    private static final Set<Player> gods = new HashSet();
     private static EduEssentials instance;
+
+    private  EssentialsManager manager;
+
+    public EssentialsManager getManager() {
+        return manager;
+    }
 
     public static EduEssentials getInstance() {
         return instance;
     }
-
     private ItemStack soup;
     private ItemStack soupEmpty;
     private final Map<Player, Long> requestsDelay = new HashMap<>();
@@ -57,12 +65,27 @@ public class EduEssentials extends EduardPlugin {
         new ComboCounter().register(this);
         new ClickCounter().register(this);
         new SlimeChunkDetector().register(this);
+        new AutoMessager().asyncTimer();
         LaunchPadManager.NO_FALL.register(this);
         reload();
+
+    }
+
+    public void autoMessages(){
+        if (getStorage().contains("essentials")){
+            manager = getStorage().get("essentials", EssentialsManager.class);
+        }else{
+            manager = new EssentialsManager();
+            AutoMessage message = new AutoMessage();
+            manager.getAutoMessages().add(message);
+            getStorage().set("essentials" , manager);
+            getStorage().saveConfig();
+        }
     }
 
 
-    public void save() {
+    public void save()
+    {
         getStorage().saveConfig();
     }
 
@@ -106,9 +129,11 @@ public class EduEssentials extends EduardPlugin {
     }
 
     public void reload() {
+        getMessages().reloadConfig();
         getConfigs().reloadConfig();
         getStorage().reloadConfig();
         configDefault();
+        autoMessages();
 
         for (Class<?> claz : getClasses("net.eduard.essentials.command")) {
             try {
