@@ -72,13 +72,14 @@ public class EduEssentials extends EduardPlugin {
     }
 
     public void autoMessages(){
-        if (getStorage().contains("essentials")){
-            manager = getStorage().get("essentials", EssentialsManager.class);
+        String key = "essentials";
+        if (getStorage().contains(key)){
+            manager = getStorage().get(key, EssentialsManager.class);
         }else{
             manager = new EssentialsManager();
             AutoMessage message = new AutoMessage();
             manager.getAutoMessages().add(message);
-            getStorage().set("essentials" , manager);
+            getStorage().set(key , manager);
             getStorage().saveConfig();
         }
     }
@@ -91,6 +92,7 @@ public class EduEssentials extends EduardPlugin {
 
     @Override
     public void configDefault() {
+        getConfigs().add("auto-message-per-seconds" , 60);
         getConfigs().add("tab-header", Arrays.asList("","" +
                 " §6Seja bem vindo a rede"
                 , "  §b A rede que contem varios minigames"
