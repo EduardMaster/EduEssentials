@@ -1,2 +1,2 @@
-rootProject.name = "essentials"
+rootProject.name = "EduEssentials"
 

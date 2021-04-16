@@ -17,6 +17,7 @@ import net.eduard.api.lib.game.Jump;
 public class LaunchPadManager extends EventsManager {
 
 	public static final Map<World, Boolean> WORLDS = new HashMap<>();
+
 	public static final FallManager NO_FALL = new FallManager();
 
 	private int blockHigh;

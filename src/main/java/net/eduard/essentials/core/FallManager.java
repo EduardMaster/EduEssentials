@@ -16,7 +16,9 @@ import net.eduard.api.lib.modules.Mine;
  * @author Eduard
  *
  */
+
 public class FallManager extends EventsManager {
+
 	/**
 	 * Lista de jogador que nao v§o levar dano de queda
 	 */
@@ -50,6 +52,7 @@ public class FallManager extends EventsManager {
 			}
 		}
 	}
+
 	/**
 	 * 
 	 * @return a Lista de jogadores

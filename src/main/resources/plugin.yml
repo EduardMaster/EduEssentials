@@ -1,7 +1,7 @@
 name: EduEssentials
 description: Sistemas essenciais de qualquer servidor
 main: net.eduard.essentials.EduEssentials
-version: ${project.version}
+version: 1.0
 author: Eduard
 authors: [Eduard]
 depend: [EduardAPI]

@@ -1,6 +1,7 @@
 
 package net.eduard.essentials.listener;
 
+import net.eduard.api.lib.game.SoundEffect;
 import net.eduard.api.lib.manager.EventsManager;
 import net.eduard.api.lib.modules.Extra;
 import net.eduard.essentials.EduEssentials;
@@ -107,7 +108,7 @@ public class SoupSystem extends EventsManager {
                     e.setUseItemInHand(Result.DENY);
 
                     player.setItemInHand(EduEssentials.getInstance().getSoupEmpty().clone());
-                    config.getSound("soup.sound").create(player);
+                    config.get("soup.sound", SoundEffect.class).create(player);
 
                 }
             }

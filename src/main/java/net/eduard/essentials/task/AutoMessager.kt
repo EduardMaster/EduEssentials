@@ -4,7 +4,7 @@ import net.eduard.api.lib.manager.TimeManager
 import net.eduard.essentials.EduEssentials
 
 class AutoMessager : TimeManager(
-    20*EduEssentials.getInstance()
+    20 * EduEssentials.getInstance()
     .configs.getLong("auto-message-per-seconds")) {
 
     var currentMessage = 0
