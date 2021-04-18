@@ -172,7 +172,6 @@ public class AdminCommand extends CommandManager {
         if (e.getRightClicked() instanceof Player) {
             Player target = (Player) e.getRightClicked();
             if (players.contains(player)) {
-
                 player.sendMessage("§6Informações do §e" + target.getName());
                 player.sendMessage("§aGamemode: §2" + target.getGameMode());
                 player.sendMessage("§aKills: §2"
@@ -193,43 +192,43 @@ public class AdminCommand extends CommandManager {
     public void testPrison(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         if (player.getItemInHand() != testPrison.getItem()) return;
-        if (e.getRightClicked() instanceof Player) {
-            Player target = (Player) e.getRightClicked();
-            if (players.contains(player)) {
+        if (!(e.getRightClicked() instanceof Player)) return;
+        Player target = (Player) e.getRightClicked();
+        if (players.contains(player)) {
 
-                Location loc = target.getLocation();
-                loc.clone().add(0, 10, 0).getBlock()
-                        .setType(Material.BEDROCK);
-                loc.clone().add(0, 11, 1).getBlock()
-                        .setType(Material.BEDROCK);
-                loc.clone().add(0, 11, -1).getBlock()
-                        .setType(Material.BEDROCK);
-                loc.clone().add(1, 11, 0).getBlock()
-                        .setType(Material.BEDROCK);
-                loc.clone().add(-1, 11, 0).getBlock()
-                        .setType(Material.BEDROCK);
-                loc.clone().add(0, 13, 0).getBlock()
-                        .setType(Material.BEDROCK);
-                target.teleport(loc.add(0, 11, 0));
-
-            }
+            Location loc = target.getLocation();
+            loc.clone().add(0, 10, 0).getBlock()
+                    .setType(Material.BEDROCK);
+            loc.clone().add(0, 11, 1).getBlock()
+                    .setType(Material.BEDROCK);
+            loc.clone().add(0, 11, -1).getBlock()
+                    .setType(Material.BEDROCK);
+            loc.clone().add(1, 11, 0).getBlock()
+                    .setType(Material.BEDROCK);
+            loc.clone().add(-1, 11, 0).getBlock()
+                    .setType(Material.BEDROCK);
+            loc.clone().add(0, 13, 0).getBlock()
+                    .setType(Material.BEDROCK);
+            target.teleport(loc.add(0, 11, 0));
 
         }
+
+
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command,
                              String label, String[] args) {
         if (Mine.onlyPlayer(sender)) {
-            Player p = (Player) sender;
-            if (players.contains(p)) {
-                players.remove(p);
-                leaveAdminMode(p);
-                p.sendMessage(messageOff);
+            Player player = (Player) sender;
+            if (players.contains(player)) {
+                players.remove(player);
+                leaveAdminMode(player);
+                player.sendMessage(messageOff);
             } else {
-                players.add(p);
-                joinAdminMode(p);
-                p.sendMessage(messageOn);
+                players.add(player);
+                joinAdminMode(player);
+                player.sendMessage(messageOn);
             }
 
         }
@@ -239,8 +238,8 @@ public class AdminCommand extends CommandManager {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player) {
-            Player p = (Player) e.getDamager();
-            if (players.contains(p)) {
+            Player player = (Player) e.getDamager();
+            if (players.contains(player)) {
                 e.setCancelled(false);
             }
 

@@ -1,7 +1,7 @@
 package net.eduard.essentials.listener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -19,107 +19,107 @@ import net.eduard.essentials.EduEssentials;
 
 public class CombatLog implements Listener {
 
-	public static List<Player> players = new ArrayList<>();
+    public static Set<Player> players = new HashSet<>();
 
-	@EventHandler
-	public void aoSair(PlayerQuitEvent e) {
+    @EventHandler
+    public void aoSair(PlayerQuitEvent e) {
 
-		Player p = e.getPlayer();
-		if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
-			return;
-		}
-		if (players.contains(p)) {
+        Player p = e.getPlayer();
+        if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
+            return;
+        }
+        if (!players.contains(p)) return;
+        p.damage(1000);
+        players.remove(p);
+        Bukkit.broadcastMessage(
+                EduEssentials.getInstance().message("combat-quit").replace("$player", p.getName()));
 
-			p.damage(1000);
-			players.remove(p);
-			Bukkit.broadcastMessage(
-					EduEssentials.getInstance().message("combat-quit").replace("$player", p.getName()));
 
-		}
-	}
+    }
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void aoDigitarComandos(PlayerCommandPreprocessEvent e) {
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void aoDigitarComandos(PlayerCommandPreprocessEvent e) {
 
-		Player p = e.getPlayer();
-		if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
-			return;
-		}
-		if (players.contains(p)) {
-			for (String cmd : EduEssentials.getInstance().getConfigs().getMessages("combatlog.commands-permitted")) {
-				if (e.getMessage().toLowerCase().startsWith(cmd.toLowerCase())) {
-					return;
-				}
-			}
-			e.setCancelled(true);
-			p.sendMessage(EduEssentials.getInstance().message("combat-try-command"));
+        Player player = e.getPlayer();
+        if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
+            return;
+        }
+        if (!players.contains(player)) return;
+        for (String cmd : EduEssentials.getInstance().getConfigs().getMessages("combatlog.commands-permitted")) {
+            if (e.getMessage().toLowerCase().startsWith(cmd.toLowerCase())) {
+                return;
+            }
+        }
+        e.setCancelled(true);
+        player.sendMessage(EduEssentials.getInstance().message("combat-try-command"));
 
-		}
-	}
 
-	@EventHandler
-	public void aoMorrer(PlayerDeathEvent e) {
+    }
 
-		if (e.getEntity() != null) {
+    @EventHandler
+    public void aoMorrer(PlayerDeathEvent e) {
 
-			Player morreu = (Player) e.getEntity();
+        if (e.getEntity() == null) return;
 
-			if (e.getEntity().getKiller() != null) {
-				players.remove(morreu);
-			}
-		}
-	}
+        Player morreu = (Player) e.getEntity();
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void aoBater(EntityDamageByEntityEvent e) {
+        if (e.getEntity().getKiller() != null) {
+            players.remove(morreu);
+        }
 
-		if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
-			return;
-		}
 
-		Integer time = EduEssentials.getInstance().getConfigs().getInt("combatlog.combat-seconds");
-		if (e.getEntity() instanceof Player) {
+    }
 
-			if (e.getDamager() instanceof Player) {
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void aoBater(EntityDamageByEntityEvent e) {
 
-				Player entity = (Player) e.getEntity();
-				Player damager = (Player) e.getDamager();
+        if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
+            return;
+        }
 
-				if (!players.contains(entity)) {
+        int time = EduEssentials.getInstance().getConfigs().getInt("combatlog.combat-seconds");
+        if (!(e.getEntity() instanceof Player)) return;
 
-					players.add(entity);
-					entity.sendMessage(EduEssentials.getInstance().message("combat-started"));
+        if (!(e.getDamager() instanceof Player)) return;
 
-					new BukkitRunnable() {
+        Player entity = (Player) e.getEntity();
+        Player damager = (Player) e.getDamager();
 
-						public void run() {
+        if (!players.contains(entity)) {
 
-							players.remove(entity);
-							entity.sendMessage(EduEssentials.getInstance().message("combat-out"));
-							entity.playSound(entity.getLocation(), Sound.LEVEL_UP, 1, 1);
+            players.add(entity);
+            entity.sendMessage(EduEssentials.getInstance().message("combat-started"));
 
-						}
-					}.runTaskLaterAsynchronously(EduEssentials.getInstance(), 20 * time);
-				}
+            new BukkitRunnable() {
 
-				if (!players.contains(damager)) {
+                public void run() {
 
-					players.add(damager);
-					damager.sendMessage(EduEssentials.getInstance().message("combat-started"));
+                    players.remove(entity);
+                    entity.sendMessage(EduEssentials.getInstance().message("combat-out"));
+                    entity.playSound(entity.getLocation(), Sound.LEVEL_UP, 1, 1);
 
-					new BukkitRunnable() {
+                }
+            }.runTaskLaterAsynchronously(EduEssentials.getInstance(), 20 * time);
+        }
 
-						public void run() {
+        if (!players.contains(damager)) {
 
-							players.remove(damager);
-							damager.sendMessage(EduEssentials.getInstance().message("combat-out"));
-							damager.playSound(damager.getLocation(), Sound.LEVEL_UP, 1, 1);
-							cancel();
-						}
-					}.runTaskLaterAsynchronously(EduEssentials.getInstance(), 20 * time);
+            players.add(damager);
+            damager.sendMessage(EduEssentials.getInstance().message("combat-started"));
 
-				}
-			}
-		}
-	}
+            new BukkitRunnable() {
+
+                public void run() {
+
+                    players.remove(damager);
+                    damager.sendMessage(EduEssentials.getInstance().message("combat-out"));
+                    damager.playSound(damager.getLocation(), Sound.LEVEL_UP, 1, 1);
+                    cancel();
+                }
+            }.runTaskLaterAsynchronously(EduEssentials.getInstance(), 20 * time);
+
+        }
+
+
+    }
 }

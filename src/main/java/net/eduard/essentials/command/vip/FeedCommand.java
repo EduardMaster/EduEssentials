@@ -21,21 +21,21 @@ public class FeedCommand extends CommandManager {
 			String label, String[] args) {
 		if (args.length == 0) {
 			if (sender instanceof Player) {
-				Player p = (Player) sender;
-				p.setFoodLevel(20);
-				p.setExhaustion(0);
-				p.setSaturation(20);
+				Player player = (Player) sender;
+				player.setFoodLevel(20);
+				player.setExhaustion(0);
+				player.setSaturation(20);
 				sender.sendMessage(message);
 			}else {
 				sendUsage(sender);
 			}
 		}else {
 			if (Mine.existsPlayer(sender, args[0])) {
-				Player p = Mine.getPlayer(args[0]);
-				p.setFoodLevel(20);
-				p.setExhaustion(0);
-				p.setSaturation(20);
-				p.sendMessage(message);
+				Player player = Mine.getPlayer(args[0]);
+				player.setFoodLevel(20);
+				player.setExhaustion(0);
+				player.setSaturation(20);
+				player.sendMessage(message);
 				sender.sendMessage(messageTarget);
 			}
 		}

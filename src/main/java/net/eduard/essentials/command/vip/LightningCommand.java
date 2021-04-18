@@ -21,13 +21,13 @@ public class LightningCommand extends CommandManager {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (sender instanceof Player) {
-			Player p = (Player) sender;
-			if (p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-				p.removePotionEffect(PotionEffectType.NIGHT_VISION);
-				p.sendMessage(messageOff);
+			Player player = (Player) sender;
+			if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+				player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+				player.sendMessage(messageOff);
 			} else {
-				p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20*60*60*24, 0));
-				p.sendMessage(messageOn);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20*60*60*24, 0));
+				player.sendMessage(messageOn);
 			}
 
 		} 

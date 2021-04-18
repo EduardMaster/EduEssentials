@@ -26,11 +26,11 @@ public class BackCommand extends CommandManager {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 		if (Mine.onlyPlayer(sender)) {
-			Player p = (Player) sender;
-			if (locations.containsKey(p)) {
-				p.sendMessage(messageOn);
+			Player player = (Player) sender;
+			if (locations.containsKey(player)) {
+				player.sendMessage(messageOn);
 			} else {
-				p.sendMessage(messageOff);
+				player.sendMessage(messageOff);
 			}
 		}
 
@@ -39,7 +39,7 @@ public class BackCommand extends CommandManager {
 
 	@EventHandler
 	public void event(PlayerDeathEvent e) {
-		Player p = e.getEntity();
-		locations.put(p, p.getLocation());
+		Player player = e.getEntity();
+		locations.put(player, player.getLocation());
 	}
 }

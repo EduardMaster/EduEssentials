@@ -19,8 +19,6 @@ public class ShowDamage extends EventsManager {
 
 	@EventHandler(priority = EventPriority.HIGHEST,ignoreCancelled = true)
 	public void event(EntityDamageByEntityEvent e) {
-
-
 		double dano = e.getFinalDamage();
 		if (e.getEntity() instanceof ArmorStand)
 			return;
@@ -46,22 +44,20 @@ public class ShowDamage extends EventsManager {
 
 
 	public  void createTempArmourStand(Location location, double dano) {
-		ArmorStand armor = (ArmorStand) location.getWorld()
+		ArmorStand stand = (ArmorStand) location.getWorld()
 				.spawnEntity(location.add(0,1,0), EntityType.ARMOR_STAND);
-
-
-		armor.setCustomName("§f-§f" + (Extra.formatMoney(dano)) + "§c♥" );
-		armor.setCustomNameVisible(true);
-		armor.setGravity(true);
-		armor.setMarker(true);
-		armor.setVisible(false);
-		armor.setSmall(true);
-		armor.setVelocity(new Vector(0, 0.5, 0));
+		stand.setCustomName("§f-§f" + (Extra.formatMoney(dano)) + "§c♥" );
+		stand.setCustomNameVisible(true);
+		stand.setGravity(true);
+		stand.setMarker(true);
+		stand.setVisible(false);
+		stand.setSmall(true);
+		stand.setVelocity(new Vector(0, 0.5, 0));
 		new BukkitRunnable() {
 
 			@Override
 			public void run() {
-				armor.remove();
+				stand.remove();
 			}
 		}.runTaskLaterAsynchronously(getPlugin(), 40);
 	}

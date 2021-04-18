@@ -22,14 +22,14 @@ public class FlyCommand extends CommandManager {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 0) {
 			if (Mine.onlyPlayer(sender)) {
-				Player p = (Player) sender;
-				if (p.getAllowFlight()) {
-					p.setFlying(false);
-					p.setAllowFlight(false);
-					p.sendMessage(messageOff);
+				Player player = (Player) sender;
+				if (player.getAllowFlight()) {
+					player.setFlying(false);
+					player.setAllowFlight(false);
+					player.sendMessage(messageOff);
 
 				} else {
-					p.setAllowFlight(true);
+					player.setAllowFlight(true);
 					sender.sendMessage(messageOn);
 				}
 			}

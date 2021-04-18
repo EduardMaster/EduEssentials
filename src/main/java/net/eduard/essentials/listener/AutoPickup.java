@@ -22,179 +22,170 @@ import net.eduard.api.lib.manager.EventsManager;
 
 public class AutoPickup extends EventsManager {
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void aoQuebrar(BlockBreakEvent e) {
-		Player player = e.getPlayer();
-		if (!EduEssentials.getInstance().getBoolean("auto-pickup-enabled")) {
-			return;
-		}
-		if (player.getItemInHand() == null)
-			return;
-		if (player.getItemInHand().getType() == Material.AIR)
-			return;
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void aoQuebrar(BlockBreakEvent e) {
+        Player player = e.getPlayer();
+        if (!EduEssentials.getInstance().getBoolean("auto-pickup-enabled")) {
+            return;
+        }
+        if (player.getItemInHand() == null)
+            return;
+        if (player.getItemInHand().getType() == Material.AIR)
+            return;
 
-		if (Mine.isFull(player.getInventory())) {
+        if (Mine.isFull(player.getInventory())) {
 
-			player.sendMessage(EduEssentials.getInstance().message("inventory-full"));
+            player.sendMessage(EduEssentials.getInstance().message("inventory-full"));
 
-			Collection<ItemStack> lista = e.getBlock().getDrops(player.getItemInHand());
+            Collection<ItemStack> lista = e.getBlock().getDrops(player.getItemInHand());
 
-			for (ItemStack item : lista) {
-				e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), item);
-			}
+            for (ItemStack item : lista) {
+                e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), item);
+            }
 
-		} else {
+        } else {
 
-			Collection<ItemStack> lista = e.getBlock().getDrops(player.getItemInHand());
-			for (ItemStack item : lista) {
-				player.getInventory().addItem(item);
-			}
+            Collection<ItemStack> lista = e.getBlock().getDrops(player.getItemInHand());
+            for (ItemStack item : lista) {
+                player.getInventory().addItem(item);
+            }
 
-			new BukkitRunnable() {
+            new BukkitRunnable() {
 
-				@Override
-				public void run() {
-					Collection<Entity> drops = e.getBlock().getLocation().getWorld()
-							.getNearbyEntities(e.getBlock().getLocation(), 1, 1, 1);
-					for (Entity entidade : drops) {
-						if (entidade instanceof Item) {
-							Item drop = (Item) entidade;
-							drop.setPickupDelay(300);
-							drop.remove();
+                @Override
+                public void run() {
+                    Collection<Entity> drops = e.getBlock().getLocation().getWorld()
+                            .getNearbyEntities(e.getBlock().getLocation(), 1, 1, 1);
+                    for (Entity entidade : drops) {
+                        if (entidade instanceof Item) {
+                            Item drop = (Item) entidade;
+                            drop.setPickupDelay(300);
+                            drop.remove();
 
-						}
-					}
+                        }
+                    }
 
-				}
-			}.runTaskLaterAsynchronously(EduEssentials.getInstance(), 1);
-		}
-	}
-	/**
-	 *
-	 *
-	 *
-	 *
-	 *
-	 */
+                }
+            }.runTaskLaterAsynchronously(EduEssentials.getInstance(), 1);
+        }
+    }
+
+    /**
+     *
+     */
 
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void Matar(EntityDeathEvent e) {
+        Player player = e.getEntity().getKiller();
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void Matar(EntityDeathEvent e) {
-		Player p = e.getEntity().getKiller();
+        if (player == null)
+            return;
+        if (player.hasPermission("autopickup.mob.drops")) {
+            boolean dropsMonstros = EduEssentials.getInstance()
+                    .getBoolean("autopickup." + player.getName().toLowerCase() + ".mob-drops");
 
-		if (p == null)
-			return;
-		if (p.hasPermission("autopickup.mob.drops")) {
-			boolean dropsMonstros = EduEssentials.getInstance()
-					.getBoolean("autopickup." + p.getName().toLowerCase() + ".mob-drops");
+            if (!dropsMonstros)
+                return;
+            PlayerInventory inv = player.getInventory();
+            int slotsVasio = Mine.getEmptySlotsAmount(inv);
+            if (e.getDrops().size() < slotsVasio) {
+                for (ItemStack item : e.getDrops()) {
+                    inv.addItem(item);
+                }
 
-			if (!dropsMonstros)
-				return;
-			PlayerInventory inv = p.getInventory();
-			int slotsVasio = Mine.getEmptySlotsAmount(inv);
-			if (e.getDrops().size() < slotsVasio) {
-				for (ItemStack item : e.getDrops()) {
-					inv.addItem(item);
-				}
+            }
+            e.getDrops().clear();
+        }
 
-			}
-			e.getDrops().clear();
-		}
+    }
 
-	}
+    @EventHandler
+    public void Quebrar(BlockBreakEvent e) {
+        Player player = e.getPlayer();
+        if (!player.hasPermission("autopickup.block.drops")) return;
+        boolean dropsBlocos = EduEssentials.getInstance()
+                .getBoolean("autopickup." + player.getName().toLowerCase() + ".block-drops");
+        if (!dropsBlocos)
+            return;
+        new BukkitRunnable() {
 
-	@EventHandler
-	public void Quebrar(BlockBreakEvent e) {
-		Player p = e.getPlayer();
-		if (p.hasPermission("autopickup.block.drops")) {
-			boolean dropsBlocos = EduEssentials.getInstance()
-					.getBoolean("autopickup." + p.getName().toLowerCase() + ".block-drops");
-			if (!dropsBlocos)
-				return;
-			new BukkitRunnable() {
+            @Override
+            public void run() {
+                Collection<Entity> drops = e.getBlock().getLocation().getWorld()
+                        .getNearbyEntities(e.getBlock().getLocation(), 1, 1, 1);
+                for (Entity entidade : drops) {
+                    if (entidade instanceof Item) {
+                        Item drop = (Item) entidade;
+                        e.getPlayer().getInventory().addItem(drop.getItemStack());
+                        drop.remove();
 
-				@Override
-				public void run() {
-					Collection<Entity> drops = e.getBlock().getLocation().getWorld()
-							.getNearbyEntities(e.getBlock().getLocation(), 1, 1, 1);
-					for (Entity entidade : drops) {
-						if (entidade instanceof Item) {
-							Item drop = (Item) entidade;
-							e.getPlayer().getInventory().addItem(drop.getItemStack());
-							drop.remove();
+                    }
+                }
 
-						}
-					}
+            }
+        }.runTaskAsynchronously(EduEssentials.getInstance());
 
-				}
-			}.runTaskAsynchronously(EduEssentials.getInstance());
-		}
-	}
+    }
 
 
-/**
- *
- *
- *
- *
- *
- */
+    /**
+     *
+     */
 
-private static final String titulo = "§0Auto Pickup";
+    private static final String titulo = "§0Auto Pickup";
 
-	public static void abrir(Player player) {
-		Inventory menu = Mine.newInventory(titulo, 3 * 9);
-		menu.setItem(Mine.getPosition(2, 7), Mine.newItem(Material.DIAMOND_PICKAXE, "§aDrops de mineração"));
-		menu.setItem(Mine.getPosition(2, 3), Mine.newItem(Material.ROTTEN_FLESH, "§aDrops de monstros e animais"));
+    public static void abrir(Player player) {
+        Inventory menu = Mine.newInventory(titulo, 3 * 9);
+        menu.setItem(Mine.getPosition(2, 7), Mine.newItem(Material.DIAMOND_PICKAXE, "§aDrops de mineração"));
+        menu.setItem(Mine.getPosition(2, 3), Mine.newItem(Material.ROTTEN_FLESH, "§aDrops de monstros e animais"));
 
-		boolean dropsMonstros = EduEssentials.getInstance()
-				.getBoolean("autopickup." + player.getName().toLowerCase() + ".mob-drops");
-		boolean dropsBlocos = EduEssentials.getInstance()
-				.getBoolean("autopickup." + player.getName().toLowerCase() + ".block-drops");
+        boolean dropsMonstros = EduEssentials.getInstance()
+                .getBoolean("autopickup." + player.getName().toLowerCase() + ".mob-drops");
+        boolean dropsBlocos = EduEssentials.getInstance()
+                .getBoolean("autopickup." + player.getName().toLowerCase() + ".block-drops");
 
-		ItemStack verde = new ItemStack(Material.INK_SACK, 1, (short) 10);
+        ItemStack verde = new ItemStack(Material.INK_SACK, 1, (short) 10);
 
-		ItemStack cinza = new ItemStack(Material.INK_SACK, 1, (short) 8);
+        ItemStack cinza = new ItemStack(Material.INK_SACK, 1, (short) 8);
 
-		ItemStack iconeMobDrops = dropsMonstros ? verde.clone() : cinza.clone();
-		ItemStack iconeBlockDrops = dropsBlocos ? verde.clone() : cinza.clone();
+        ItemStack iconeMobDrops = dropsMonstros ? verde.clone() : cinza.clone();
+        ItemStack iconeBlockDrops = dropsBlocos ? verde.clone() : cinza.clone();
 
-		Mine.setName(iconeMobDrops, dropsMonstros ? "§aAtivar" : "§cDesativar");
-		Mine.setLore(iconeMobDrops, dropsMonstros ? "§fEstado: §aAtivado" : "§fEstado: §cDesativado");
+        Mine.setName(iconeMobDrops, dropsMonstros ? "§aAtivar" : "§cDesativar");
+        Mine.setLore(iconeMobDrops, dropsMonstros ? "§fEstado: §aAtivado" : "§fEstado: §cDesativado");
 
-		Mine.setName(iconeBlockDrops, dropsBlocos ? "§aAtivar" : "§cDesativar");
-		Mine.setLore(iconeBlockDrops, dropsBlocos ? "§fEstado: §aAtivado" : "§fEstado §cDesativado");
-		menu.setItem(Mine.getPosition(2, 4), iconeMobDrops);
-		menu.setItem(Mine.getPosition(2, 6), iconeBlockDrops);
-		player.openInventory(menu);
-	}
+        Mine.setName(iconeBlockDrops, dropsBlocos ? "§aAtivar" : "§cDesativar");
+        Mine.setLore(iconeBlockDrops, dropsBlocos ? "§fEstado: §aAtivado" : "§fEstado §cDesativado");
+        menu.setItem(Mine.getPosition(2, 4), iconeMobDrops);
+        menu.setItem(Mine.getPosition(2, 6), iconeBlockDrops);
+        player.openInventory(menu);
+    }
 
-	@EventHandler
-	public void event(InventoryClickEvent e) {
-		if (e.getWhoClicked() instanceof Player) {
-			Player p = (Player) e.getWhoClicked();
-			if (e.getInventory().getName().equals(titulo)) {
-				e.setCancelled(true);
-				boolean dropsMonstros = EduEssentials.getInstance()
-						.getBoolean("autopickup." + p.getName().toLowerCase() + ".mob-drops");
-				boolean dropsBlocos = EduEssentials.getInstance()
-						.getBoolean("autopickup." + p.getName().toLowerCase() + ".block-drops");
-				int slot = e.getRawSlot();
-				if (slot == Mine.getPosition(2, 6)) {
-					EduEssentials.getInstance().getConfigs()
-							.set("autopickup." + p.getName().toLowerCase() + ".block-drops", !dropsBlocos);
-					abrir(p);
-				}
-				if (slot == Mine.getPosition(2,4)) {
-					EduEssentials.getInstance().getConfigs()
-							.set("autopickup." + p.getName().toLowerCase() + ".mob-drops", !dropsMonstros);
-					abrir(p);
-				}
-			}
-		}
-	}
+    @EventHandler
+    public void event(InventoryClickEvent e) {
+        if (!(e.getWhoClicked() instanceof Player)) return;
+        Player p = (Player) e.getWhoClicked();
+        if (e.getInventory().getName().equals(titulo)) {
+            e.setCancelled(true);
+            boolean dropsMonstros = EduEssentials.getInstance()
+                    .getBoolean("autopickup." + p.getName().toLowerCase() + ".mob-drops");
+            boolean dropsBlocos = EduEssentials.getInstance()
+                    .getBoolean("autopickup." + p.getName().toLowerCase() + ".block-drops");
+            int slot = e.getRawSlot();
+            if (slot == Mine.getPosition(2, 6)) {
+                EduEssentials.getInstance().getConfigs()
+                        .set("autopickup." + p.getName().toLowerCase() + ".block-drops", !dropsBlocos);
+                abrir(p);
+            }
+            if (slot == Mine.getPosition(2, 4)) {
+                EduEssentials.getInstance().getConfigs()
+                        .set("autopickup." + p.getName().toLowerCase() + ".mob-drops", !dropsMonstros);
+                abrir(p);
+            }
 
+        }
+    }
 
 
 }

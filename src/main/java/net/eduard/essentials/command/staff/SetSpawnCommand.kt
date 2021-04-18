@@ -1,4 +1,4 @@
-package net.eduard.essentials.task
+package net.eduard.essentials.command.staff
 
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -14,13 +14,13 @@ class SetSpawnCommand : CommandManager("setspawn") {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (Mine.noConsole(sender)) {
-            val player = sender as Player
-            EduEssentials.getInstance().configs.set("Spawn", player.location)
-            EduEssentials.getInstance().configs.saveConfig()
-            player.sendMessage(EduEssentials.getInstance().message("Spawn setted"))
+        if (Mine.noConsole(sender)) return true;
+        val player = sender as Player
+        EduEssentials.getInstance().configs.set("Spawn", player.location)
+        EduEssentials.getInstance().configs.saveConfig()
+        player.sendMessage(EduEssentials.getInstance().message("Spawn setted"))
 
-        }
+
         return true
     }
 

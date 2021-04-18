@@ -14,22 +14,22 @@ public class HatCommand extends CommandManager {
 
 	public HatCommand() {
 		super("hat", "chapeu");
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		if (sender instanceof Player) {
 
-			Player p = (Player) sender;
-			if (p.getItemInHand() == null) {
+			Player player = (Player) sender;
+			if (player.getItemInHand() == null) {
 
-				p.sendMessage(messageNotItem);
+				player.sendMessage(messageNotItem);
 			} else {
-				if (p.getItemInHand().getType().isBlock()) {
+				if (player.getItemInHand().getType().isBlock()) {
 
-					p.getInventory().setHelmet(p.getItemInHand());
-					p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+					player.getInventory().setHelmet(player.getItemInHand());
+					player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
 					sender.sendMessage(message);
 				} else {
 					sender.sendMessage(messageNotBlock);

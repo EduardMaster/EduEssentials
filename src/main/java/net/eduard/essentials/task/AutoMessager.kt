@@ -9,12 +9,11 @@ class AutoMessager : TimeManager(
 
     var currentMessage = 0
     override fun run() {
-        val msgs = EduEssentials.getInstance().manager.autoMessages
-
-        val msg = msgs[currentMessage]
+        val messages = EduEssentials.getInstance().manager.autoMessages
+        val msg = messages[currentMessage]
         msg.sendAll()
         currentMessage++
-        if (currentMessage>= msgs.size){
+        if (currentMessage>= messages.size){
             currentMessage=0
         }
     }

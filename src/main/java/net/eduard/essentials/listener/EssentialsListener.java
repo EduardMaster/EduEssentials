@@ -2,6 +2,7 @@
 package net.eduard.essentials.listener;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import net.eduard.api.lib.modules.MineReflect;
 import org.bukkit.ChatColor;
@@ -18,22 +19,22 @@ import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.EventsManager;
 import net.eduard.essentials.EduEssentials;
 
-public class EssentialsEvents extends EventsManager {
-    private static final HashMap<Player, Long> lastCommand = new HashMap<>();
+public class EssentialsListener extends EventsManager {
+    private static final Map<Player, Long> lastCommand = new HashMap<>();
 
     @EventHandler
-    public void join(PlayerJoinEvent e){
+    public void join(PlayerJoinEvent e) {
         StringBuilder header = new StringBuilder();
-        for (String linha : EduEssentials.getInstance().getConfigs().getMessages("tab-header")){
-            header.append(Mine.getReplacers(linha,e.getPlayer()));
+        for (String linha : EduEssentials.getInstance().getConfigs().getMessages("tab-header")) {
+            header.append(Mine.getReplacers(linha, e.getPlayer()));
             header.append("\n");
         }
         StringBuilder footer = new StringBuilder();
-        for (String linha : EduEssentials.getInstance().getConfigs().getMessages("tab-footer")){
-            footer.append(Mine.getReplacers(linha,e.getPlayer()));
+        for (String linha : EduEssentials.getInstance().getConfigs().getMessages("tab-footer")) {
+            footer.append(Mine.getReplacers(linha, e.getPlayer()));
             footer.append("\n");
         }
-        MineReflect.setTabList(e.getPlayer(),header.toString(),footer.toString() );
+        MineReflect.setTabList(e.getPlayer(), header.toString(), footer.toString());
     }
 
 
@@ -42,7 +43,7 @@ public class EssentialsEvents extends EventsManager {
         Player player = e.getPlayer();
         if (player.hasPermission("sign.color")) {
             for (int i = 0; i < e.getLines().length; i++) {
-                e.setLine(i, ChatColor.translateAlternateColorCodes('&', e.getLines()[i])) ;
+                e.setLine(i, ChatColor.translateAlternateColorCodes('&', e.getLines()[i]));
             }
         }
     }
@@ -51,22 +52,22 @@ public class EssentialsEvents extends EventsManager {
     @EventHandler
     public void event(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
-        if (!player.hasPermission("command.delay.bypass")) {
-            if (lastCommand.containsKey(player)) {
-                Long teste = lastCommand.get(player);
-                long agora = System.currentTimeMillis();
-                boolean test = agora > (teste + 1000 * 3);
-                if (!test) {
-                    player.sendMessage(EduEssentials.getInstance().message("command-cooldown"));
-                    e.setCancelled(true);
+        if (player.hasPermission("command.delay.bypass")) return;
+        if (lastCommand.containsKey(player)) {
+            Long teste = lastCommand.get(player);
+            long agora = System.currentTimeMillis();
+            boolean test = agora > (teste + 1000 * 3);
+            if (!test) {
+                player.sendMessage(EduEssentials.getInstance().message("command-cooldown"));
+                e.setCancelled(true);
 
-                } else {
-                    lastCommand.put(player, System.currentTimeMillis());
-                }
             } else {
                 lastCommand.put(player, System.currentTimeMillis());
             }
+        } else {
+            lastCommand.put(player, System.currentTimeMillis());
         }
+
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

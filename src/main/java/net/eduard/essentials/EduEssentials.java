@@ -9,11 +9,12 @@ import net.eduard.api.lib.game.Jump;
 import net.eduard.api.lib.game.SoundEffect;
 import net.eduard.essentials.core.AutoMessage;
 import net.eduard.essentials.core.EssentialsManager;
+import net.eduard.essentials.core.LaunchPadManager;
 import net.eduard.essentials.listener.*;
 import net.eduard.essentials.task.AutoMessager;
-import net.eduard.essentials.task.SetSpawnCommand;
-import net.eduard.essentials.task.SpawnCommand;
-import net.eduard.essentials.task.SpawnEvents;
+import net.eduard.essentials.command.staff.SetSpawnCommand;
+import net.eduard.essentials.command.SpawnCommand;
+import net.eduard.essentials.listener.SpawnListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -24,10 +25,11 @@ import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.api.lib.storage.StorageAPI;
 import net.eduard.api.server.EduardPlugin;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 public class EduEssentials extends EduardPlugin {
 
-    private static final Set<Player> gods = new HashSet();
+    private static final Set<Player> gods = new HashSet<>();
     private static EduEssentials instance;
 
     private EssentialsManager manager;
@@ -55,24 +57,23 @@ public class EduEssentials extends EduardPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        super.onEnable();
         setFree(true);
+        super.onEnable();
+
+
         new AntiDupe().register(this);
         new AntiMacro().register(this);
-        new EssentialsEvents().register(this);
+        new EssentialsListener().register(this);
         new DoubleJump().register(this);
-        new SpawnEvents().registerListener(this);
-        new SpawnCommand().register();
-        new SetSpawnCommand().register();
-        //new LaunchPadManager().register(this);
+        new SpawnListener().registerListener(this);
         new SoupSystem().register(this);
         new ShowDamage().register(this);
         new ComboCounter().register(this);
         new ClickCounter().register(this);
         new SlimeChunkDetector().register(this);
         new AutoMessager().asyncTimer();
-        // LaunchPadManager.NO_FALL.register(this);
-        spawn();
+        LaunchPadManager.NO_FALL.register(this);
+
         reload();
 
     }
@@ -114,8 +115,6 @@ public class EduEssentials extends EduardPlugin {
         configs.add("teleport.sound on join", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao entrar ");
         configs.add("teleport.sound on respawn", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao renascer");
 
-
-        configs.saveConfig();
     }
 
 
@@ -146,25 +145,27 @@ public class EduEssentials extends EduardPlugin {
         getConfigs().add("doublejump.enabled", true);
         getConfigs().add("doublejump.effect", new Jump(true, 0.5, 2.5, SoundEffect.create("ENDERMAN_TELEPORT")));
         doubleJump = getConfigs().get("doublejump.effect", Jump.class);
-        /*
+
         getConfigs().add("pads.sponge", new LaunchPadManager(-1, 19, 0,
-                new Jump(SoundEffect.create("EXPLODE"), new Vector(0, 2, 0))));
+                new Jump(SoundEffect.create("EXPLODE"), new Vector(0.0, 2.0, 0.0))));
         for (World world : Bukkit.getWorlds()) {
             String path = "launchpad." + world.getName();
             getConfigs().add(path, true);
             LaunchPadManager.WORLDS.put(world, getConfigs().getBoolean(path));
         }
 
-         */
+
+        spawn();
+
         getConfigs().saveConfig();
         doubleJump = getConfigs().get("doublejump.effect", Jump.class);
 
-        /*
+
         for (String key : getConfigs().getSection("pads").getKeys()) {
             LaunchPadManager launchpad = getConfigs().get("pads." + key, (LaunchPadManager.class));
             launchpad.register(this);
         }
-*/
+
     }
 
     public void reload() {
@@ -173,7 +174,7 @@ public class EduEssentials extends EduardPlugin {
         getStorage().reloadConfig();
         configDefault();
         autoMessages();
-
+        int quantidadeDeComandosDesativados = 0;
         for (Class<?> claz : getClasses("net.eduard.essentials.command")) {
             try {
                 if (!CommandManager.class.isAssignableFrom(claz)) continue;
@@ -189,10 +190,11 @@ public class EduEssentials extends EduardPlugin {
                     commands.set(cmd);
                 cmd = (CommandManager) commands.get(claz);
                 if (getConfigs().getBoolean(path)) {
-                    log("Comando " + cmd.getName() + " ativado com sucesso.");
+                    log("Comando ativado §a" + cmd.getName());
                     cmd.registerCommand(this);
                 } else {
-                    log("Comando " + cmd.getName() + " foi desativado com sucesso.");
+                    quantidadeDeComandosDesativados++;
+
                 }
                 commands.saveConfig();
 
@@ -202,6 +204,7 @@ public class EduEssentials extends EduardPlugin {
             }
 
         }
+        log("Comandos desativados: §c" + quantidadeDeComandosDesativados );
         StorageAPI.updateReferences();
         getConfigs().saveConfig();
     }

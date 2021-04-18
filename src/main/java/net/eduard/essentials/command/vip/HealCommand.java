@@ -17,8 +17,8 @@ public class HealCommand extends CommandManager {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (Mine.onlyPlayer(sender)){
-            Player p = (Player) sender;
-            Mine.refreshLife(p);
+            Player player = (Player) sender;
+            Mine.refreshLife(player);
 
         }
 
