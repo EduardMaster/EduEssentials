@@ -20,7 +20,6 @@ public class BroadcastCommand extends CommandManager {
 		for (String arg : args) {
 			if (id == 0)
 				id++;
-
 			else
 				builder.append(" ");
 

@@ -25,7 +25,7 @@ public class KickCommand extends CommandManager {
 			Player target = Mine.getPlayer(args[0]);
 			StringBuilder builder = new StringBuilder();
 			for (int i = 1; i < args.length; i++) {
-				builder.append(args[i] + " ");
+				builder.append(args[i]).append(" ");
 			}
 			target.kickPlayer(messageTarget.replace("$target", sender.getName())
 					.replace("$sender", sender.getName())

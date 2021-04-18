@@ -59,8 +59,6 @@ public class EduEssentials extends EduardPlugin {
         instance = this;
         setFree(true);
         super.onEnable();
-
-
         new AntiDupe().register(this);
         new AntiMacro().register(this);
         new EssentialsListener().register(this);

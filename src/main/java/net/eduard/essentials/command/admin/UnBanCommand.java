@@ -18,7 +18,7 @@ public class UnBanCommand extends CommandManager {
 		super("unban");
 	}
 	
-	@Override
+
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
@@ -29,10 +29,7 @@ public class UnBanCommand extends CommandManager {
 		OfflinePlayer target = Bukkit.getOfflinePlayer(name);
 		target.setBanned(false);
 		BanList banidos = Bukkit.getBanList(Type.NAME);
-		
 		banidos.pardon(name);
-		
-		
 		sender.sendMessage(message.replace("$target", target.getName()));
 		
 

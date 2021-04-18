@@ -10,20 +10,16 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -169,23 +165,23 @@ public class AdminCommand extends CommandManager {
     public void testInfo(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
         if (player.getItemInHand() != testInfo.getItem()) return;
-        if (e.getRightClicked() instanceof Player) {
-            Player target = (Player) e.getRightClicked();
-            if (players.contains(player)) {
-                player.sendMessage("§6Informações do §e" + target.getName());
-                player.sendMessage("§aGamemode: §2" + target.getGameMode());
-                player.sendMessage("§aKills: §2"
-                        + target.getStatistic(Statistic.PLAYER_KILLS));
-                player.sendMessage("§aDeaths: §2"
-                        + target.getStatistic(Statistic.DEATHS));
-                player.sendMessage("§aIP: §2" + Mine.getIp(player));
-                if (VaultAPI.hasVault() && VaultAPI.hasEconomy()) {
-                    player.sendMessage("§aMoney: §2"
-                            + VaultAPI.getEconomy().getBalance(player));
-                }
-
+        if (!(e.getRightClicked() instanceof Player)) return;
+        Player target = (Player) e.getRightClicked();
+        if (players.contains(player)) {
+            player.sendMessage("§6Informações do §e" + target.getName());
+            player.sendMessage("§aGamemode: §2" + target.getGameMode());
+            player.sendMessage("§aKills: §2"
+                    + target.getStatistic(Statistic.PLAYER_KILLS));
+            player.sendMessage("§aDeaths: §2"
+                    + target.getStatistic(Statistic.DEATHS));
+            player.sendMessage("§aIP: §2" + Mine.getIp(player));
+            if (VaultAPI.hasVault() && VaultAPI.hasEconomy()) {
+                player.sendMessage("§aMoney: §2"
+                        + VaultAPI.getEconomy().getBalance(player));
             }
+
         }
+
     }
 
     @EventHandler
@@ -219,31 +215,31 @@ public class AdminCommand extends CommandManager {
     @Override
     public boolean onCommand(CommandSender sender, Command command,
                              String label, String[] args) {
-        if (Mine.onlyPlayer(sender)) {
-            Player player = (Player) sender;
-            if (players.contains(player)) {
-                players.remove(player);
-                leaveAdminMode(player);
-                player.sendMessage(messageOff);
-            } else {
-                players.add(player);
-                joinAdminMode(player);
-                player.sendMessage(messageOn);
-            }
-
+        if (!Mine.onlyPlayer(sender)) return true;
+        Player player = (Player) sender;
+        if (players.contains(player)) {
+            players.remove(player);
+            leaveAdminMode(player);
+            player.sendMessage(messageOff);
+        } else {
+            players.add(player);
+            joinAdminMode(player);
+            player.sendMessage(messageOn);
         }
+
+
         return true;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void event(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player) {
-            Player player = (Player) e.getDamager();
-            if (players.contains(player)) {
-                e.setCancelled(false);
-            }
-
+        if (!(e.getDamager() instanceof Player)) return;
+        Player player = (Player) e.getDamager();
+        if (players.contains(player)) {
+            e.setCancelled(false);
         }
+
+
     }
 
 }

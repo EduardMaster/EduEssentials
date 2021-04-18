@@ -43,23 +43,22 @@ public class SetGroupCommand extends CommandManager {
         // /setgroup eduard dono
         String name = args[0];
         String group = args[1];
-        if (Mine.existsPlayer(sender, name)) {
-            Player target = Mine.getPlayer(name);
-            Title t = (Title) title.copy();
-            VaultAPI.getPermission().playerAddGroup(target, group);
-            VaultAPI.getPermission().playerRemoveGroup(target, getGroup(target));
-            EduEssentials.getInstance().getConfigs().set(target.getUniqueId().toString(), group);
-            t.setSubTitle(getValues(t.getSubTitle(), name, group));
-            t.setTitle(getValues(t.getTitle(), name, group));
-            for (Player player : Mine.getPlayers()) {
-                t.create(player);
-                for (String message : messages) {
-                    player.sendMessage(getValues(message, name, group));
-                }
+        if (!Mine.existsPlayer(sender, name)) return true;
+        Player target = Mine.getPlayer(name);
+        Title t = (Title) title.copy();
+        VaultAPI.getPermission().playerAddGroup(target, group);
+        VaultAPI.getPermission().playerRemoveGroup(target, getGroup(target));
+        EduEssentials.getInstance().getConfigs().set(target.getUniqueId().toString(), group);
+        t.setSubTitle(getValues(t.getSubTitle(), name, group));
+        t.setTitle(getValues(t.getTitle(), name, group));
+        for (Player player : Mine.getPlayers()) {
+            t.create(player);
+            for (String message : messages) {
+                player.sendMessage(getValues(message, name, group));
             }
-
-
         }
+
+
         return true;
     }
 

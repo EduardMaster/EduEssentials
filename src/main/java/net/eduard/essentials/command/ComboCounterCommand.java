@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public class ComboCounterCommand extends CommandManager {
 
     public ComboCounterCommand() {
-        super("combocounter","contadordecombo");
+        super("combocounter", "contadordecombo");
     }
 
     public String messageOn = "§aVoce ativou o contador de Combos!";
@@ -17,17 +17,17 @@ public class ComboCounterCommand extends CommandManager {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            if (ComboCounter.getCombos().containsKey(p)) {
-                ComboCounter.getCombos().remove(p);
-                p.sendMessage(messageOff);
-            } else {
-                ComboCounter.getCombos().put(p, 0);
-                p.sendMessage(messageOn);
-            }
-
+        if (!(sender instanceof Player)) return true;
+        Player player = (Player) sender;
+        if (ComboCounter.getCombos().containsKey(player)) {
+            ComboCounter.getCombos().remove(player);
+            player.sendMessage(messageOff);
+        } else {
+            ComboCounter.getCombos().put(player, 0);
+            player.sendMessage(messageOn);
         }
+
+
         return true;
     }
 

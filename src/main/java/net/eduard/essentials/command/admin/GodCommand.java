@@ -2,6 +2,7 @@
 package net.eduard.essentials.command.admin;
 
 import java.util.Set;
+
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.essentials.EduEssentials;
 import org.bukkit.command.Command;
@@ -24,35 +25,35 @@ public class GodCommand extends CommandManager {
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Set<Player> gods = EduEssentials.getGods();
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            if (args.length == 0) {
-                if (gods.contains(player)) {
+        if (!(sender instanceof Player)) return true;
+        Player player = (Player) sender;
+        if (args.length == 0) {
+            if (gods.contains(player)) {
 
-                    gods.remove(player);
-                } else {
-                    gods.add(player);
-
-                }
+                gods.remove(player);
             } else {
-                String sub = args[0].toLowerCase();
+                gods.add(player);
 
-                if (Mine.OPT_COMMANDS_ON.contains(sub)) {
-
-
-                    if (!gods.contains(player)) {
-                        gods.add(player);
-                    }
-
-                } else if (Mine.OPT_COMMANDS_OFF.contains(sub)) {
-
-                    gods.remove(player);
-
-
-                } else {
-                    sendUsage(sender);
-                }
             }
+        } else {
+            String sub = args[0].toLowerCase();
+
+            if (Mine.OPT_COMMANDS_ON.contains(sub)) {
+
+
+                if (!gods.contains(player)) {
+                    gods.add(player);
+                }
+
+            } else if (Mine.OPT_COMMANDS_OFF.contains(sub)) {
+
+                gods.remove(player);
+
+
+            } else {
+                sendUsage(sender);
+            }
+
         }
         return true;
     }

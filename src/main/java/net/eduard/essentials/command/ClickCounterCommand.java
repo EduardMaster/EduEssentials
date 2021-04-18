@@ -16,18 +16,17 @@ public class ClickCounterCommand extends CommandManager {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label,
                              String[] args) {
-        if (Mine.onlyPlayer(sender)) {
-            Player p = (Player) sender;
-            if (ClickCounter.getClicks().containsKey(p)) {
-                p.sendMessage("§cVoce desativou o Contador de Cliques!");
-                ClickCounter.getClicks().remove(p);
+        if (!Mine.onlyPlayer(sender)) return true;
+        Player player = (Player) sender;
+        if (ClickCounter.getClicks().containsKey(player)) {
+            player.sendMessage("§cVoce desativou o Contador de Cliques!");
+            ClickCounter.getClicks().remove(player);
 
-            } else {
-                ClickCounter.getClicks().put(p, 0);
-                p.sendMessage("§aVoce ativou o Contador de Cliques!");
-            }
-
+        } else {
+            ClickCounter.getClicks().put(player, 0);
+            player.sendMessage("§aVoce ativou o Contador de Cliques!");
         }
+
 
         return true;
     }

@@ -74,7 +74,6 @@ public class TempBanCommand extends CommandManager {
 		String name = e.getName();
 		OfflinePlayer player = Bukkit.getOfflinePlayer(name);
 		if (tempban.containsKey(name)) {
-			
 			long now = Mine.getNow();
 			Long before = tempban.get(name);
 			Long dif = tempbanned.get(name);

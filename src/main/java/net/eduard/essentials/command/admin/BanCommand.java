@@ -27,7 +27,6 @@ public class BanCommand extends CommandManager {
         if (args.length <= 1) {
             return false;
         }
-
         if (!Mine.existsPlayer(sender, args[0])) return true;
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 

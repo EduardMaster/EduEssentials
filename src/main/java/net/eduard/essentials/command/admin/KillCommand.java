@@ -24,21 +24,17 @@ public class KillCommand extends CommandManager {
         if (args.length == 0) {
             sender.sendMessage(getUsage());
 
-
-        } else {
-            if (Mine.existsPlayer(sender, args[0])) {
-
-                Player target = Bukkit.getPlayer(args[0]);
-
-
-                target.setHealth(0.0D);
-                target.sendMessage(message.replace("$player", sender.getName()));
-                sender.sendMessage(messageTarget.replace("$player", target.getName()));
-
-            }
-
+            return true;
+        }
+        if (Mine.existsPlayer(sender, args[0])) {
+            Player target = Bukkit.getPlayer(args[0]);
+            target.setHealth(0.0D);
+            target.sendMessage(message.replace("$player", sender.getName()));
+            sender.sendMessage(messageTarget.replace("$player", target.getName()));
 
         }
+
+
         return false;
     }
 }

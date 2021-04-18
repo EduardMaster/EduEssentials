@@ -15,7 +15,7 @@ public class WhiteListAddCommand extends CommandManager {
 	public String message = "§bVoce adicionou o §3$player§b na Lista Branca";
 	
 	@SuppressWarnings("deprecation")
-	@Override
+
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		if (args.length <= 1) {
