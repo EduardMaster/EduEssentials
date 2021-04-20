@@ -26,10 +26,10 @@ public class TeleportRequestDenyCommand extends CommandManager {
                 if (Mine.existsPlayer(sender, args[0])) {
                     Player target = Mine.getPlayer(args[0]);
 
-                    if (EduEssentials.getInstance().getRequests().containsValue(target)) {
-                        Player convidado = EduEssentials.getInstance().getRequests().get(target);
+                    if (EduEssentials.getInstance().getManager().getTpaRequests().containsValue(target)) {
+                        Player convidado = EduEssentials.getInstance().getManager().getTpaRequests().get(target);
                         if (convidado.equals(p)) {
-                            EduEssentials.getInstance().getRequests().remove(target);
+                            EduEssentials.getInstance().getManager().getTpaRequests().remove(target);
 
 
                             p.sendMessage("§cVoce recusou o pedido de teleport de " + convidado.getName() + ".");

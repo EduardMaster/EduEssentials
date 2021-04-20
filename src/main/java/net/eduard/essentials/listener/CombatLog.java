@@ -24,15 +24,15 @@ public class CombatLog implements Listener {
     @EventHandler
     public void aoSair(PlayerQuitEvent e) {
 
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
         if (!EduEssentials.getInstance().getBoolean("combatlog-enabled")) {
             return;
         }
-        if (!players.contains(p)) return;
-        p.damage(1000);
-        players.remove(p);
+        if (!players.contains(player)) return;
+        player.damage(1000);
+        players.remove(player);
         Bukkit.broadcastMessage(
-                EduEssentials.getInstance().message("combat-quit").replace("$player", p.getName()));
+                EduEssentials.getInstance().message("combat-quit").replace("$player", player.getName()));
 
 
     }

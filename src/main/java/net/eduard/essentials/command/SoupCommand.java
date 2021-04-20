@@ -18,7 +18,7 @@ public class SoupCommand extends CommandManager {
 			String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
 			Player player = (Player) sender;
-			Mine.fill(player.getInventory(), EduEssentials.getInstance().getSoup());
+			Mine.fill(player.getInventory(), EduEssentials.getInstance().getManager().getSoup());
 			player.sendMessage(EduEssentials.getInstance().message("soup"));
 		}
 		return true;

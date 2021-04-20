@@ -11,9 +11,7 @@ import net.eduard.essentials.core.AutoMessage;
 import net.eduard.essentials.core.EssentialsManager;
 import net.eduard.essentials.core.LaunchPadManager;
 import net.eduard.essentials.listener.*;
-import net.eduard.essentials.task.AutoMessager;
-import net.eduard.essentials.command.staff.SetSpawnCommand;
-import net.eduard.essentials.command.SpawnCommand;
+import net.eduard.essentials.task.AutoMessagerTask;
 import net.eduard.essentials.listener.SpawnListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -29,7 +27,7 @@ import org.bukkit.util.Vector;
 
 public class EduEssentials extends EduardPlugin {
 
-    private static final Set<Player> gods = new HashSet<>();
+
     private static EduEssentials instance;
 
     private EssentialsManager manager;
@@ -42,16 +40,7 @@ public class EduEssentials extends EduardPlugin {
         return instance;
     }
 
-    private ItemStack soup;
-    private ItemStack soupEmpty;
-    private final Map<Player, Long> requestsDelay = new HashMap<>();
-    private final Map<Player, Player> requests = new HashMap<>();
-    private final ArrayList<Player> slimeChunkActive = new ArrayList<>();
-    private Jump doubleJump;
 
-    public static Set<Player> getGods() {
-        return gods;
-    }
 
 
     @Override
@@ -69,7 +58,7 @@ public class EduEssentials extends EduardPlugin {
         new ComboCounter().register(this);
         new ClickCounter().register(this);
         new SlimeChunkDetector().register(this);
-        new AutoMessager().asyncTimer();
+        new AutoMessagerTask().asyncTimer();
         LaunchPadManager.NO_FALL.register(this);
 
         reload();
@@ -129,20 +118,9 @@ public class EduEssentials extends EduardPlugin {
                 , ""));
         getConfigs().add("tab-footer", Arrays.asList("", "" +
                 " §6Acesse §ewww.rededemine.com"));
-        getConfigs().add("soup.enabled", true);
-        getConfigs().add("soup.sign-tag", "soup");
-        getConfigs().add("soup.item-full", Mine.newItem(Material.MUSHROOM_SOUP, "§eSopa Deliciosa", 1, 0, "§aRecupera vida ao ser ingerida"));
-        getConfigs().add("soup.item-empty", Mine.newItem(Material.BOWL, "§aSopa tomada"));
-        getConfigs().add("soup.create-sign", "&6Voce criou uma placa de sopas!");
-        getConfigs().add("soup.menu-title", "&c&lSopas gratis!");
-        getConfigs().add("soup.no-change-food-level", true);
-        getConfigs().add("soup.recover-value", 6);
-        soup = getConfigs().get("soup.item-full", ItemStack.class);
-        soupEmpty = getConfigs().get("soup.item-empty", ItemStack.class);
-        getConfigs().add("soup.sound", SoundEffect.create("BURP"));
-        getConfigs().add("doublejump.enabled", true);
-        getConfigs().add("doublejump.effect", new Jump(true, 0.5, 2.5, SoundEffect.create("ENDERMAN_TELEPORT")));
-        doubleJump = getConfigs().get("doublejump.effect", Jump.class);
+
+
+
 
         getConfigs().add("pads.sponge", new LaunchPadManager(-1, 19, 0,
                 new Jump(SoundEffect.create("EXPLODE"), new Vector(0.0, 2.0, 0.0))));
@@ -156,8 +134,6 @@ public class EduEssentials extends EduardPlugin {
         spawn();
 
         getConfigs().saveConfig();
-        doubleJump = getConfigs().get("doublejump.effect", Jump.class);
-
 
         for (String key : getConfigs().getSection("pads").getKeys()) {
             LaunchPadManager launchpad = getConfigs().get("pads." + key, (LaunchPadManager.class));
@@ -207,32 +183,11 @@ public class EduEssentials extends EduardPlugin {
         getConfigs().saveConfig();
     }
 
-    public ItemStack getSoup() {
-        return soup;
-    }
+
 
     public void onDisable() {
         save();
         super.onDisable();
     }
 
-    public ArrayList<Player> getSlimeChunkActive() {
-        return slimeChunkActive;
-    }
-
-    public Jump getDoubleJump() {
-        return doubleJump;
-    }
-
-    public ItemStack getSoupEmpty() {
-        return soupEmpty;
-    }
-
-    public Map<Player, Long> getRequestsDelay() {
-        return requestsDelay;
-    }
-
-    public Map<Player, Player> getRequests() {
-        return requests;
-    }
 }

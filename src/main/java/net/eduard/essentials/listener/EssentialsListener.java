@@ -42,15 +42,15 @@ public class EssentialsListener extends EventsManager {
     public void onSignChangeEvent(SignChangeEvent e) {
         Player player = e.getPlayer();
         if (player.hasPermission("sign.color")) {
-            for (int i = 0; i < e.getLines().length; i++) {
-                e.setLine(i, ChatColor.translateAlternateColorCodes('&', e.getLines()[i]));
+            for (int lineNumber = 0; lineNumber < e.getLines().length; lineNumber++) {
+                e.setLine(lineNumber, ChatColor.translateAlternateColorCodes('&', e.getLines()[lineNumber]));
             }
         }
     }
 
 
     @EventHandler
-    public void event(PlayerCommandPreprocessEvent e) {
+    public void commandDelay(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         if (player.hasPermission("command.delay.bypass")) return;
         if (lastCommand.containsKey(player)) {
@@ -90,13 +90,6 @@ public class EssentialsListener extends EventsManager {
         }
     }
 
-    @EventHandler
-    public void event(PlayerMoveEvent e) {
 
-    }
-
-    @EventHandler
-    public void event(PlayerJoinEvent e) {
-    }
 
 }

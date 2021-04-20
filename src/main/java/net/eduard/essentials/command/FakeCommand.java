@@ -2,6 +2,7 @@
 package net.eduard.essentials.command;
 
 import net.eduard.api.lib.modules.MineReflect;
+import net.eduard.essentials.core.Fake;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,53 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FakeCommand extends CommandManager {
-    private static final Map<Player, Fake> fakes = new HashMap<>();
 
     public FakeCommand() {
         super("fake", "nickfalso");
     }
-
-    public static class Fake {
-
-        public Fake(Player player) {
-            setPlayer(player);
-            setOriginal(player.getName());
-            setFake(player.getName());
-        }
-
-
-        private Player player;
-
-        private String fake;
-
-        private String original;
-
-        public String getOriginal() {
-            return original;
-        }
-
-        public void setOriginal(String original) {
-            this.original = original;
-        }
-
-        public Player getPlayer() {
-            return player;
-        }
-
-        public void setPlayer(Player player) {
-            this.player = player;
-        }
-
-        public String getFake() {
-            return fake;
-        }
-
-        public void setFake(String fake) {
-            this.fake = fake;
-        }
-
-
-    }
+    private static final Map<Player, Fake> fakes = new HashMap<>();
 
 
     public static boolean canFake(String name) {
@@ -132,35 +91,35 @@ public class FakeCommand extends CommandManager {
 
     @EventHandler
     public void event(PlayerQuitEvent e) {
-        Player p = e.getPlayer();
-        removeFake(p.getName());
+        Player player = e.getPlayer();
+        removeFake(player.getName());
     }
 
     @EventHandler
     public void event(PlayerLoginEvent e) {
-        Player p = e.getPlayer();
-        String name = p.getName();
+        Player player = e.getPlayer();
+        String name = player.getName();
         removeFake(name);
-        getFake(p);
+        getFake(player);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label,
                              String[] args) {
         if (!Mine.onlyPlayer(sender)) return true;
-        Player p = (Player) sender;
+        Player player = (Player) sender;
         if (args.length == 0) {
-            p.sendMessage("§c/fake <jogador> §7Ativar um fake de um jogador");
-            p.sendMessage("§c/fake resetar §7Resetar o fake");
+            player.sendMessage("§c/fake <jogador> §7Ativar um fake de um jogador");
+            player.sendMessage("§c/fake resetar §7Resetar o fake");
         } else {
             String cmd = args[0];
             if (cmd.equalsIgnoreCase("reset") | cmd.equalsIgnoreCase("resetar")) {
-                reset(p);
-                p.sendMessage("§aFake resetado!");
+                reset(player);
+                player.sendMessage("§aFake resetado!");
             } else {
                 String nome = cmd;
-                fake(p, nome);
-                p.sendMessage("§aFake ativado do jogador " + nome);
+                fake(player, nome);
+                player.sendMessage("§aFake ativado do jogador " + nome);
 
             }
         }

@@ -3,7 +3,7 @@ package net.eduard.essentials.task
 import net.eduard.api.lib.manager.TimeManager
 import net.eduard.essentials.EduEssentials
 
-class AutoMessager : TimeManager(
+class AutoMessagerTask : TimeManager(
     20 * EduEssentials.getInstance()
     .configs.getLong("auto-message-per-seconds")) {
 

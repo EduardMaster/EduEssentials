@@ -24,7 +24,7 @@ public class GodCommand extends CommandManager {
     @Override
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Set<Player> gods = EduEssentials.getGods();
+        Set<Player> gods = EduEssentials.getInstance().getManager().getGods();
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
         if (args.length == 0) {
@@ -60,7 +60,7 @@ public class GodCommand extends CommandManager {
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        Set<Player> gods = EduEssentials.getGods();
+        Set<Player> gods = EduEssentials.getInstance().getManager().getGods();
         if (e.getEntity() instanceof Player) {
             Player player = (Player) e.getEntity();
             if (gods.contains(player)) {

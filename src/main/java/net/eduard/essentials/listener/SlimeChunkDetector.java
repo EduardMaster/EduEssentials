@@ -16,7 +16,7 @@ import net.eduard.essentials.EduEssentials;
 public class SlimeChunkDetector extends EventsManager {
 
     @EventHandler
-    public void split(SlimeSplitEvent e) {
+    public void disableSplit(SlimeSplitEvent e) {
         e.setCancelled(EduEssentials.getInstance().getConfigs().getBoolean("disable.slime-split"));
     }
 
@@ -24,7 +24,7 @@ public class SlimeChunkDetector extends EventsManager {
     public void onSlimeChunk(PlayerMoveEvent e) {
 
         Player player = e.getPlayer();
-        if (!EduEssentials.getInstance().getSlimeChunkActive().contains(player)) return;
+        if (!EduEssentials.getInstance().getManager().getSlimeChunkActive().contains(player)) return;
         if (Mine.equals(e.getFrom(), e.getTo())) return;
         long worldSeed = player.getWorld().getSeed();
         Chunk jogadorChunk = player.getWorld().getChunkAt(player.getLocation());

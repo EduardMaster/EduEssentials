@@ -29,7 +29,7 @@ public class DoubleJump extends EventsManager {
         if (gameMode.getGameMode() == GameMode.CREATIVE) return;
 
         if (Mine.equals(e.getFrom(), e.getTo())) return;
-        if (!EduEssentials.getInstance().getBoolean("doublejump.enabled")) return;
+        if (!EduEssentials.getInstance().getManager().getDoubleJumpSystem()) return;
         if (Mine.isOnGround(gameMode)) {
             if (gameMode.isOnGround() && gameMode.getVelocity().getY() > -0.1) {
                 players.remove(gameMode);
@@ -66,7 +66,7 @@ public class DoubleJump extends EventsManager {
         if (player.getGameMode() == GameMode.CREATIVE) return;
         if (players.contains(player)) return;
         if (!EduEssentials.getInstance().getBoolean("doublejump.enabled")) return;
-        EduEssentials.getInstance().getDoubleJump().create(player);
+        EduEssentials.getInstance().getManager().getDoubleJumpEffect().create(player);
         players.add(player);
         e.setCancelled(true);
         player.setAllowFlight(false);

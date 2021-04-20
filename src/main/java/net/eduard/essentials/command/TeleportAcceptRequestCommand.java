@@ -28,9 +28,9 @@ public class TeleportAcceptRequestCommand extends CommandManager {
                 if (Mine.existsPlayer(sender, args[0])) {
                     Player target = Mine.getPlayer(args[0]);
 
-                    if (EduEssentials.getInstance().getRequests().containsValue(p)) {
-                        Player convidado = EduEssentials.getInstance().getRequests().get(p);
-                        EduEssentials.getInstance().getRequests().remove(p);
+                    if (EduEssentials.getInstance().getManager().getTpaRequests().containsValue(p)) {
+                        Player convidado = EduEssentials.getInstance().getManager().getTpaRequests().get(p);
+                        EduEssentials.getInstance().getManager().getTpaRequests().remove(p);
                         convidado.teleport(p);
                         p.sendMessage(messageAccepted);
                         convidado.sendMessage(messageTeleported);
