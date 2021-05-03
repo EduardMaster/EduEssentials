@@ -18,7 +18,7 @@ import net.eduard.essentials.EduEssentials;
 
 public class SetGroupCommand extends CommandManager {
     public List<String> messages = new ArrayList<>();
-    public Title title = new Title("$player", "$group", 20, 20, 20);
+    public Title title = new Title("%player", "%group", 20, 20, 20);
     public String defaultGroup = "membro";
 
     public String getGroup(Player player) {
@@ -45,14 +45,14 @@ public class SetGroupCommand extends CommandManager {
         String group = args[1];
         if (!Mine.existsPlayer(sender, name)) return true;
         Player target = Mine.getPlayer(name);
-        Title t = (Title) title.copy();
+        Title title = (Title) this.title.copy();
         VaultAPI.getPermission().playerAddGroup(target, group);
         VaultAPI.getPermission().playerRemoveGroup(target, getGroup(target));
         EduEssentials.getInstance().getConfigs().set(target.getUniqueId().toString(), group);
-        t.setSubTitle(getValues(t.getSubTitle(), name, group));
-        t.setTitle(getValues(t.getTitle(), name, group));
+        title.setSubTitle(getValues(title.getSubTitle(), name, group));
+        title.setTitle(getValues(title.getTitle(), name, group));
         for (Player player : Mine.getPlayers()) {
-            t.create(player);
+            title.create(player);
             for (String message : messages) {
                 player.sendMessage(getValues(message, name, group));
             }
@@ -63,7 +63,8 @@ public class SetGroupCommand extends CommandManager {
     }
 
     public String getValues(String value, String name, String group) {
-        return value.replace("$player", name).replace("$group", group);
+        return value.replace("%player", name)
+                .replace("%group", group);
     }
 
     @EventHandler

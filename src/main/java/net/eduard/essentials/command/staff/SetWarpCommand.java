@@ -21,14 +21,14 @@ public class SetWarpCommand extends CommandManager {
     public boolean onCommand(CommandSender sender, Command command, String label,
                              String[] args) {
         if (Mine.onlyPlayer(sender)) {
-            Player p = (Player) sender;
+            Player player = (Player) sender;
             if (args.length == 0) {
                 sendUsage(sender);
             } else {
 
                 String name = args[0];
                 String path = "warps." + name;
-                EduEssentials.getInstance().getStorage().set(path, p.getLocation());
+                EduEssentials.getInstance().getStorage().set(path, player.getLocation());
                 sender.sendMessage(message.replace("$warp", name));
             }
 

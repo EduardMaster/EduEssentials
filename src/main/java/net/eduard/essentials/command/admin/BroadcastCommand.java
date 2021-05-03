@@ -8,7 +8,7 @@ import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
 
 public class BroadcastCommand extends CommandManager {
-	public String message = "§f$\n    $message \n";
+	public String message = "§f$\n    %message \n";
 	public BroadcastCommand() {
 		super("broadcast","bc");
 	}
@@ -25,7 +25,7 @@ public class BroadcastCommand extends CommandManager {
 
 			builder.append(Mine.toChatMessage(arg));
 		}
-		Mine.broadcast(this.message.replace("$message", builder.toString()));
+		Mine.broadcast(this.message.replace("%message", builder.toString()));
 		return true;
 	}
 

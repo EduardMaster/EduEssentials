@@ -22,11 +22,11 @@ public class PvPCommand extends CommandManager {
 			String label, String[] args) {
 		if (args.length ==0 ){
 			if (sender instanceof Player){
-				Player p = (Player) sender;
-				if (p.getWorld().getPVP()){
-					p.getWorld().setPVP(false);
+				Player player = (Player) sender;
+				if (player.getWorld().getPVP()){
+					player.getWorld().setPVP(false);
 				}else{
-					p.getWorld().setPVP(true);
+					player.getWorld().setPVP(true);
 				}
 				
 			}else return false;

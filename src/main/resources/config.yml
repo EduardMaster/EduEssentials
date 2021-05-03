@@ -20,7 +20,7 @@ combatlog:
   enabled: false
   combat-seconds: 30
   commands-permitted:
-  - /report
+    - /report
   
 blocked-commands:
 - /plugins

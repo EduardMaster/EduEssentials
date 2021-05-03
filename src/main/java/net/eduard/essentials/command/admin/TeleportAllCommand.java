@@ -14,19 +14,19 @@ public class TeleportAllCommand extends CommandManager {
     }
 
     public String message = "§6Voce teleportou todos ate você!";
-    public String messageTarget = "§6Voce foi teleportado pelo jogador $player§6!";
+    public String messageTarget = "§6Voce foi teleportado pelo jogador %player§6!";
 
     @Override
     public boolean onCommand(CommandSender sender, Command command,
                              String label, String[] args) {
         if (!Mine.onlyPlayer(sender)) return true;
-        Player p = (Player) sender;
-        for (Player d : Mine.getPlayers()) {
-            if (d.equals(p))
+        Player player = (Player) sender;
+        for (Player playerLoop : Mine.getPlayers()) {
+            if (playerLoop.equals(player))
                 continue;
-            d.teleport(p);
-            d.sendMessage(
-                    messageTarget.replace("$player", p.getDisplayName()));
+            playerLoop.teleport(player);
+            playerLoop.sendMessage(
+                    messageTarget.replace("%player", player.getDisplayName()));
         }
         sender.sendMessage(message);
 

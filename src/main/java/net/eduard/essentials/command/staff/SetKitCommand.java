@@ -1,6 +1,7 @@
 
 package net.eduard.essentials.command.staff;
 
+import net.eduard.api.lib.modules.Extra;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,15 +21,15 @@ public class SetKitCommand extends CommandManager {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (Mine.onlyPlayer(sender)) {
 			int range = 100;
-			try {
-				Integer.valueOf(args[0]);
-			} catch (Exception e) {
+			if (args.length>=1){
+				range = Extra.toInt(args[0]);
 			}
-			Player p = (Player) sender;
-			for (Player player : Mine.getPlayerAtRange(p.getLocation(), range)) {
-				if (player != p) {
-					player.getInventory().setArmorContents(p.getInventory().getArmorContents());
-					player.getInventory().setContents(p.getInventory().getContents());
+
+			Player player = (Player) sender;
+			for (Player playerLoop : Mine.getPlayerAtRange(player.getLocation(), range)) {
+				if (playerLoop != player) {
+					playerLoop.getInventory().setArmorContents(player.getInventory().getArmorContents());
+					playerLoop.getInventory().setContents(player.getInventory().getContents());
 
 				}
 			}
