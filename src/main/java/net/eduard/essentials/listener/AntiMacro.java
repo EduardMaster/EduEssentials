@@ -13,20 +13,20 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import net.eduard.essentials.EduEssentials;
 
-public class AntiMacro extends TimeManager {
+public class  AntiMacro extends TimeManager {
     public static Map<Player, Integer> cliques = new HashMap<>();
 
     @EventHandler
     public void bloquear(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player)) return;
-        Player p = (Player) e.getDamager();
+        Player batetor = (Player) e.getDamager();
         if (e.getEntity() instanceof Player) {
-            double dis = p.getLocation().distance(e.getEntity().getLocation());
+            double dis = batetor.getLocation().distance(e.getEntity().getLocation());
             if (dis > 5) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (player.hasPermission("antimacro.admin")) {
                         player.sendMessage(EduEssentials.getInstance().message("macro-warn").replace("$player",
-                                p.getName().replace("$distance", "" + dis)));
+                                batetor.getName().replace("$distance", "" + dis)));
                     }
                 }
             }

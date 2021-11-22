@@ -50,7 +50,8 @@ public class LaunchPadManager extends EventsManager {
 	public void event(PlayerMoveEvent e) {
 		if (!Mine.equals2(e.getFrom(), e.getTo())) {
 			Player player = e.getPlayer();
-			Block block = e.getTo().getBlock().getRelative(0, blockHigh, 0);
+			Block block = e.getTo().getBlock().getRelative(0,
+					blockHigh, 0);
 			if (blockData != -1 && blockData != block.getData())
 				return;
 			if (block.getTypeId() != blockId)

@@ -18,10 +18,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import net.eduard.api.lib.modules.Mine;
-import net.eduard.api.lib.config.Config;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 public class SoupSystem extends EventsManager {

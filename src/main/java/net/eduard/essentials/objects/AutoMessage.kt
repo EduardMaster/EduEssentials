@@ -1,4 +1,4 @@
-package net.eduard.essentials.core
+package net.eduard.essentials.objects
 
 import net.eduard.api.lib.modules.Mine
 import net.md_5.bungee.api.chat.ClickEvent

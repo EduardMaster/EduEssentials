@@ -27,13 +27,13 @@ public class GamemodeCommand extends CommandManager {
 			String label, String[] args) {
 		if (args.length == 0) {
 			if (sender instanceof Player) {
-				Player p = (Player) sender;
-				if (p.getGameMode() == GameMode.CREATIVE) {
-					p.setGameMode(GameMode.SURVIVAL);
+				Player player = (Player) sender;
+				if (player.getGameMode() == GameMode.CREATIVE) {
+					player.setGameMode(GameMode.SURVIVAL);
 				} else {
-					p.setGameMode(GameMode.CREATIVE);
+					player.setGameMode(GameMode.CREATIVE);
 				}
-				sender.sendMessage( message.replace("$gamemode", getGamemode(p)));
+				sender.sendMessage( message.replace("$gamemode", getGamemode(player)));
 
 			} else
 				return false;

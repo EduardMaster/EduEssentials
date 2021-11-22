@@ -11,11 +11,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import net.eduard.api.lib.modules.Mine;
-/**
- * Anti dano de queda dos Jogadores
- * @author Eduard
- *
- */
 
 public class FallManager extends EventsManager {
 
@@ -32,10 +27,10 @@ public class FallManager extends EventsManager {
 	@EventHandler
 	public void onPlayerTakeDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
-			Player p = (Player) event.getEntity();
-			if (event.getCause() == DamageCause.FALL && players.contains(p)) {
+			Player player = (Player) event.getEntity();
+			if (event.getCause() == DamageCause.FALL && players.contains(player)) {
 				event.setCancelled(true);
-				players.remove(p);
+				players.remove(player);
 			}
 		}
 	}
@@ -45,10 +40,10 @@ public class FallManager extends EventsManager {
 	 */
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
-		Player p = event.getPlayer();
-		if (event.getTo().getBlock().equals(event.getTo().getBlock().getLocation())) {
-			if (Mine.isOnGround(p) && !Mine.isFalling(p)) {
-				players.remove(p);
+		Player player = event.getPlayer();
+		if (event.getTo().getBlock().equals(event.getTo().getBlock())) {
+			if (Mine.isOnGround(player) && !Mine.isFalling(player)) {
+				players.remove(player);
 			}
 		}
 	}

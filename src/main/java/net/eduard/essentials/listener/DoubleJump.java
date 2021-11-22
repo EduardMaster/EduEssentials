@@ -49,7 +49,8 @@ public class DoubleJump extends EventsManager {
     @EventHandler
     public void habilitar(EntityDamageEvent e) {
         Entity entity = e.getEntity();
-        if (!(entity instanceof Player) || e.getCause() != DamageCause.FALL) return;
+        if (!(entity instanceof Player)
+                || e.getCause() != DamageCause.FALL) return;
         Player player = (Player) entity;
         if (players.contains(player)) {
             e.setCancelled(true);

@@ -3,26 +3,27 @@ package net.eduard.essentials;
 
 import java.util.*;
 
+import net.eduard.api.lib.bungee.BungeeAPI;
 import net.eduard.api.lib.game.Title;
-import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.game.Jump;
 import net.eduard.api.lib.game.SoundEffect;
-import net.eduard.essentials.core.AutoMessage;
+import net.eduard.api.lib.modules.Mine;
+import net.eduard.essentials.command.YoutuberCommand;
+import net.eduard.essentials.objects.AutoMessage;
 import net.eduard.essentials.core.EssentialsManager;
 import net.eduard.essentials.core.LaunchPadManager;
 import net.eduard.essentials.listener.*;
 import net.eduard.essentials.task.AutoMessagerTask;
 import net.eduard.essentials.listener.SpawnListener;
+import net.eduard.essentials.task.ClearDropsTask;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.config.Config;
 import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.api.lib.storage.StorageAPI;
 import net.eduard.api.server.EduardPlugin;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 
 public class EduEssentials extends EduardPlugin {
@@ -48,6 +49,9 @@ public class EduEssentials extends EduardPlugin {
         instance = this;
         setFree(true);
         super.onEnable();
+
+        EduEssentials.getInstance().log("Registrando placeholder {players_amount}");
+                Mine.addReplacer("players_amount", p-> BungeeAPI.INSTANCE.getPlayersAmount());
         new AntiDupe().register(this);
         new AntiMacro().register(this);
         new EssentialsListener().register(this);
@@ -59,6 +63,7 @@ public class EduEssentials extends EduardPlugin {
         new ClickCounter().register(this);
         new SlimeChunkDetector().register(this);
         new AutoMessagerTask().asyncTimer();
+        new ClearDropsTask().syncTimer();
         LaunchPadManager.NO_FALL.register(this);
 
         reload();
@@ -86,23 +91,29 @@ public class EduEssentials extends EduardPlugin {
         messages.saveConfig();
         for (World world : Bukkit.getWorlds()) {
             String name = world.getName().toLowerCase();
-            configs.add("teleport.respawn in world.$name", false,
-                    "Teleportar quando voce resnacer no mundo $name");
+            configs.add("spawn.worlds."+name, true,
+                    "Teleportar quando voce resnacer no mundo "+name);
         }
-        configs.add("teleport.on respawn", true, "Teleportar quando renascer");
-        configs.add("teleport.on join", true, "Teleportar quando entrar");
-        configs.add("teleport.only on first join", false, "Teleportar apenas quando entrar pela primeira vez");
-        configs.add("teleport.delay.enabled", false, "Atraso ao teleportar");
-        configs.add("teleport.delay.seconds", 4, "Tempo de atraso ao teleportar");
+        configs.add("spawn.teleport-on-void",false);
+        configs.add("spawn.teleport-on-respawn", true, "Teleportar quando renascer");
+        configs.add("spawn.teleport-on-join", true, "Teleportar quando entrar");
+        configs.add("spawn.teleport-on-first-join-only", false, "Teleportar apenas quando entrar pela primeira vez");
 
-        configs.add("teleport.title enabled", true, "Enviar um titulo ao ir pro spawn");
-        configs.add("teleport.title", new Title("§6Inicio", "§eVoce foi para o Spawn!", 20, 20, 20),
+        configs.add("spawn.delay.enabled", true, "Atraso ao teleportar");
+        configs.add("spawn.delay.seconds", 2, "Tempo de atraso ao teleportar");
+        configs.add("spawn.delay.bypass-permission","spawn.bypass.delay");
+
+        configs.add("spawn.title.enabled", true, "Enviar um titulo ao ir pro spawn");
+        configs.add("spawn.title.used", new Title("§6Inicio", "§eVoce foi para o Spawn!", 20, 20, 20),
                 "Configure como vai ser o titulo ao ir para o spawn");
-        configs.add("teleport.sound", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao teleportar");
-        configs.add("teleport.sound on join", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao entrar ");
-        configs.add("teleport.sound on respawn", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao renascer");
+
+        configs.add("spawn.sound-on-command", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao teleportar");
+        configs.add("spawn.sound-on-join", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao entrar ");
+        configs.add("spawn.sound-on-teleport", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao teleportar");
+        configs.add("spawn.sound-on-respawn", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao renascer");
 
     }
+
 
 
     public void save() {
@@ -111,6 +122,26 @@ public class EduEssentials extends EduardPlugin {
 
     @Override
     public void configDefault() {
+        EssentialsConfigurationKt.clearDrops(configs);
+        configs.add("chat.enabled",true);
+        configs.add("chat.delay.enabled",true);
+        configs.add("chat.delay.seconds",1);
+
+
+        configs.add("autopickup.enabled",false);
+        configs.add("autopickup.mob-drops",false);
+        configs.add("autopickup.block-drops",false);
+
+
+        configs.add("homes.delay.enabled" , true);
+        configs.add("homes.delay.ticks", 20);
+        configs.add("homes.delay.permission-bypass", "homes.delay.bypass");
+
+
+        configs.add("blocked.run-commands" , Collections.singletonList("/plugins"));
+        configs.add("blocked.tab-commands" , Collections.singletonList("/plugins"));
+        configs.add("blocked.bypass-permission", "blocked.commands.bypass");
+
         getConfigs().add("auto-message-per-seconds", 60);
         getConfigs().add("tab-header", Arrays.asList("", "" +
                         " §6Seja bem vindo a rede"
@@ -118,6 +149,11 @@ public class EduEssentials extends EduardPlugin {
                 , ""));
         getConfigs().add("tab-footer", Arrays.asList("", "" +
                 " §6Acesse §ewww.rededemine.com"));
+        getConfigs().add("cancel.drops" , false);
+
+        for (EntityDamageEvent.DamageCause cause : EntityDamageEvent.DamageCause.values()){
+            getConfigs().add("cancel.damage."+cause , false);
+        }
 
 
 
@@ -129,16 +165,23 @@ public class EduEssentials extends EduardPlugin {
             getConfigs().add(path, true);
             LaunchPadManager.WORLDS.put(world, getConfigs().getBoolean(path));
         }
-
-
         spawn();
 
-        getConfigs().saveConfig();
+        configs.add("command-delay.enabled",true);
+        configs.add("command-delay.ticks",20);
+        configs.add("command-delay.bypass-permission", "command.delay.bypass");
+
+        configs.add("not-rain",true);
+        configs.add("food-not-change", false);
+        configs.add("force-gamemode.enabled",true);
+        configs.add("force-gamemode.used" , "ADVENTURE");
 
         for (String key : getConfigs().getSection("pads").getKeys()) {
             LaunchPadManager launchpad = getConfigs().get("pads." + key, (LaunchPadManager.class));
             launchpad.register(this);
         }
+
+        getConfigs().saveConfig();
 
     }
 
@@ -149,7 +192,7 @@ public class EduEssentials extends EduardPlugin {
         configDefault();
         autoMessages();
         int quantidadeDeComandosDesativados = 0;
-        for (Class<?> claz : getClasses("net.eduard.essentials.command")) {
+        for (Class<?> claz : getClasses(YoutuberCommand.class.getPackage().getName())) {
             try {
                 if (!CommandManager.class.isAssignableFrom(claz)) continue;
                 String name = claz.getSimpleName().toLowerCase().replace("command", "");
@@ -182,8 +225,6 @@ public class EduEssentials extends EduardPlugin {
         StorageAPI.updateReferences();
         getConfigs().saveConfig();
     }
-
-
 
     public void onDisable() {
         save();

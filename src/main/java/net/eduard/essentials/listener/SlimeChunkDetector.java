@@ -32,7 +32,7 @@ public class SlimeChunkDetector extends EventsManager {
         int z = jogadorChunk.getZ();
 
         Random random = new Random(
-                worldSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 0x3AD8025F);
+                worldSeed + (long) x * x * 4987142 + x * 5947611L + z * z * 4392871L + z * 389711L ^ 0x3AD8025F);
 
         if (random.nextInt(10) == 0)
             player.playSound(player.getLocation(), Sound.SLIME_WALK, 2.0F, 2.0F);

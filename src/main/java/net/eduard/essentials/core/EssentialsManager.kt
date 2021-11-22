@@ -3,12 +3,11 @@ package net.eduard.essentials.core
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.game.Jump
 import net.eduard.api.lib.game.SoundEffect
+import net.eduard.essentials.objects.AutoMessage
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class EssentialsManager {
-
-
     var autoMessages = mutableListOf<AutoMessage>()
     var soupSystem = true
     var soupSignTitle = "soup"

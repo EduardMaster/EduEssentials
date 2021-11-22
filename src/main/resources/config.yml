@@ -1,12 +1,8 @@
 
-chat-delayed: true
-chat-delay-seconds: 1
 
-command-delayed: true
-command-delay-seconds: 2
 
-anti-macro-enabled: true
-auto-pickup-enabled: true
+anti-macro:
+  enabled: true
 
 disable:
   hopper: true
@@ -15,15 +11,8 @@ disable:
   anvil: true
   slime-split: false
 
-
 combatlog:
   enabled: false
   combat-seconds: 30
   commands-permitted:
     - /report
-  
-blocked-commands:
-- /plugins
-blocked-tab-commands:
-- /plugins
-
