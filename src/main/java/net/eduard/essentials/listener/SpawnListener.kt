@@ -17,31 +17,23 @@ class SpawnListener : EventsManager() {
 
     @EventHandler
     fun teleportOnVoid(e: EntityDamageEvent) {
-        if (e.entity is Player) {
-            val player = e.entity as Player
-            if (EduEssentials.getInstance().getBoolean("spawn.teleport-on-void")
-                && e.cause == EntityDamageEvent.DamageCause.VOID) {
+        if (e.entity !is Player) return
+        val player = e.entity as Player
+        if (EduEssentials.getInstance().getBoolean("spawn.teleport-on-void")
+            && e.cause == EntityDamageEvent.DamageCause.VOID) {
 
-                e.isCancelled = true
-                player.fallDistance = -player.fallDistance
-                if (EduEssentials.getInstance().storage.contains("spawn")) {
-                    player.teleport(
-                        EduEssentials.getInstance()
-                            .storage["spawn", Location::class.java]
-                    )
-
-                    EduEssentials.getInstance().configs["spawn.sound-on-teleport", SoundEffect::class.java].create(
-                        player
-                    )
-                }
+            e.isCancelled = true
+            player.fallDistance = -player.fallDistance
+            if (EduEssentials.getInstance().storage.contains("spawn")) {
+                player.teleport(EduEssentials.getInstance().storage["spawn", Location::class.java])
+                EduEssentials.getInstance().configs["spawn.sound-on-teleport", SoundEffect::class.java].create(player)
             }
         }
     }
 
     @EventHandler
     fun notRain(e: WeatherChangeEvent) {
-        if (e.toWeatherState()
-            && EduEssentials.getInstance().getBoolean("not-rain")) {
+        if (e.toWeatherState() && EduEssentials.getInstance().getBoolean("not-rain")) {
             e.isCancelled = true
         }
     }
@@ -57,10 +49,7 @@ class SpawnListener : EventsManager() {
             }
         }
         if (EduEssentials.getInstance().storage.contains("spawn")) {
-            player.teleport(
-                EduEssentials.getInstance()
-                    .storage["spawn", Location::class.java]
-            )
+            player.teleport(EduEssentials.getInstance().storage["spawn", Location::class.java])
             EduEssentials.getInstance().configs["spawn.sound-on-join", SoundEffect::class.java].create(player)
         }
 

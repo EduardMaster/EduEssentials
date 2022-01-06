@@ -1,89 +1,65 @@
-package net.eduard.essentials.command;
+package net.eduard.essentials.command
 
-import net.eduard.api.lib.modules.Mine;
-import net.eduard.api.lib.manager.CommandManager;
-import net.eduard.essentials.EduEssentials;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import net.eduard.api.lib.manager.CommandManager
+import net.eduard.api.lib.modules.Mine
+import net.eduard.essentials.EduEssentials
+import net.eduard.essentials.objects.TeleportRequest
+import net.eduard.essentials.objects.TeleportRequestState
+import net.md_5.bungee.api.chat.HoverEvent
+import net.md_5.bungee.api.chat.ComponentBuilder
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-
-public class TeleportRequestCommand extends CommandManager {
-
-    private int cooldown = 30;
-
-    public TeleportRequestCommand() {
-        super("teleportrequest", "tpa");
-        setUsage("/tpa <jogador>");
-    }
-
-
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
-        if (Mine.onlyPlayer(sender)){
-            Player p = (Player) sender;
-
-
-            if (args.length == 0) {
-
-                sendUsage(p);
-
-            } else {
-
-                if (!p.hasPermission("teleport.delay.bypass")) {
-
-                    if (EduEssentials.getInstance().getManager().getTpaRequestsDelay().containsKey(p)) {
-                        long dif = System.currentTimeMillis() - EduEssentials.getInstance().getManager().getTpaRequestsDelay().get(p) + (cooldown * 1000);
-                        if (dif < 0) {
-                            //RexAPI.sendActionBar(p, "§cAguarde " + cooldown + " para usar o tpa novamente.");
-                            return false;
-                        }
-                    }
-                }
-                if (Mine.existsPlayer(sender, args[0])) {
-                    final Player target = Bukkit.getPlayer(args[0]);
-                    if (target == p) {
-                        sender.sendMessage("");
-                        return false;
-                    }
-                    Player recipient = p;
-                    sender.sendMessage("§ePedido enviado para §6" + recipient.getName() + ".");
-
-                    recipient.sendMessage(" ");
-                    recipient.sendMessage("§6" + sender.getName() + " §epediu para ir ate voce.");
-
-                    TextComponent TpaAceitar = new TextComponent("§ePara aceitar o pedido, use §6/tpaccept");
-                    TpaAceitar.setBold(Boolean.valueOf(true));
-                    TpaAceitar.setHoverEvent(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§6/tpaccept").create()));
-                    TpaAceitar.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
-                    recipient.spigot().sendMessage(TpaAceitar);
-
-                    TextComponent TpaNegar = new TextComponent("§ePara aceitar o pedido, use §6/tpdeny.");
-                    TpaNegar.setBold(Boolean.valueOf(true));
-                    TpaNegar.setHoverEvent(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§6/tpdeny.").create()));
-                    TpaNegar.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
-                    recipient.spigot().sendMessage(TpaNegar);
-
-                    recipient.sendMessage("§eEste pedido ser§ expirado em 1 minuto.");
-                    recipient.sendMessage(" ");
-
-                    EduEssentials.getInstance().getManager().getTpaRequests().put(recipient, target);
-
-                }
-
-            }
-
-
+class TeleportRequestCommand : CommandManager("teleportrequest", "tpa") {
+    var cooldownSeconds = 60
+    override fun playerCommand(player: Player, args: Array<String>) {
+        if (args.isEmpty()) {
+            sendUsage(player)
+            return
         }
-        return true;
+        if (EduEssentials.getInstance().manager.teleportRequests.containsKey(player)) {
+            val tpRequest = EduEssentials.getInstance().manager.teleportRequests[player]!!
+            val secondsLeft = (tpRequest.start + cooldownSeconds * 1000) - System.currentTimeMillis()
+            if (secondsLeft > 0 && tpRequest.state == TeleportRequestState.WAITING) {
+                player.sendMessage("§cVocê já possuí um convite enviado para este jogador.")
+                return
+            }
+        }
+        if (!Mine.existsPlayer(player, args[0])) return
+        val target = Bukkit.getPlayer(args[0])
+        if (target == player) {
+            player.sendMessage("§cVocê não pode requisitar teleporte para si mesmo.")
+            return
+        }
+        target.sendMessage("§eO jogador ${player.name} deseja ir até você.")
+        target.sendMessage("")
+        val chatTpaAceitar = TextComponent("§eClique §a§lAQUI §epara aceitar.")
+        chatTpaAceitar.hoverEvent =
+            HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("§aAceitar convite.").create())
+        chatTpaAceitar.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept")
+        target.spigot().sendMessage(chatTpaAceitar)
+
+        val chatTpaNegar = TextComponent("§eClique §c§lAQUI §epara negar.")
+        chatTpaNegar.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("§cNegar convite.").create())
+        chatTpaNegar.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny")
+        target.spigot().sendMessage(chatTpaNegar)
+        target.sendMessage("")
+        target.sendMessage("§6O convite expira em 1 minuto.")
+        target.sendMessage("")
+        player.sendMessage("§eVocê enviou um convite de teleporte para ${target.name}.")
+        EduEssentials.getInstance().manager.teleportRequests[player] = TeleportRequest(player, target)
+        EduEssentials.getInstance().asyncDelay(20L * cooldownSeconds) {
+            val tpRequest = EduEssentials.getInstance().manager.teleportRequests[player]!!
+            if (tpRequest.state == TeleportRequestState.WAITING) {
+                player.sendMessage("§cConvite de teleporte expirado.");
+                tpRequest.state = TeleportRequestState.EXPIRED
+            }
+        }
     }
 
-
+    init {
+        usage = "/tpa <jogador>"
+    }
 }

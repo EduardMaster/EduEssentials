@@ -8,7 +8,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.metadata.FixedMetadataValue
 
-class ComboSystem : EventsManager() {
+class ComboListener : EventsManager() {
 
     init{
         for (player in Mine.getPlayers()){
@@ -16,19 +16,15 @@ class ComboSystem : EventsManager() {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    fun event(e: EntityDamageByEntityEvent) {
-        e.isCancelled=false
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    fun comboSystem(e: EntityDamageByEntityEvent) {
         var combo = 0.0
-        //Mine.broadcast("Combo: "+combo)
-        // Mine.broadcast("Dano: "+e.damage)
         e.entity.removeMetadata("combo", plugin)
         if (e.damager.hasMetadata("combo")){
             combo = e.damager.getMetadata("combo")[0].asDouble()
-            //Mine.broadcast("Combo retornado: "+combo)
+
         }
         e.damage = e.damage * combo
-        //Mine.broadcast("Dano Final: "+e.damage)
         combo++
         if (e.damager is Player){
             e.damager.sendMessage("§aSeu combo é: $combo")

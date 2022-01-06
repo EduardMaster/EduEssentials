@@ -38,14 +38,14 @@ public class GodCommand extends CommandManager {
         } else {
             String sub = args[0].toLowerCase();
 
-            if (Mine.OPT_COMMANDS_ON.contains(sub)) {
+            if (EduEssentials.getInstance().getManager().getCommandEnable().contains(sub)) {
 
 
                 if (!gods.contains(player)) {
                     gods.add(player);
                 }
 
-            } else if (Mine.OPT_COMMANDS_OFF.contains(sub)) {
+            } else if (EduEssentials.getInstance().getManager().getCommandDisable().contains(sub)) {
 
                 gods.remove(player);
 

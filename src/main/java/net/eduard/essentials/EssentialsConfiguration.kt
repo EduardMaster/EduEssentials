@@ -8,25 +8,25 @@ fun Config.clearDrops() {
         add("enabled", true)
         add("timer-in-seconds", 120)
         add("broadcast-at", listOf(30, 10, 5, 4, 3, 2, 1))
-        add(
-            "broadcast-text", listOf(
+        add("broadcast-text", listOf(
                 "",
                 "&cOs drops serão limpos em %time segundos.",
-                ""
-            )
-        )
-        add(
-            "text", listOf(
+                ""))
+        add("text", listOf(
                 "",
                 "&cOs drops foram Limpos com Sucesso.",
-                ""
-            )
-        )
+                ""))
     }
-}
-
-operator infix fun ConfigSection.plus(n : Int){
-
+    section("disable") {
+        add("hopper", true)
+        add("enchanment-table", false)
+        add("restone", false)
+        add("anvil", false)
+        add("slime-split", false)
+        add("boat", true)
+        add("cart", true)
+        add("vehicle-inventory", false)
+    }
 }
 
 fun Config.section(name: String, setup: ConfigSection.() -> Unit): ConfigSection {

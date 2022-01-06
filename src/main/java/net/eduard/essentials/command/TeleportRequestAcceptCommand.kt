@@ -5,10 +5,11 @@ import net.eduard.api.lib.modules.Mine
 import net.eduard.essentials.EduEssentials
 import org.bukkit.entity.Player
 
-class TeleportRequestDenyCommand : CommandManager("teleportdeny", "tpdeny") {
-
+class TeleportRequestAcceptCommand : CommandManager("teleportaccept", "tpaccept") {
+    var messageAccepted = "§aPedido aceito."
+    var messageTeleported = "§aTeleportando com sucesso"
     var messageNotInvited = "§cVoce nao possui um pedido de teleporte."
-    var messageDenied = "§cVoce recusou o pedido de teleport de %player."
+    var messageNotInvitedBy = "§cVocê não foi requisitado pelo jogador %player."
     override fun playerCommand(player: Player, args: Array<String>) {
         if (args.isEmpty()) {
             sendUsage(player)
@@ -19,15 +20,22 @@ class TeleportRequestDenyCommand : CommandManager("teleportdeny", "tpdeny") {
         if (EduEssentials.getInstance().manager.teleportRequests.containsKey(target)) {
             val request = EduEssentials.getInstance().manager.teleportRequests[target]!!
             val convidado = request.invited
-            if (convidado == player) {
-                EduEssentials.getInstance().manager.teleportRequests.remove(target)
-                player.sendMessage(messageDenied.replace("%player" , convidado.name))
-            } else {
-                player.sendMessage(messageNotInvited)
+            val inviter = request.inviter
+            if (convidado != player) {
+                player.sendMessage(messageNotInvitedBy.replace("%player" , inviter.name ))
+                return
             }
+            EduEssentials.getInstance().manager.teleportRequests.remove(player)
+            convidado.teleport(player)
+            player.sendMessage(messageAccepted)
+            convidado.sendMessage(messageTeleported)
+        } else {
+            player.sendMessage(messageNotInvited)
         }
+
     }
+
     init {
-        usage = "/tpdeny <player>"
+        usage = "/tpaccept <player>"
     }
 }

@@ -134,7 +134,7 @@ public class AdminCommand extends CommandManager {
         if (player.getItemInHand() != testFF.getItem()) return;
         if (players.contains(player)) {
             Mine.show(player);
-            Mine.makeInvunerable(player, 1);
+            Mine.setInvunerable(player, 1);
             player.sendMessage("§6Troca rapida ativada!");
             new BukkitRunnable() {
 

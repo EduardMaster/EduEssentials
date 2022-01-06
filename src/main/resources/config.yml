@@ -1,15 +1,6 @@
 
-
-
 anti-macro:
   enabled: true
-
-disable:
-  hopper: true
-  enchanment-table: true
-  restone: true
-  anvil: true
-  slime-split: false
 
 combatlog:
   enabled: false

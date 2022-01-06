@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.eduard.essentials.EduEssentials;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,30 +40,30 @@ public class ToggleOnlineCommand extends CommandManager {
     public boolean onCommand(CommandSender sender, Command command,
                              String label, String[] args) {
         if (!Mine.onlyPlayer(sender)) return true;
-        Player p = (Player) sender;
+        Player player = (Player) sender;
         if (commandsOn.contains(label.toLowerCase())) {
-            Mine.show(p);
+            Mine.show(player);
             sender.sendMessage(messageOn);
-            if (!players.contains(p))
-                players.add(p);
+            if (!players.contains(player))
+                players.add(player);
         } else if (commandsOff.contains(label.toLowerCase())) {
-            Mine.hide(p);
+            Mine.hide(player);
             sender.sendMessage(messageOff);
-            players.remove(p);
+            players.remove(player);
         } else {
             if (args.length == 0) {
-                if (players.contains(p)) {
-                    p.chat("/" + commandsOff.get(0));
+                if (players.contains(player)) {
+                    player.chat("/" + commandsOff.get(0));
 
                 } else {
-                    p.chat("/" + commandsOn.get(0));
+                    player.chat("/" + commandsOn.get(0));
                 }
             } else {
                 String cmd = args[0].toLowerCase();
-                if (Mine.OPT_COMMANDS_ON.contains(cmd)) {
-                    p.chat("/" + commandsOn.get(0));
-                } else if (Mine.OPT_COMMANDS_OFF.contains(cmd)) {
-                    p.chat("/" + commandsOff.get(0));
+                if (EduEssentials.getInstance().getManager().getCommandEnable().contains(cmd)) {
+                    player.chat("/" + commandsOn.get(0));
+                } else if (EduEssentials.getInstance().getManager().getCommandDisable().contains(cmd)) {
+                    player.chat("/" + commandsOff.get(0));
                 } else {
                     sender.sendMessage(getUsage());
                 }

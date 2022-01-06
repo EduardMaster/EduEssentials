@@ -35,7 +35,7 @@ public class FallManager extends EventsManager {
 		}
 	}
 	/**
-	 * Manipulador de evento, que quando o jogador estiver no ch§o e n§o estiver caindo remove da lista
+	 * Manipulador de evento, que quando o jogador estiver no chao e nao estiver caindo remove da lista
 	 * @param event Jogador anda evento
 	 */
 	@EventHandler

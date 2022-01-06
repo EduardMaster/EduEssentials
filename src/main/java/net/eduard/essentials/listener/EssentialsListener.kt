@@ -1,26 +1,45 @@
 package net.eduard.essentials.listener
 
+import net.eduard.api.lib.abstraction.Minecraft
 import net.eduard.api.lib.bungee.BungeeAPI
+import net.eduard.api.lib.event.PlayerTargetPlayerEvent
 import net.eduard.api.lib.manager.EventsManager
 import net.eduard.api.lib.modules.Mine
 import net.eduard.api.lib.modules.MineReflect
 import net.eduard.essentials.EduEssentials
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
-import org.bukkit.WorldType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.block.SignChangeEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
-import org.bukkit.event.player.PlayerChatTabCompleteEvent
-import org.bukkit.event.player.PlayerCommandPreprocessEvent
-import org.bukkit.event.player.PlayerDropItemEvent
-import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.player.*
+import org.bukkit.event.server.ServerListPingEvent
 
 
 class EssentialsListener : EventsManager() {
+
+    val main get() = EduEssentials.getInstance()
+
+    companion object {
+        private val lastCommand: MutableMap<Player, Long> = HashMap()
+    }
+    @EventHandler
+    fun onPingServer(e: ServerListPingEvent) {
+        val amount = main.getInt("motd.custom-amount")
+        if (amount > -1) {
+            e.maxPlayers = amount
+        }
+        if (!main.getBoolean("motd.custom-text")) return
+        val builder = StringBuilder()
+        for (line in EduEssentials.getInstance().configs.getMessages("motd.text")) {
+            builder.append(line + "\n")
+        }
+        e.motd = builder.toString()
+    }
 
 
     @EventHandler
@@ -38,7 +57,12 @@ class EssentialsListener : EventsManager() {
             }
         }
     }
-
+    @EventHandler
+    fun onDeathFeatures(e: PlayerDeathEvent) {
+        if (main.getBoolean("death.no-message")) {
+            e.deathMessage = null
+        }
+    }
     @EventHandler
     fun foodDontChange(e: FoodLevelChangeEvent) {
         if (e.entity is Player) {
@@ -50,6 +74,7 @@ class EssentialsListener : EventsManager() {
             }
         }
     }
+
 
     @EventHandler
     fun onJoinFeatures(e: PlayerJoinEvent) {
@@ -76,11 +101,42 @@ class EssentialsListener : EventsManager() {
         if (!serversPlaceholders)
             EduEssentials.getInstance().syncDelay(20) {
                 serversPlaceholders = true
-
                 serverPlaceholders()
-
             }
+
+
+        if (main.getBoolean("join.first-join-message")) {
+            if (!player.hasPlayedBefore()) {
+                e.joinMessage = main.message("join.first-join-text")
+                    .replace("%player", player.name)
+            }
+        }
+        if (main.getBoolean("join.message")) {
+            e.joinMessage = main.message("join.text")
+                .replace("%player", player.name)
+        }
+        if (main.getBoolean("join.no-message")) {
+            e.joinMessage = null
+        }
     }
+
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    fun onTarget(e: PlayerTargetPlayerEvent) {
+        if (!main.getBoolean("on-target.show-text"))return
+        Minecraft.instance.sendActionBar(e.player, Mine.getReplacers(main.getString("on-target.text"), e.target))
+    }
+    @EventHandler
+    fun onQuitFeatures(e: PlayerQuitEvent) {
+        val player = e.player
+        if (main.getBoolean("quit.custom-message"))
+            e.quitMessage = main.configs.message("quit.custom-text")
+                .replace("%player", player.name,false)
+        if (main.getBoolean("quit.no-message")) {
+            e.quitMessage = null
+        }
+    }
+
 
     fun serverPlaceholders(){
         for (serverSpigot in BungeeAPI.servers.values) {
@@ -108,7 +164,7 @@ class EssentialsListener : EventsManager() {
     }
 
     @EventHandler
-    fun onSignChangeEvent(e: SignChangeEvent) {
+    fun signWithColors(e: SignChangeEvent) {
         val player = e.player
         if (player.hasPermission("sign.color")) {
             for (lineNumber in e.lines.indices) {
@@ -116,6 +172,15 @@ class EssentialsListener : EventsManager() {
             }
         }
     }
+
+    @EventHandler
+    fun chatWithColors(e: AsyncPlayerChatEvent) {
+        val player = e.player
+        if (!player.hasPermission("chat.color")) return
+        e.message = ChatColor.translateAlternateColorCodes('&', e.message)
+
+    }
+
 
     @EventHandler
     fun commandDelay(e: PlayerCommandPreprocessEvent) {
@@ -137,7 +202,6 @@ class EssentialsListener : EventsManager() {
             lastCommand[player] = System.currentTimeMillis()
         }
     }
-
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     fun blockTabCommands(e: PlayerChatTabCompleteEvent) {
         val player = e.player
@@ -149,7 +213,6 @@ class EssentialsListener : EventsManager() {
             }
         }
     }
-
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     fun blockCommands(e: PlayerCommandPreprocessEvent) {
         val player = e.player
@@ -163,7 +226,4 @@ class EssentialsListener : EventsManager() {
         }
     }
 
-    companion object {
-        private val lastCommand: MutableMap<Player, Long> = HashMap()
-    }
 }

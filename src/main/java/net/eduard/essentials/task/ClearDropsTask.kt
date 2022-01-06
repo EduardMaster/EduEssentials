@@ -22,8 +22,7 @@ class ClearDropsTask : TimeManager(20L) {
             val text = EduEssentials.getInstance().configs
                 .getMessages("clear-drops.broadcast-text")
             for (line in text) {
-                Mine.broadcast(
-                    line.replace("%time",
+                Mine.broadcast( line.replace("%time",
                         "" + Extra.formatTime(time * 1000L) )
                 )
             }

@@ -10,8 +10,7 @@ class AutoMessage(
     var text: String = "§aText",
     var hover: MutableList<String> = mutableListOf("§bText"),
     var clickAction: ClickEvent.Action = ClickEvent.Action.OPEN_URL,
-    var clickArgument: String = "https://eduard.com.br/"
-) {
+    var clickArgument: String = "https://eduard.com.br/") {
 
     fun create(): TextComponent {
         val builder = ComponentBuilder("")

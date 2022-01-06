@@ -52,13 +52,13 @@ public class EduEssentials extends EduardPlugin {
 
         EduEssentials.getInstance().log("Registrando placeholder {players_amount}");
                 Mine.addReplacer("players_amount", p-> BungeeAPI.INSTANCE.getPlayersAmount());
-        new AntiDupe().register(this);
+        new AntiDupeListener().register(this);
         new AntiMacro().register(this);
         new EssentialsListener().register(this);
         new DoubleJump().register(this);
         new SpawnListener().registerListener(this);
         new SoupSystem().register(this);
-        new ShowDamage().register(this);
+        new ShowDamageListener().register(this);
         new ComboCounter().register(this);
         new ClickCounter().register(this);
         new SlimeChunkDetector().register(this);
@@ -98,15 +98,12 @@ public class EduEssentials extends EduardPlugin {
         configs.add("spawn.teleport-on-respawn", true, "Teleportar quando renascer");
         configs.add("spawn.teleport-on-join", true, "Teleportar quando entrar");
         configs.add("spawn.teleport-on-first-join-only", false, "Teleportar apenas quando entrar pela primeira vez");
-
         configs.add("spawn.delay.enabled", true, "Atraso ao teleportar");
         configs.add("spawn.delay.seconds", 2, "Tempo de atraso ao teleportar");
         configs.add("spawn.delay.bypass-permission","spawn.bypass.delay");
-
         configs.add("spawn.title.enabled", true, "Enviar um titulo ao ir pro spawn");
         configs.add("spawn.title.used", new Title("§6Inicio", "§eVoce foi para o Spawn!", 20, 20, 20),
                 "Configure como vai ser o titulo ao ir para o spawn");
-
         configs.add("spawn.sound-on-command", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao teleportar");
         configs.add("spawn.sound-on-join", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao entrar ");
         configs.add("spawn.sound-on-teleport", SoundEffect.create("ENDERMAN_TELEPORT"), "Som ao teleportar");
@@ -126,38 +123,34 @@ public class EduEssentials extends EduardPlugin {
         configs.add("chat.enabled",true);
         configs.add("chat.delay.enabled",true);
         configs.add("chat.delay.seconds",1);
-
-
+        configs.add("quit.custom-message",false);
+        configs.add("death.no-message",true);
+        configs.add("join.first-join-message", false);
+        configs.add("join.first-join-text","§aSua primeira vez no servidor, seja muito bem vindo!!");
+        configs.add("join.message",false);
+        configs.add("join.text","§aO jogador %player entro no servidor.");
+        configs.add("join.no-message", true);
+        configs.add("quit.custom-text","&cO jogador %player saiu do servidor.");
+        configs.add("quit.no-message",false);
         configs.add("autopickup.enabled",false);
         configs.add("autopickup.mob-drops",false);
         configs.add("autopickup.block-drops",false);
-
-
         configs.add("homes.delay.enabled" , true);
         configs.add("homes.delay.ticks", 20);
         configs.add("homes.delay.permission-bypass", "homes.delay.bypass");
-
-
         configs.add("blocked.run-commands" , Collections.singletonList("/plugins"));
         configs.add("blocked.tab-commands" , Collections.singletonList("/plugins"));
         configs.add("blocked.bypass-permission", "blocked.commands.bypass");
-
         getConfigs().add("auto-message-per-seconds", 60);
         getConfigs().add("tab-header", Arrays.asList("", "" +
                         " §6Seja bem vindo a rede"
-                , "  §b A rede que contem varios minigames"
-                , ""));
+                , "  §b A rede que contem varios minigames", ""));
         getConfigs().add("tab-footer", Arrays.asList("", "" +
                 " §6Acesse §ewww.rededemine.com"));
         getConfigs().add("cancel.drops" , false);
-
         for (EntityDamageEvent.DamageCause cause : EntityDamageEvent.DamageCause.values()){
             getConfigs().add("cancel.damage."+cause , false);
         }
-
-
-
-
         getConfigs().add("pads.sponge", new LaunchPadManager(-1, 19, 0,
                 new Jump(SoundEffect.create("EXPLODE"), new Vector(0.0, 2.0, 0.0))));
         for (World world : Bukkit.getWorlds()) {

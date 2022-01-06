@@ -22,7 +22,7 @@ class HomesCommand : CommandManager("homes", "homelist", "casas") {
                 }
                 builder.append(sec)
             }
-            player.sendMessage(message.replace("\$homes", builder.toString()))
+            player.sendMessage(message.replace("%homes", builder.toString(),false))
         }
     }
 

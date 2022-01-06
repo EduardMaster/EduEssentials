@@ -15,12 +15,7 @@ class HomeCommand : CommandManager("home", "casa") {
     var message = "§6Voce teleportado para sua Home!"
     var messageError = "§cSua home não foi setada!"
 
-
-    var title = Title(
-        "§6Casa §e%home",
-        "§bTeleportado para sua casa §3%home!",
-        20, 20 * 2, 20
-    )
+    var title = Title("§6Casa §e%home", "§bTeleportado para sua casa §3%home!", 20, 20 * 2, 20)
     init{
         usage = "/home <nome>"
     }
