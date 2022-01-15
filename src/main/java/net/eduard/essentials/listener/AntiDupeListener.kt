@@ -92,7 +92,7 @@ class AntiDupeListener : EventsManager() {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    fun bloquearAbriBauDentroDeVeiculo(e: PlayerInteractEvent) {
+    fun bloquearAbrirBauDentroDeVeiculo(e: PlayerInteractEvent) {
         val player = e.player!!
         if (player.hasPermission("antidupe.admin")) return
         if (!EduEssentials.getInstance().getBoolean("disable.vehicle-inventory")) return

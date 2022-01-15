@@ -6,10 +6,12 @@ import net.eduard.essentials.EduEssentials
 import org.bukkit.entity.Player
 
 class TeleportRequestAcceptCommand : CommandManager("teleportaccept", "tpaccept") {
+
     var messageAccepted = "§aPedido aceito."
     var messageTeleported = "§aTeleportando com sucesso"
     var messageNotInvited = "§cVoce nao possui um pedido de teleporte."
     var messageNotInvitedBy = "§cVocê não foi requisitado pelo jogador %player."
+
     override fun playerCommand(player: Player, args: Array<String>) {
         if (args.isEmpty()) {
             sendUsage(player)
@@ -22,13 +24,16 @@ class TeleportRequestAcceptCommand : CommandManager("teleportaccept", "tpaccept"
             val convidado = request.invited
             val inviter = request.inviter
             if (convidado != player) {
-                player.sendMessage(messageNotInvitedBy.replace("%player" , inviter.name ))
+                player.sendMessage(messageNotInvitedBy
+                    .replace("%player" , inviter.name ))
                 return
             }
-            EduEssentials.getInstance().manager.teleportRequests.remove(player)
-            convidado.teleport(player)
-            player.sendMessage(messageAccepted)
-            convidado.sendMessage(messageTeleported)
+            request.accept()
+            EduEssentials.getInstance().manager.teleportRequests.remove(inviter)
+            inviter.teleport(convidado)
+            convidado.sendMessage(messageAccepted)
+            inviter.sendMessage(messageTeleported)
+
         } else {
             player.sendMessage(messageNotInvited)
         }

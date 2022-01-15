@@ -17,13 +17,15 @@ class AutoMessage(
         for (line in hover) {
             builder.append(line, ComponentBuilder.FormatRetention.FORMATTING)
         }
-        val textComponent = TextComponent(text)
+        val textComponent = TextComponent(text
+            .replace("/n","\n")
+            .replace("\\n","\n"))
         val clickEvent = ClickEvent(clickAction, clickArgument)
         textComponent.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, builder.create())
         textComponent.clickEvent = clickEvent
         return textComponent
-
     }
+
     fun sendAll(){
         val textComponent = create()
         for (player in Mine.getPlayers()){

@@ -27,6 +27,7 @@ class EssentialsListener : EventsManager() {
     companion object {
         private val lastCommand: MutableMap<Player, Long> = HashMap()
     }
+
     @EventHandler
     fun onPingServer(e: ServerListPingEvent) {
         val amount = main.getInt("motd.custom-amount")
@@ -57,12 +58,14 @@ class EssentialsListener : EventsManager() {
             }
         }
     }
+
     @EventHandler
     fun onDeathFeatures(e: PlayerDeathEvent) {
         if (main.getBoolean("death.no-message")) {
             e.deathMessage = null
         }
     }
+
     @EventHandler
     fun foodDontChange(e: FoodLevelChangeEvent) {
         if (e.entity is Player) {
@@ -91,10 +94,9 @@ class EssentialsListener : EventsManager() {
         }
         MineReflect.setTabList(player, header.toString(), footer.toString())
 
-        EduEssentials.getInstance().syncDelay(1) {
+        EduEssentials.getInstance().syncDelay(20) {
             if (EduEssentials.getInstance().configs.getBoolean("force-gamemode.enabled")) {
-                player.gameMode =
-                    GameMode.valueOf(EduEssentials.getInstance().configs.getString("force-gamemode.used"))
+                player.gameMode = GameMode.valueOf(EduEssentials.getInstance().configs.getString("force-gamemode.used"))
             }
         }
 
@@ -123,22 +125,23 @@ class EssentialsListener : EventsManager() {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onTarget(e: PlayerTargetPlayerEvent) {
-        if (!main.getBoolean("on-target.show-text"))return
+        if (!main.getBoolean("on-target.show-text")) return
         Minecraft.instance.sendActionBar(e.player, Mine.getReplacers(main.getString("on-target.text"), e.target))
     }
+
     @EventHandler
     fun onQuitFeatures(e: PlayerQuitEvent) {
         val player = e.player
         if (main.getBoolean("quit.custom-message"))
             e.quitMessage = main.configs.message("quit.custom-text")
-                .replace("%player", player.name,false)
+                .replace("%player", player.name, false)
         if (main.getBoolean("quit.no-message")) {
             e.quitMessage = null
         }
     }
 
 
-    fun serverPlaceholders(){
+    fun serverPlaceholders() {
         for (serverSpigot in BungeeAPI.servers.values) {
             val serverName = serverSpigot.name
             val placehodler = "" + serverName + "_players_amount"
@@ -154,8 +157,9 @@ class EssentialsListener : EventsManager() {
     }
 
     var serversPlaceholders = false
-    init{
-        if (Mine.getPlayers().isNotEmpty()){
+
+    init {
+        if (Mine.getPlayers().isNotEmpty()) {
             EduEssentials.getInstance().syncDelay(20) {
                 serverPlaceholders()
             }
@@ -202,23 +206,32 @@ class EssentialsListener : EventsManager() {
             lastCommand[player] = System.currentTimeMillis()
         }
     }
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+
+    /**
+     *  Este evento não para Tab feitos em comandos apenas Chat<br>
+     *  Feature quebrada na v1.8<br>
+     *  Existe o evento mais na v1.9 TabCompleteEvent
+     */
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun blockTabCommands(e: PlayerChatTabCompleteEvent) {
-        val player = e.player
-        if (player.hasPermission(EduEssentials.getInstance().getString("blocked.bypass-permission")))return
-        for (blockedCmd in EduEssentials.getInstance().getMessages("blocked.tab-commands")) {
-            if (e.chatMessage.startsWith(blockedCmd , true)) {
-                e.tabCompletions.clear()
+        val player = e.player as Player
+       if (player.hasPermission(EduEssentials.getInstance().getString("blocked.bypass-permission"))) return
+        for (blockedCmd in EduEssentials.getInstance().configs.getStringList("blocked.tab-commands")) {
+            if (e.chatMessage.startsWith(blockedCmd, true)) {
+               e.tabCompletions.clear()
                 break
             }
         }
     }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     fun blockCommands(e: PlayerCommandPreprocessEvent) {
         val player = e.player
-        if (player.hasPermission(EduEssentials.getInstance().getString("blocked.bypass-permission")))return
-        for (blockedCmd in EduEssentials.getInstance().getMessages("blocked.run-commads")) {
-            if (e.message.startsWith(blockedCmd , true)) {
+        if (player.hasPermission(EduEssentials.getInstance().getString("blocked.bypass-permission"))) return
+        val text = e.message
+        for (blockedCmd in EduEssentials.getInstance().configs.getStringList("blocked.run-commands")) {
+            val commandName = if(" " in text) e.message.split(" ")[0] else e.message
+            if (commandName.equals(blockedCmd, true)) {
                 e.isCancelled = true
                 player.sendMessage(Mine.MSG_NO_PERMISSION)
                 break

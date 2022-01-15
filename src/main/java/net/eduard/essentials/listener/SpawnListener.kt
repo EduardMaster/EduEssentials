@@ -9,6 +9,7 @@ import net.eduard.api.lib.manager.EventsManager
 import net.eduard.essentials.EduEssentials
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.weather.WeatherChangeEvent
 
@@ -38,15 +39,14 @@ class SpawnListener : EventsManager() {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlayerJoinEvent(e: PlayerJoinEvent) {
         val player = e.player
-        if (!player.hasPermission(EduEssentials.getInstance().getString("spawn.join-permission"))) return
-        if (!EduEssentials.getInstance().getBoolean("spawn.teleport-on-join")) return
-        if (EduEssentials.getInstance().getBoolean("spawn.teleport-on-first-join-only")) {
-            if (player.hasPlayedBefore()) {
-                return
-            }
+        val firstTime = !player.hasPlayedBefore()
+        if (!firstTime){
+            if (!player.hasPermission(EduEssentials.getInstance().getString("spawn.join-permission"))) return
+        }else {
+            if (EduEssentials.getInstance().getBoolean("spawn.teleport-on-first-join-only"))return
         }
         if (EduEssentials.getInstance().storage.contains("spawn")) {
             player.teleport(EduEssentials.getInstance().storage["spawn", Location::class.java])

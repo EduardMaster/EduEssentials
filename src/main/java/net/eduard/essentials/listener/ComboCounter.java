@@ -22,9 +22,6 @@ public class ComboCounter extends EventsManager {
 
     }
 
-    @EventHandler
-    public void event(PlayerJoinEvent e) {
-    }
 
     private static final Map<Player, Integer> combos = new HashMap<>();
 

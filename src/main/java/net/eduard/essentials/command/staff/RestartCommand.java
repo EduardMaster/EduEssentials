@@ -11,13 +11,9 @@ public class RestartCommand extends CommandManager {
 
 	private int restartTime = 20*60*1;
 	private String message = "O servidor irá reiniciar em 1 minuto";
-
 	public RestartCommand(){
 		super ("restart","reiniciar");
 	}
-
-
-
 
 	public boolean onCommand(CommandSender sender, Command command, String cmd, String[] args) {
 
