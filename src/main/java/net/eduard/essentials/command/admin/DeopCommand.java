@@ -9,13 +9,11 @@ import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
 
 public class DeopCommand extends CommandManager {
+
     public DeopCommand() {
         super("deop");
         setUsage("/deop <jogador>");
-
-
     }
-
     public String messageTarget = "§6Voce removeu Op do jogador §e$target";
     public String message = "§6Voce agora não é mais Op!";
 

@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class RestartCommand extends CommandManager {
 
-	private int restartTime = 20*60*1;
+	private int restartTime = 20 * 60;
 	private String message = "O servidor irá reiniciar em 1 minuto";
 	public RestartCommand(){
 		super ("restart","reiniciar");

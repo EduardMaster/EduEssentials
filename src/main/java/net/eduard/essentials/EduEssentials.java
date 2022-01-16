@@ -63,6 +63,7 @@ public class EduEssentials extends EduardPlugin {
         new SlimeChunkDetector().register(this);
         new AutoMessagerTask().asyncTimer();
         new ClearDropsTask().syncTimer();
+        new CombatLogListener().register(this);
         LaunchPadManager.NO_FALL.register(this);
 
         reload();

@@ -15,7 +15,6 @@ import net.eduard.api.lib.manager.CommandManager;
 
 public class GodCommand extends CommandManager {
 
-
     public GodCommand() {
         super("god", "imortal");
         setUsage("/god [on/off]");
@@ -29,31 +28,21 @@ public class GodCommand extends CommandManager {
         Player player = (Player) sender;
         if (args.length == 0) {
             if (gods.contains(player)) {
-
                 gods.remove(player);
             } else {
                 gods.add(player);
-
             }
         } else {
             String sub = args[0].toLowerCase();
-
             if (EduEssentials.getInstance().getManager().getCommandEnable().contains(sub)) {
-
-
                 if (!gods.contains(player)) {
                     gods.add(player);
                 }
-
             } else if (EduEssentials.getInstance().getManager().getCommandDisable().contains(sub)) {
-
                 gods.remove(player);
-
-
             } else {
                 sendUsage(sender);
             }
-
         }
         return true;
     }
