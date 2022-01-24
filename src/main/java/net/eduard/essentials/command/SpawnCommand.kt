@@ -38,13 +38,10 @@ class SpawnCommand : CommandManager("spawn") {
                         teleport(player)
                     }
                 }.runTaskLater(plugin, (delay * 20).toLong())
-
-                player.sendMessage(
-                    EduEssentials.getInstance().message("Spawn delay teleport")
-                        .replace("\$time", "" + delay)
-                )
-            } else
+                player.sendMessage(EduEssentials.getInstance().message("Spawn delay teleport").replace("%time", "" + delay))
+            } else {
                 teleport(player)
+            }
 
         } else {
             player.sendMessage(EduEssentials.getInstance().message("Spawn not setted"))

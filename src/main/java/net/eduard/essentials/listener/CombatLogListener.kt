@@ -25,12 +25,10 @@ class CombatLogListener : EventsManager() {
             return
         }
         if (!players.contains(player)) return
-        player.damage(1000.0)
         players.remove(player)
-        Mine.broadcast(
-            EduEssentials.getInstance().message("combat.quit")
-                .replace("\$player", player.name)
-        )
+        Mine.broadcast(EduEssentials.getInstance().message("combat.quit")
+            .replace("\$player", player.name))
+        player.health = 0.0
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
