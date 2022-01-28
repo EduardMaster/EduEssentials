@@ -50,7 +50,7 @@ public class EduEssentials extends EduardPlugin {
         super.onEnable();
 
         EduEssentials.getInstance().log("Registrando placeholder {players_amount}");
-        Mine.addReplacer("players_amount", p -> BungeeAPI.INSTANCE.getPlayersAmount());
+        Mine.addReplacer("players_amount", player -> BungeeAPI.INSTANCE.getPlayersAmount());
         new AntiDupeListener().register(this);
         new AntiMacro().register(this);
         new EssentialsListener().register(this);

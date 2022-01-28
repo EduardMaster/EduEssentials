@@ -100,12 +100,6 @@ class EssentialsListener : EventsManager() {
             }
         }
 
-        if (!serversPlaceholders)
-            EduEssentials.getInstance().syncDelay(20) {
-                serversPlaceholders = true
-                serverPlaceholders()
-            }
-
 
         if (main.getBoolean("join.first-join-message")) {
             if (!player.hasPlayedBefore()) {
@@ -141,30 +135,15 @@ class EssentialsListener : EventsManager() {
     }
 
 
-    fun serverPlaceholders() {
-        for (serverSpigot in BungeeAPI.servers.values) {
-            val serverName = serverSpigot.name
-            val placehodler = "" + serverName + "_players_amount"
+    init {
+        for (serverName in EduEssentials.getInstance().configs.getStringList("servers")){
+            val placehodler = "" + serverName.toLowerCase() + "_players_amount"
             Mine.addReplacer(placehodler) {
                 val server = BungeeAPI.getServer(serverName)
                 server.count
             }
             EduEssentials.getInstance().log("Registrando placeholder {$placehodler}")
         }
-        if (BungeeAPI.servers.isEmpty()) {
-            EduEssentials.getInstance().error("Registrando nenhuma placehodlers")
-        }
-    }
-
-    var serversPlaceholders = false
-
-    init {
-        if (Mine.getPlayers().isNotEmpty()) {
-            EduEssentials.getInstance().syncDelay(20) {
-                serverPlaceholders()
-            }
-        }
-
     }
 
     @EventHandler
@@ -215,10 +194,10 @@ class EssentialsListener : EventsManager() {
     @EventHandler(priority = EventPriority.HIGHEST)
     fun blockTabCommands(e: PlayerChatTabCompleteEvent) {
         val player = e.player as Player
-       if (player.hasPermission(EduEssentials.getInstance().getString("blocked.bypass-permission"))) return
+        if (player.hasPermission(EduEssentials.getInstance().getString("blocked.bypass-permission"))) return
         for (blockedCmd in EduEssentials.getInstance().configs.getStringList("blocked.tab-commands")) {
             if (e.chatMessage.startsWith(blockedCmd, true)) {
-               e.tabCompletions.clear()
+                e.tabCompletions.clear()
                 break
             }
         }
@@ -230,7 +209,7 @@ class EssentialsListener : EventsManager() {
         if (player.hasPermission(EduEssentials.getInstance().getString("blocked.bypass-permission"))) return
         val text = e.message
         for (blockedCmd in EduEssentials.getInstance().configs.getStringList("blocked.run-commands")) {
-            val commandName = if(" " in text) e.message.split(" ")[0] else e.message
+            val commandName = if (" " in text) e.message.split(" ")[0] else e.message
             if (commandName.equals(blockedCmd, true)) {
                 e.isCancelled = true
                 player.sendMessage(Mine.MSG_NO_PERMISSION)
