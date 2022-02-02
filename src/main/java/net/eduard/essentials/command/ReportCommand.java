@@ -1,27 +1,25 @@
 
 package net.eduard.essentials.command;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
+import org.jetbrains.annotations.NotNull;
 
 public class ReportCommand extends CommandManager {
 
     public String message = "§6O jogador §e$target §6foi reportado por §a$sender  §6motido: §c$reason";
-
     public ReportCommand() {
         super("report","reportar");
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command,
-                             String label, String[] args) {
-
+    public void command(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length <= 1) {
-            return false;
+           sendUsage(sender);
+           return;
         }
         if (Mine.existsPlayer(sender, args[0])) {
             Player target = Mine.getPlayer(args[0]);
@@ -33,7 +31,6 @@ public class ReportCommand extends CommandManager {
                     .replace("$sender", sender.getName())
                     .replace("$reason", builder.toString()));
         }
-
-        return true;
     }
+
 }

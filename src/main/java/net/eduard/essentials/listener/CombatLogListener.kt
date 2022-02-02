@@ -18,8 +18,9 @@ class CombatLogListener : EventsManager() {
         private val players: MutableMap<Player, Long> = mutableMapOf()
     }
 
+
     @EventHandler
-    fun aoSair(e: PlayerQuitEvent) {
+    fun onQuitKillPlayer(e: PlayerQuitEvent) {
         val player = e.player
         if (!EduEssentials.getInstance().getBoolean("combatlog.enabled")) {
             return
@@ -32,7 +33,7 @@ class CombatLogListener : EventsManager() {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    fun aoDigitarComandos(e: PlayerCommandPreprocessEvent) {
+    fun cancelCommandsWhenPvP(e: PlayerCommandPreprocessEvent) {
         val player = e.player
         if (!EduEssentials.getInstance().getBoolean("combatlog.enabled")) {
             return
@@ -50,42 +51,47 @@ class CombatLogListener : EventsManager() {
     }
 
     @EventHandler
-    fun aoMorrer(e: PlayerDeathEvent) {
+    fun onDeathRemoveFromPvPList(e: PlayerDeathEvent) {
         if (e.entity == null) return
-        val morreu = e.entity
+        val player = e.entity
         if (e.entity.killer != null) {
-            players.remove(morreu)
+            players.remove(player)
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    fun aoBater(e: EntityDamageByEntityEvent) {
+    fun onStartPvP(e: EntityDamageByEntityEvent) {
         if (!EduEssentials.getInstance().getBoolean("combatlog.enabled")) {
             return
         }
         val time = EduEssentials.getInstance().configs.getInt("combatlog.combat-seconds")
         if (e.entity !is Player) return
         if (e.damager !is Player) return
-        val entity = e.entity as Player
-        val damager = e.damager as Player
-        if (!players.contains(entity)) {
-            players[entity] = System.currentTimeMillis()
-            entity.sendMessage(EduEssentials.getInstance().message("combat.started")
+        val defender = e.entity as Player
+        val attacker = e.damager as Player
+        if (attacker.isFlying){
+            attacker.isFlying=false
+            attacker.allowFlight=false
+        }
+
+        if (!players.contains(defender)) {
+            players[defender] = System.currentTimeMillis()
+            defender.sendMessage(EduEssentials.getInstance().message("combat.started")
                 .replace("%time", ""+time))
             EduEssentials.getInstance().asyncDelay(20L * time) {
-                players.remove(entity)
-                entity.sendMessage(EduEssentials.getInstance().message("combat.out"))
-                entity.playSound(entity.location, Sound.LEVEL_UP, 1f, 1f)
+                players.remove(defender)
+                defender.sendMessage(EduEssentials.getInstance().message("combat.out"))
+                defender.playSound(defender.location, Sound.LEVEL_UP, 1f, 1f)
             }
         }
-        if (!players.contains(damager)) {
-            players[damager] = System.currentTimeMillis()
-            damager.sendMessage(EduEssentials.getInstance().message("combat.started")
+        if (!players.contains(attacker)) {
+            players[attacker] = System.currentTimeMillis()
+            attacker.sendMessage(EduEssentials.getInstance().message("combat.started")
                 .replace("%time", ""+time))
             EduEssentials.getInstance().asyncDelay(20L * time) {
-                players.remove(damager)
-                damager.sendMessage(EduEssentials.getInstance().message("combat.out"))
-                damager.playSound(damager.location, Sound.LEVEL_UP, 1f, 1f)
+                players.remove(attacker)
+                attacker.sendMessage(EduEssentials.getInstance().message("combat.out"))
+                attacker.playSound(attacker.location, Sound.LEVEL_UP, 1f, 1f)
             }
         }
     }

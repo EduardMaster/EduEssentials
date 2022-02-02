@@ -18,8 +18,7 @@ public class AplicateCommand extends CommandManager {
 
 	}
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {
 		for (String line : messages) {
 			sender.sendMessage(line);
 		}

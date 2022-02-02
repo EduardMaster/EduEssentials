@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import java.util.HashMap
 
-class AntiMacro : TimeManager() {
+class AntiMacroListener : TimeManager() {
     @EventHandler
     fun bloquear(e: EntityDamageByEntityEvent) {
         if (e.damager !is Player) return

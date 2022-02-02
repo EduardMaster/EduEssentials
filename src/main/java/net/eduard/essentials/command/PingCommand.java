@@ -18,12 +18,11 @@ public class PingCommand extends CommandManager {
 
 	}
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 0) {
 			if (sender instanceof Player) {
-				Player p = (Player) sender;
-				sender.sendMessage(message.replace("$ping", MineReflect.getPing(p)));
+				Player player = (Player) sender;
+				sender.sendMessage(message.replace("$ping", MineReflect.getPing(player)));
 			} else
 				return false;
 		} else {

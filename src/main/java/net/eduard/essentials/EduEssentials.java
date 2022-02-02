@@ -8,6 +8,7 @@ import net.eduard.api.lib.game.Title;
 import net.eduard.api.lib.game.Jump;
 import net.eduard.api.lib.game.SoundEffect;
 import net.eduard.api.lib.modules.Mine;
+import net.eduard.api.server.*;
 import net.eduard.essentials.command.YoutuberCommand;
 import net.eduard.essentials.objects.AutoMessage;
 import net.eduard.essentials.core.EssentialsManager;
@@ -23,7 +24,6 @@ import org.bukkit.World;
 import net.eduard.api.lib.config.Config;
 import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.api.lib.storage.StorageAPI;
-import net.eduard.api.server.EduardPlugin;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 
@@ -52,7 +52,7 @@ public class EduEssentials extends EduardPlugin {
         EduEssentials.getInstance().log("Registrando placeholder {players_amount}");
         Mine.addReplacer("players_amount", player -> BungeeAPI.INSTANCE.getPlayersAmount());
         new AntiDupeListener().register(this);
-        new AntiMacro().register(this);
+        new AntiMacroListener().register(this);
         new EssentialsListener().register(this);
         new DoubleJump().register(this);
         new SpawnListener().registerListener(this);
@@ -118,7 +118,7 @@ public class EduEssentials extends EduardPlugin {
 
     @Override
     public void configDefault() {
-        EssentialsConfigurationKt.clearDrops(configs);
+        EssentialsConfigurationKt.essentialsConfiguration(configs);
         configs.add("chat.enabled", true);
         configs.add("chat.delay.enabled", true);
         configs.add("chat.delay.seconds", 1);

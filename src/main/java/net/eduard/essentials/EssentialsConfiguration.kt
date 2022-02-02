@@ -3,7 +3,7 @@ package net.eduard.essentials
 import net.eduard.api.lib.config.Config
 import net.eduard.api.lib.config.ConfigSection
 
-fun Config.clearDrops() {
+fun Config.essentialsConfiguration() {
     add("servers", listOf("rankup","lobby","login"))
     section("clear-drops") {
         add("enabled", true)
