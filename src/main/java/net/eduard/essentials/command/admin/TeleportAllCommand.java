@@ -17,8 +17,7 @@ public class TeleportAllCommand extends CommandManager {
     public String messageTarget = "§6Voce foi teleportado pelo jogador %player§6!";
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command,
-                             String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!Mine.onlyPlayer(sender)) return true;
         Player player = (Player) sender;
         for (Player playerLoop : Mine.getPlayers()) {

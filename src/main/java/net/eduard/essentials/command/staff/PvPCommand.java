@@ -17,9 +17,9 @@ public class PvPCommand extends CommandManager {
 	public PvPCommand() {
 		super("pvp");
 	}
+
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length ==0 ){
 			if (sender instanceof Player){
 				Player player = (Player) sender;

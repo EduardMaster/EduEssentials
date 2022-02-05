@@ -6,7 +6,7 @@ import net.eduard.api.lib.modules.Mine
 import org.bukkit.Bukkit
 import java.util.*
 
-class BetaFakeRestartTask : TimeManager(60) {
+class RestartTask : TimeManager(60) {
 
     enum class RestartFakeStage {
         WAITING, PRE_RESTART, AFTER_RESTART, COMPLETE_RESTART

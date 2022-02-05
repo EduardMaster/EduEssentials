@@ -1,51 +1,50 @@
 
 package net.eduard.essentials.command;
 
-import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.game.Title;
 import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.essentials.EduEssentials;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 
 public class WarpCommand extends CommandManager {
 
-    public String message = "§aVoce foi à warp $warp";
-    public String messageError = "§cEsta warp não existe: $warp";
+    public String message = "§aVoce foi à warp %warp";
+    public String messageError = "§cEsta warp não existe: %warp";
 
     public WarpCommand() {
         super("warp");
     }
 
-    public Title title = new Title("§6Warp §e$warp", "§2Você foi para a warp §a$warp!", 20, 20 * 2, 20);
+
+
+    public Title title = new Title("§6Warp §e%warp",
+            "§2Você foi para a warp §a%warp!",
+            20, 20 * 2, 20);
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label,
-                             String[] args) {
-        if (!Mine.onlyPlayer(sender)) return true;
-        Player player = (Player) sender;
+    public void playerCommand(@NotNull Player player, @NotNull String[] args) {
         if (args.length == 0) {
-            sendUsage(sender);
-            return true;
+            sendUsage(player);
+            return;
         }
-        String name = args[0];
-        String path = "warps." + name.toLowerCase();
+        String warpName = args[0];
+        String path = "warps." + warpName.toLowerCase();
         Title title = this.title.copy();
-        title.setTitle(title.getTitle().replace("$warp", name));
-        title.setSubTitle(title.getSubTitle().replace("$warp", name));
+
+        title.setTitle(title.getTitle().replace("%warp", warpName));
+        title.setSubTitle(title.getSubTitle().replace("%warp", warpName));
+
         if (EduEssentials.getInstance().getStorage().contains(path)) {
             player.teleport(EduEssentials.getInstance().getStorage().get(path, (Location.class)));
             title.create(player);
-            sender.sendMessage(message.replace("$warp", name));
+            player.sendMessage(message.replace("%warp", warpName));
         } else {
-            sender.sendMessage(messageError.replace("$warp", name));
+            player.sendMessage(messageError.replace("%warp", warpName));
         }
-
-
-        return true;
     }
+
 
 }

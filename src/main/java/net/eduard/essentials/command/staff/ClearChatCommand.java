@@ -14,8 +14,7 @@ public class ClearChatCommand extends CommandManager {
 		super("clearchat");
 	}
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		for (int i = 0; i < size; i++) {
 			Mine.broadcast(" ");
 		}

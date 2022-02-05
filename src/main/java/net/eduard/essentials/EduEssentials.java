@@ -16,7 +16,7 @@ import net.eduard.essentials.core.LaunchPadManager;
 import net.eduard.essentials.listener.*;
 import net.eduard.essentials.task.AutoMessagerTask;
 import net.eduard.essentials.listener.SpawnListener;
-import net.eduard.essentials.task.BetaFakeRestartTask;
+import net.eduard.essentials.task.RestartTask;
 import net.eduard.essentials.task.ClearDropsTask;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -177,7 +177,7 @@ public class EduEssentials extends EduardPlugin {
 
     }
 
-    private static BetaFakeRestartTask betaFakeRestartTask;
+    private static RestartTask betaFakeRestartTask;
 
     public void reload() {
         getMessages().reloadConfig();
@@ -185,8 +185,8 @@ public class EduEssentials extends EduardPlugin {
         if (betaFakeRestartTask != null){
             betaFakeRestartTask.stopTask();
         }
-        getConfigs().add("beta-fake-restart", new BetaFakeRestartTask());
-        betaFakeRestartTask = getConfigs().get("beta-fake-restart", BetaFakeRestartTask.class);
+        getConfigs().add("beta-fake-restart", new RestartTask());
+        betaFakeRestartTask = getConfigs().get("beta-fake-restart", RestartTask.class);
         betaFakeRestartTask.setPlugin(this);
         betaFakeRestartTask.syncTimer();
         getStorage().reloadConfig();

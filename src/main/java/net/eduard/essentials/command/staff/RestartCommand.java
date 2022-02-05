@@ -16,15 +16,13 @@ public class RestartCommand extends CommandManager {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String cmd, String[] args) {
-
 		Bukkit.broadcastMessage(message);
 		new BukkitRunnable(){
-
 			@Override
 			public void run() {
 				Bukkit.shutdown();
 			}
-		}.runTaskLaterAsynchronously(getPlugin(),restartTime);
+		}.runTaskLater(getPlugin(),restartTime);
 
 
 	return true;
