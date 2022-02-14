@@ -74,7 +74,7 @@ class CombatLogListener : EventsManager() {
             attacker.allowFlight=false
         }
 
-        if (!players.contains(defender)) {
+        if (!players.contains(defender) && !defender.hasPermission("combatlog.bypass")) {
             players[defender] = System.currentTimeMillis()
             defender.sendMessage(EduEssentials.getInstance().message("combat.started")
                 .replace("%time", ""+time))
@@ -84,7 +84,7 @@ class CombatLogListener : EventsManager() {
                 defender.playSound(defender.location, Sound.LEVEL_UP, 1f, 1f)
             }
         }
-        if (!players.contains(attacker)) {
+        if (!players.contains(attacker) && !attacker.hasPermission("combatlog.bypass")) {
             players[attacker] = System.currentTimeMillis()
             attacker.sendMessage(EduEssentials.getInstance().message("combat.started")
                 .replace("%time", ""+time))
