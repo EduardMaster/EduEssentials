@@ -3,15 +3,11 @@ package net.eduard.essentials.command;
 
 import net.eduard.api.lib.modules.MineReflect;
 import net.eduard.essentials.core.Fake;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.CommandManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +26,7 @@ public class FakeCommand extends CommandManager {
 
     public static boolean canFake(String name) {
         for (Fake fake : fakes.values()) {
-            if (Objects.requireNonNull(fake.getFake()).equalsIgnoreCase(name) || fake.getOriginal().equalsIgnoreCase(name)) {
+            if (Objects.requireNonNull(fake.getFakeName()).equalsIgnoreCase(name) || fake.getOriginalName().equalsIgnoreCase(name)) {
                 return false;
             }
         }
@@ -39,7 +35,7 @@ public class FakeCommand extends CommandManager {
 
     public static void removeFake(String name) {
         for (Fake fake : fakes.values()) {
-            if (name.equalsIgnoreCase(fake.getFake())) {
+            if (name.equalsIgnoreCase(fake.getFakeName())) {
                 reset(fake.getPlayer());
             }
         }
@@ -56,7 +52,7 @@ public class FakeCommand extends CommandManager {
 
     public static void fake(Player player, String name) {
         Fake fake = getFake(player);
-        fake.setFake(name);
+        fake.setFakeName(name);
         player.setDisplayName(name);
         player.setPlayerListName(name);
         player.setCustomName(name);
@@ -74,8 +70,8 @@ public class FakeCommand extends CommandManager {
 
     public static void reset(Player player) {
         Fake fake = getFake(player);
-        String name = fake.getOriginal();
-        fake.setFake(name);
+        String name = fake.getOriginalName();
+        fake.setFakeName(name);
         MineReflect.changeName(player, name);
         player.setDisplayName(name);
         player.setPlayerListName(name);

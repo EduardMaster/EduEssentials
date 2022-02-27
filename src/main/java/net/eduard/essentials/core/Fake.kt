@@ -4,6 +4,6 @@ import org.bukkit.entity.Player
 
 class Fake(
     var player: Player,
-    var original: String = player.name,
-    var fake: String? = null
+    var originalName: String = player.name,
+    var fakeName: String? = null
 )
