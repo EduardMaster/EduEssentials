@@ -21,6 +21,10 @@ class WarnCommand : CommandManager("warn", "aviso", "avisar") {
 
 
     override fun command(sender: CommandSender, args: Array<String>) {
+        if (args.isEmpty()){
+            sendUsage(sender)
+            return
+        }
         if (args.size == 1) {
             val playerName = args[0]
             if (Mine.existsPlayer(sender, playerName)) {
