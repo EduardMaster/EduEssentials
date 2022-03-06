@@ -115,6 +115,11 @@ public class EduEssentials extends EduardPlugin {
 
     public void save() {
         getStorage().saveConfig();
+        try {
+            PlayerActionsListener.Companion.save();
+        }catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override
