@@ -1,9 +1,9 @@
-package net.eduard.essentials.core
+package net.eduard.essentials.objects
 
 import org.bukkit.entity.Player
 
-class Fake(
-    var player: Player,
+class PlayerFaked(
+    var player: Player ,
     var originalName: String = player.name,
     var fakeName: String? = null
 )

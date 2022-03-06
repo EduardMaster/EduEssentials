@@ -56,6 +56,7 @@ public class EduEssentials extends EduardPlugin {
         new EssentialsListener().register(this);
         new DoubleJump().register(this);
         new SpawnListener().registerListener(this);
+        new PlayerActionsListener().register(this);
         new SoupSystem().register(this);
         new ShowDamageListener().register(this);
         new ComboCounter().register(this);
