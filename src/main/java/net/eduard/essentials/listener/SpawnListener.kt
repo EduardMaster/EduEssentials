@@ -17,14 +17,12 @@ import org.bukkit.event.weather.WeatherChangeEvent
 class SpawnListener : EventsManager() {
 
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     fun teleportOnVoid(e: EntityDamageEvent) {
         if (e.entity !is Player) return
         val player = e.entity as Player
         if (EduEssentials.getInstance().getBoolean("spawn.teleport-on-void")
-            && e.cause == EntityDamageEvent.DamageCause.VOID
-        ) {
-
+            && e.cause == EntityDamageEvent.DamageCause.VOID) {
             e.isCancelled = true
             player.fallDistance = -player.fallDistance
             if (EduEssentials.getInstance().storage.contains("spawn")) {
