@@ -24,6 +24,8 @@ import org.bukkit.World;
 import net.eduard.api.lib.config.Config;
 import net.eduard.api.lib.manager.CommandManager;
 import net.eduard.api.lib.storage.StorageAPI;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 
@@ -68,7 +70,15 @@ public class EduEssentials extends EduardPlugin {
         LaunchPadManager.NO_FALL.register(this);
 
         reload();
-
+        /*
+        for (World world : Bukkit.getWorlds()) {
+            for (Entity entity : world.getEntities()){
+                if (entity instanceof ArmorStand){
+                    entity.remove();
+                }
+            }
+        }
+         */
     }
 
     public void autoMessages() {
