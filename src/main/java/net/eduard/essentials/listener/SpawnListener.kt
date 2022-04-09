@@ -19,20 +19,17 @@ class SpawnListener : EventsManager() {
 
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    fun teleportOnVoid(e: EntityDamageEvent) {
+    fun intensifyVoidDamage(e: EntityDamageEvent) {
         if (e.entity !is Player) return
         if (EduEssentials.getInstance().getBoolean("spawn.teleport-on-void")
             && e.cause == EntityDamageEvent.DamageCause.VOID) {
             e.damage = 100000.0
-            if (EduEssentials.getInstance().storage.contains("spawn")) {
-               // player.teleport(EduEssentials.getInstance().storage["spawn", Location::class.java])
-                //EduEssentials.getInstance().configs["spawn.sound-on-teleport", SoundEffect::class.java].create(player)
-            }
+
         }
     }
 
     @EventHandler
-    fun notRain(e: WeatherChangeEvent) {
+    fun cancelRaining(e: WeatherChangeEvent) {
         if (e.toWeatherState() && EduEssentials.getInstance().getBoolean("not-rain")) {
             e.isCancelled = true
         }
@@ -56,20 +53,6 @@ class SpawnListener : EventsManager() {
     fun onJoin(e: PlayerJoinEvent) {
         val player = e.player
 
-        /**
-            player.teleport(local)
-            if (firstTime) {
-                Necessario para resolver um Bug do Spigot de ficar voltando o jogador para uma cordenada perto do Spawn do Mundo
-                EduEssentials.getInstance().syncDelay(10) {
-                player.teleport(local)
-                EduEssentials.getInstance().configs["spawn.sound-on-join", SoundEffect::class.java].create(player)
-            }
-            EduEssentials.getInstance().syncDelay(20) {
-                player.teleport(local)
-                EduEssentials.getInstance().configs["spawn.sound-on-join", SoundEffect::class.java].create(player)
-            }
-        }
-         */
     }
 
 
