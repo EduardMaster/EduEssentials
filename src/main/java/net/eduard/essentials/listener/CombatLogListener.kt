@@ -19,7 +19,7 @@ class CombatLogListener : EventsManager() {
     }
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun onQuitKillPlayer(e: PlayerQuitEvent) {
         val player = e.player
         if (!EduEssentials.getInstance().getBoolean("combatlog.enabled")) {
@@ -27,8 +27,10 @@ class CombatLogListener : EventsManager() {
         }
         if (!players.contains(player)) return
         players.remove(player)
-        Mine.broadcast(EduEssentials.getInstance().message("combat.quit")
-            .replace("\$player", player.name))
+        Mine.broadcast(
+            EduEssentials.getInstance().message("combat.quit")
+                .replace("\$player", player.name)
+        )
         player.health = 0.0
     }
 
@@ -46,8 +48,10 @@ class CombatLogListener : EventsManager() {
         }
         e.isCancelled = true
         val time = EduEssentials.getInstance().configs.getInt("combatlog.combat-seconds")
-        player.sendMessage(EduEssentials.getInstance().message("combat.try-command")
-            .replace("%time", ""+time))
+        player.sendMessage(
+            EduEssentials.getInstance().message("combat.try-command")
+                .replace("%time", "" + time)
+        )
     }
 
     @EventHandler
@@ -69,15 +73,17 @@ class CombatLogListener : EventsManager() {
         if (e.damager !is Player) return
         val defender = e.entity as Player
         val attacker = e.damager as Player
-        if (attacker.isFlying){
-            attacker.isFlying=false
-            attacker.allowFlight=false
+        if (attacker.isFlying) {
+            attacker.isFlying = false
+            attacker.allowFlight = false
         }
 
         if (!players.contains(defender) && !defender.hasPermission("combatlog.bypass")) {
             players[defender] = System.currentTimeMillis()
-            defender.sendMessage(EduEssentials.getInstance().message("combat.started")
-                .replace("%time", ""+time))
+            defender.sendMessage(
+                EduEssentials.getInstance().message("combat.started")
+                    .replace("%time", "" + time)
+            )
             EduEssentials.getInstance().asyncDelay(20L * time) {
                 players.remove(defender)
                 defender.sendMessage(EduEssentials.getInstance().message("combat.out"))
@@ -86,8 +92,10 @@ class CombatLogListener : EventsManager() {
         }
         if (!players.contains(attacker) && !attacker.hasPermission("combatlog.bypass")) {
             players[attacker] = System.currentTimeMillis()
-            attacker.sendMessage(EduEssentials.getInstance().message("combat.started")
-                .replace("%time", ""+time))
+            attacker.sendMessage(
+                EduEssentials.getInstance().message("combat.started")
+                    .replace("%time", "" + time)
+            )
             EduEssentials.getInstance().asyncDelay(20L * time) {
                 players.remove(attacker)
                 attacker.sendMessage(EduEssentials.getInstance().message("combat.out"))

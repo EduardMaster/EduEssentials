@@ -10,6 +10,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -23,7 +24,7 @@ import net.eduard.api.lib.modules.Mine;
 public class SoupSystem extends EventsManager {
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void soupSignCreation(SignChangeEvent e) {
         EssentialsManager manager = EduEssentials.getInstance().getManager();
         Player player = e.getPlayer();
@@ -37,7 +38,7 @@ public class SoupSystem extends EventsManager {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void semFome(FoodLevelChangeEvent e) {
         EssentialsManager manager = EduEssentials.getInstance().getManager();
         if (!(e.getEntity() instanceof Player)) return;
@@ -50,11 +51,10 @@ public class SoupSystem extends EventsManager {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void effect(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         EssentialsManager manager = EduEssentials.getInstance().getManager();
-
         if (!manager.getSoupSystem()) return;
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (e.getClickedBlock().getState() instanceof Sign) {
@@ -68,12 +68,10 @@ public class SoupSystem extends EventsManager {
                     }
                 }
                 player.openInventory(inv);
-
             }
         }
         if (e.getItem() == null)
             return;
-
         if (e.getItem().getType() != Material.MUSHROOM_SOUP) return;
         boolean remove = false;
         e.setCancelled(true);
@@ -82,7 +80,6 @@ public class SoupSystem extends EventsManager {
         }
         int value = manager.getSoupRecoverValue();
         if (player.getHealth() < player.getMaxHealth()) {
-
             double calc = player.getHealth() + value;
             player.setHealth(Math.min(calc, player.getMaxHealth()));
             remove = true;
@@ -97,13 +94,10 @@ public class SoupSystem extends EventsManager {
         }
         if (remove) {
             e.setUseItemInHand(Result.DENY);
-
             player.setItemInHand(EduEssentials.getInstance().getManager().getSoupEmpty().clone());
             manager.getSoupSound().create(player);
-
         }
-
-
     }
+
 
 }

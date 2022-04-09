@@ -135,16 +135,6 @@ class EssentialsListener : EventsManager() {
     }
 
 
-    init {
-        for (serverName in EduEssentials.getInstance().configs.getStringList("servers")){
-            val placehodler = "" + serverName.toLowerCase() + "_players_amount"
-            Mine.addReplacer(placehodler) {
-                val server = BungeeAPI.getServer(serverName)
-                server.count
-            }
-            EduEssentials.getInstance().log("Registrando placeholder {$placehodler}")
-        }
-    }
 
     @EventHandler
     fun signWithColors(e: SignChangeEvent) {
@@ -215,6 +205,18 @@ class EssentialsListener : EventsManager() {
                 player.sendMessage(Mine.MSG_NO_PERMISSION)
                 break
             }
+        }
+    }
+
+
+    init {
+        for (serverName in EduEssentials.getInstance().configs.getStringList("servers")){
+            val placehodler = "" + serverName.toLowerCase() + "_players_amount"
+            Mine.addReplacer(placehodler) {
+                val server = BungeeAPI.getServer(serverName)
+                server.count
+            }
+            EduEssentials.getInstance().log("Registrando placeholder {$placehodler}")
         }
     }
 

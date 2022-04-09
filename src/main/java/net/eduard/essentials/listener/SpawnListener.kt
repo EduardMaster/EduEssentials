@@ -13,6 +13,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.weather.WeatherChangeEvent
+import org.spigotmc.event.player.PlayerSpawnLocationEvent
 
 class SpawnListener : EventsManager() {
 
@@ -20,14 +21,12 @@ class SpawnListener : EventsManager() {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     fun teleportOnVoid(e: EntityDamageEvent) {
         if (e.entity !is Player) return
-        val player = e.entity as Player
         if (EduEssentials.getInstance().getBoolean("spawn.teleport-on-void")
             && e.cause == EntityDamageEvent.DamageCause.VOID) {
-            e.isCancelled = true
-            player.fallDistance = -player.fallDistance
+            e.damage = 100000.0
             if (EduEssentials.getInstance().storage.contains("spawn")) {
-                player.teleport(EduEssentials.getInstance().storage["spawn", Location::class.java])
-                EduEssentials.getInstance().configs["spawn.sound-on-teleport", SoundEffect::class.java].create(player)
+               // player.teleport(EduEssentials.getInstance().storage["spawn", Location::class.java])
+                //EduEssentials.getInstance().configs["spawn.sound-on-teleport", SoundEffect::class.java].create(player)
             }
         }
     }
@@ -40,39 +39,43 @@ class SpawnListener : EventsManager() {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    fun onJoin(e: PlayerJoinEvent) {
+    fun onSpawnLocationChange(e: PlayerSpawnLocationEvent) {
         val player = e.player
         val firstTime = !player.hasPlayedBefore()
-
         if (!firstTime) {
             if (!player.hasPermission(EduEssentials.getInstance().getString("spawn.join-permission"))) return
         } else {
             if (EduEssentials.getInstance().getBoolean("spawn.teleport-on-first-join-only")) return
         }
+        if (!EduEssentials.getInstance().storage.contains("spawn")) return
+        val local = EduEssentials.getInstance().storage["spawn", Location::class.java]
+        e.spawnLocation = local
+    }
 
-        if (EduEssentials.getInstance().storage.contains("spawn")) {
-            val local = EduEssentials.getInstance().storage["spawn", Location::class.java]
+    @EventHandler(priority = EventPriority.HIGHEST)
+    fun onJoin(e: PlayerJoinEvent) {
+        val player = e.player
+
+        /**
             player.teleport(local)
             if (firstTime) {
-                /**
-                 * Necessario para resolver um Bug do Spigot de ficar voltando o jogador para uma cordenada perto do Spawn do Mundo
-                 */
+                Necessario para resolver um Bug do Spigot de ficar voltando o jogador para uma cordenada perto do Spawn do Mundo
                 EduEssentials.getInstance().syncDelay(10) {
-                    player.teleport(local)
-                    EduEssentials.getInstance().configs["spawn.sound-on-join", SoundEffect::class.java].create(player)
-                }
-                EduEssentials.getInstance().syncDelay(20) {
-                    player.teleport(local)
-                    EduEssentials.getInstance().configs["spawn.sound-on-join", SoundEffect::class.java].create(player)
-                }
+                player.teleport(local)
+                EduEssentials.getInstance().configs["spawn.sound-on-join", SoundEffect::class.java].create(player)
+            }
+            EduEssentials.getInstance().syncDelay(20) {
+                player.teleport(local)
+                EduEssentials.getInstance().configs["spawn.sound-on-join", SoundEffect::class.java].create(player)
             }
         }
-
+         */
     }
 
 
     @EventHandler
     fun onPlayerRespawnEvent(e: PlayerRespawnEvent) {
+        if (e.isBedSpawn) return
         val player = e.player
         val name = player.world.name.toLowerCase()
         if (!player.hasPermission(EduEssentials.getInstance().getString("spawn.respawn-permission"))) return
@@ -84,7 +87,6 @@ class SpawnListener : EventsManager() {
         EduEssentials.getInstance().asyncDelay(1) {
             EduEssentials.getInstance().configs["spawn.sound-on-respawn", SoundEffect::class.java].create(player)
         }
-
-
     }
+
 }

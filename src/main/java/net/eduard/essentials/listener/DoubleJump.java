@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import net.eduard.api.lib.modules.Mine;
 import net.eduard.api.lib.manager.EventsManager;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,12 +21,10 @@ public class DoubleJump extends EventsManager {
 
     private static final Set<Player> players = new HashSet<>();
 
-
     @EventHandler
     public void controlar(PlayerMoveEvent e) {
         Player gameMode = e.getPlayer();
         if (gameMode.getGameMode() == GameMode.CREATIVE) return;
-
         if (Mine.equals(e.getFrom(), e.getTo())) return;
         if (!EduEssentials.getInstance().getManager().getDoubleJumpSystem()) return;
         if (Mine.isOnGround(gameMode)) {
@@ -38,8 +35,7 @@ public class DoubleJump extends EventsManager {
             if (!players.contains(gameMode) && !Mine.isFalling(gameMode)) {
                 gameMode.setAllowFlight(true);
             }
-        } else if (Mine
-                .isFlying(gameMode) & Mine.isFalling(gameMode)) {
+        } else if (Mine.isFlying(gameMode) & Mine.isFalling(gameMode)) {
             gameMode.setAllowFlight(false);
         }
 
@@ -49,9 +45,9 @@ public class DoubleJump extends EventsManager {
     @EventHandler
     public void habilitar(EntityDamageEvent e) {
         Entity entity = e.getEntity();
-        if (!(entity instanceof Player)
-                || e.getCause() != DamageCause.FALL) return;
+        if (!(entity instanceof Player)|| e.getCause() != DamageCause.FALL) return;
         Player player = (Player) entity;
+        if (!EduEssentials.getInstance().getBoolean("doublejump.enabled")) return;
         if (players.contains(player)) {
             e.setCancelled(true);
             player.setAllowFlight(true);

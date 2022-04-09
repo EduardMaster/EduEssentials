@@ -27,7 +27,7 @@ public class KillCommand extends CommandManager {
             return true;
         }
         if (Mine.existsPlayer(sender, args[0])) {
-            Player target = Bukkit.getPlayer(args[0]);
+            Player target = Bukkit.getPlayerExact(args[0]);
             target.setHealth(0.0D);
             target.sendMessage(message.replace("$player", sender.getName()));
             sender.sendMessage(messageTarget.replace("$player", target.getName()));
