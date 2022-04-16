@@ -1,5 +1,6 @@
 package net.eduard.essentials.command.admin
 
+import net.eduard.api.EduardAPI
 import net.eduard.api.lib.manager.CommandManager
 import net.eduard.api.lib.game.Jump
 import net.eduard.api.lib.game.SoundEffect
@@ -19,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
@@ -217,8 +219,10 @@ class AdminCommand : CommandManager("admin", "adm") {
     override fun playerCommand(player: Player, args: Array<String>) {
         if (admins.contains(player)) {
             leaveAdminMode(player)
+            player.removeMetadata("no-afk", EduEssentials.getInstance());
         } else {
             joinAdminMode(player)
+            player.setMetadata("no-afk", FixedMetadataValue(EduEssentials.getInstance(), true));
         }
     }
 
