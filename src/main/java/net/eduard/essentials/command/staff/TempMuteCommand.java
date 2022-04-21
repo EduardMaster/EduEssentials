@@ -4,6 +4,7 @@ package net.eduard.essentials.command.staff;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.eduard.api.lib.modules.Extra;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -56,7 +57,7 @@ public class TempMuteCommand extends CommandManager {
 				result *= 60;
 			}
 			String text = time + type;
-			tempban.put(target.getName(), Mine.getNow());
+			tempban.put(target.getName(), Extra.getNow());
 			tempbanned.put(target.getName(), result * 1000L);
 			target.setBanned(true);
 			target.kickPlayer(messageTarget.replace("$target", sender.getName())
@@ -75,7 +76,7 @@ public class TempMuteCommand extends CommandManager {
 		OfflinePlayer player = Bukkit.getOfflinePlayer(name);
 		if (tempban.containsKey(name)) {
 			
-			long now = Mine.getNow();
+			long now = Extra.getNow();
 			Long before = tempban.get(name);
 			Long dif = tempbanned.get(name);
 			if (((dif + before) > now)) {

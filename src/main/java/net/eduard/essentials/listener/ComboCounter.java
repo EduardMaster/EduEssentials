@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import net.eduard.api.lib.modules.Extra;
 import net.eduard.api.lib.modules.MineReflect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,7 +40,7 @@ public class ComboCounter extends EventsManager {
             if (getCombos().containsKey(player)) {
                 if (lastHit.containsKey(player)) {
                     Long tempo = lastHit.get(player);
-                    long agora = Mine.getNow();
+                    long agora = Extra.getNow();
                     if (tempo + 50 > agora) {
                         return;
                     }
