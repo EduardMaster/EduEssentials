@@ -39,7 +39,7 @@ class ShowDamageListener : EventsManager() {
     fun onChunkLoad(e: ChunkLoadEvent) {
        if (e.isNewChunk)return
         for (entity in e.chunk.entities){
-            if (entity.hasMetadata(TAG_KEY)){
+            if (entity is ArmorStand && entity.hasMetadata(TAG_KEY)){
                 entity.removeMetadata(TAG_KEY, EduardAPI.instance.plugin)
                 entity.remove()
             }

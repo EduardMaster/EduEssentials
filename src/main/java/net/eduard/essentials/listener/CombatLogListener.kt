@@ -73,11 +73,14 @@ class CombatLogListener : EventsManager() {
         if (e.damager !is Player) return
         val defender = e.entity as Player
         val attacker = e.damager as Player
-        if (attacker.isFlying) {
-            attacker.isFlying = false
+        if (attacker.allowFlight) {
+            attacker.allowFlight = false
             attacker.allowFlight = false
         }
-
+        if (defender.allowFlight) {
+            defender.allowFlight = false
+            defender.allowFlight = false
+        }
         if (!players.contains(defender) && !defender.hasPermission("combatlog.bypass")) {
             players[defender] = System.currentTimeMillis()
             defender.sendMessage(
