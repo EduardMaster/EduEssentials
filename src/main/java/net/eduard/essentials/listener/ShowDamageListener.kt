@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.world.ChunkLoadEvent
+import org.bukkit.event.world.ChunkUnloadEvent
 import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.util.Vector
 
@@ -35,14 +36,33 @@ class ShowDamageListener : EventsManager() {
         createTempHologram(e.entity.location, finalDamage)
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    fun onChunkLoad(e: ChunkLoadEvent) {
-       if (e.isNewChunk)return
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    fun onChunkUnLoad(e: ChunkUnloadEvent) {
+        val toRemove = mutableListOf<ArmorStand>()
         for (entity in e.chunk.entities){
             if (entity is ArmorStand && entity.hasMetadata(TAG_KEY)){
-                entity.removeMetadata(TAG_KEY, EduardAPI.instance.plugin)
-                entity.remove()
+                toRemove.add(entity)
             }
+        }
+        for (entity in toRemove){
+            entity.removeMetadata(TAG_KEY, EduardAPI.instance.plugin)
+            entity.remove()
+            e.isCancelled=true
+        }
+
+    }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    fun onChunkLoad(e: ChunkLoadEvent) {
+        if (e.isNewChunk)return
+        val toRemove = mutableListOf<ArmorStand>()
+        for (entity in e.chunk.entities){
+            if (entity is ArmorStand && entity.hasMetadata(TAG_KEY)){
+                toRemove.add(entity)
+            }
+        }
+        for (entity in toRemove){
+            entity.removeMetadata(TAG_KEY, EduardAPI.instance.plugin)
+            entity.remove()
         }
     }
 
@@ -63,8 +83,6 @@ class ShowDamageListener : EventsManager() {
                 EduEssentials.getInstance().asyncDelay(40){
                     remove()
                     health=0.0
-                    removeMetadata(TAG_KEY, EduardAPI.instance.plugin)
-
                 }
             }
     }

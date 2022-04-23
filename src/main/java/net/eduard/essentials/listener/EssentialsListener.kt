@@ -24,9 +24,7 @@ class EssentialsListener : EventsManager() {
 
     val main get() = EduEssentials.getInstance()
 
-    companion object {
-        private val lastCommand: MutableMap<Player, Long> = HashMap()
-    }
+
 
     @EventHandler
     fun onPingServer(e: ServerListPingEvent) {
@@ -154,27 +152,6 @@ class EssentialsListener : EventsManager() {
 
     }
 
-
-    @EventHandler
-    fun commandDelay(e: PlayerCommandPreprocessEvent) {
-        val player = e.player
-        if (!EduEssentials.getInstance().configs.getBoolean("command-delay.enabled")) return
-        if (player.hasPermission(EduEssentials.getInstance().configs.getString("command-delay.bypass-permission"))) return
-        if (lastCommand.containsKey(player)) {
-            val momentoQueUsouComandoAntes = lastCommand[player]
-            val agora = System.currentTimeMillis()
-            val delay = EduEssentials.getInstance().configs.getInt("command-delay.ticks").toLong()
-            val test = agora > momentoQueUsouComandoAntes!! + delay
-            if (!test) {
-                player.sendMessage(EduEssentials.getInstance().message("command-cooldown"))
-                e.isCancelled = true
-            } else {
-                lastCommand[player] = System.currentTimeMillis()
-            }
-        } else {
-            lastCommand[player] = System.currentTimeMillis()
-        }
-    }
 
     /**
      *  Este evento não para Tab feitos em comandos apenas Chat<br>

@@ -64,8 +64,10 @@ public class EduEssentials extends EduardPlugin {
         new ComboCounter().register(this);
         new ClickCounter().register(this);
         new SlimeChunkDetector().register(this);
+        new CommandDelayListener().register(this);
         new AutoMessagerTask().asyncTimer();
         new ClearDropsTask().syncTimer();
+
         new CombatLogListener().register(this);
         LaunchPadManager.NO_FALL.register(this);
 
