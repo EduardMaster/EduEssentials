@@ -67,20 +67,10 @@ public class EduEssentials extends EduardPlugin {
         new CommandDelayListener().register(this);
         new AutoMessagerTask().asyncTimer();
         new ClearDropsTask().syncTimer();
-
         new CombatLogListener().register(this);
         LaunchPadManager.NO_FALL.register(this);
-
         reload();
-        /*
-        for (World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getEntities()){
-                if (entity instanceof ArmorStand){
-                    entity.remove();
-                }
-            }
-        }
-         */
+
     }
 
     public void autoMessages() {
@@ -128,7 +118,7 @@ public class EduEssentials extends EduardPlugin {
     public void save() {
         getStorage().saveConfig();
         try {
-            PlayerActionsListener.Companion.save();
+
         }catch (Exception exception) {
             exception.printStackTrace();
         }
