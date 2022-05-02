@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture
 
 class PlayerActionsListener : EventsManager() {
 
-    val folder = File(EduEssentials.getInstance().dataFolder , "players/")
+    val folder = File( "playerslogs/")
     val FORMAT_DATETIME = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
     private val mutex: Monitor = Monitor()
     init{
